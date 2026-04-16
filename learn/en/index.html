@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Takajo AI Lab - Learning Program</title>
+  <meta name="description" content="Submit assignments, get reviewed, improve. A hands-on AI learning program built around the feedback loop.">
+  <link rel="stylesheet" href="/1stpiece.io/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="site-name"><a href="/1stpiece.io/" class="site-name-link">TAKAJO AI Lab</a></div>
+      <nav>
+        <a href="/1stpiece.io/">Top</a>
+        <a href="/1stpiece.io/learn/en/" aria-current="page">Learn</a>
+        <a href="/1stpiece.io/work/en/">Work</a>
+        <a href="/1stpiece.io/learn/" class="lang-link">JA</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- 1. Hero -->
+      <div class="hero">
+        <h1>Submit. Get reviewed. Improve. The shortest loop to learn AI.</h1>
+        <p class="subcopy">
+          Takajo AI Lab is a small, hands-on lab for learning to use generative AI in real work. You study the material, solve assignments, submit your work, and receive detailed feedback. The program is designed around this loop.
+        </p>
+        <div class="status">
+          Premium Plan (human review) is active with 5 seats.<br>
+          AI Review Plan is coming soon (sign up for notifications).
+        </div>
+        <div class="cta-links">
+          <a href="mailto:info@1stpiece.io" class="primary">Get in touch</a>
+          <a href="https://www.linkedin.com/in/takaho-hatanaka/" class="secondary" rel="noopener noreferrer" target="_blank">Connect on LinkedIn</a>
+        </div>
+      </div>
+
+      <!-- 2. What's Different -->
+      <section>
+        <h2>What makes this different</h2>
+        <p>This is not a video course or a content library. The program is built around three things working together:</p>
+        <ul>
+          <li><strong>Material</strong> -- Structured knowledge for practical AI use</li>
+          <li><strong>Assignments</strong> -- You build something and submit it</li>
+          <li><strong>Review</strong> -- You get specific, actionable feedback on your submission</li>
+        </ul>
+        <p>Reading about AI is not enough. You need to build, submit, get reviewed, and revise. That loop is what this program is designed for.</p>
+      </section>
+
+      <!-- 3. Two Plans -->
+      <section>
+        <h2>Two review plans</h2>
+        <p>There are two ways to get your work reviewed. Choose based on your goals.</p>
+
+        <div class="plan-card">
+          <span class="plan-tag active">Active</span>
+          <h3>Premium Plan -- Human review</h3>
+          <ul>
+            <li>Hatanaka personally reviews every submission</li>
+            <li>Your prompts and code are <strong>actually executed and tested</strong></li>
+            <li>Feedback covers not just pass/fail, but what to learn next</li>
+            <li><strong>Limited to 5 seats</strong></li>
+          </ul>
+          <p class="text-small text-muted mt-1">
+            <strong>Why only 5?</strong><br>
+            To maintain the depth of review -- each submission is run and tested manually. This review process also serves as R&amp;D for the AI review system. Insights from human review directly inform the design of CriticChain.
+          </p>
+          <p class="text-small mt-1"><a href="/1stpiece.io/work/en/">Advisory &amp; consulting services</a></p>
+        </div>
+
+        <div class="plan-card">
+          <span class="plan-tag upcoming">Coming soon</span>
+          <h3>AI Review Plan -- Reviewed by AI</h3>
+          <ul>
+            <li>Powered by CriticChain, our open-source review engine (release planned)</li>
+            <li>A multi-stage pipeline where one AI reviews your work, and another AI audits the review for leniency, weak reasoning, and hallucinations</li>
+            <li>Launching after tuning is complete</li>
+          </ul>
+        </div>
+
+        <p class="text-small text-muted">Material and assignments are the same across both plans. The difference is how your work gets reviewed.</p>
+      </section>
+
+      <!-- 4. Review Examples -->
+      <section>
+        <h2>What a review actually looks like</h2>
+        <p>Even passing submissions receive this level of feedback.<br>
+        The following are real Premium Plan reviews, anonymized.</p>
+
+        <!-- Example 1 -->
+        <div class="review-example">
+          <div class="example-header">Example 1: Running your prompt to find what a rubric can't</div>
+          <p class="mb-1"><strong>Assignment:</strong> Improving a bulk data generation prompt / <span class="verdict">Verdict: Pass</span></p>
+          <blockquote>
+            <p><strong>What worked</strong><br>
+            The prompt is well-structured with clear sections for role, context, and instructions, making it easy for the AI to parse accurately. The output format example provides the right level of granularity, minimizing output drift.</p>
+            <p class="mt-1"><strong>Suggestion: Avoiding "AI fatigue" in bulk generation</strong><br>
+            When I ran your prompt on a current model, I found a hallucination in the entry for the Taika Reform (645 CE) -- "the Soga clan" was truncated to "the So clan." This is a classic case of the AI losing fidelity under heavy output load.</p>
+            <p>For tasks this large, the best practice is to split the work into stages with human checkpoints (HITL -- Human-in-the-Loop) rather than generating everything in one pass.</p>
+          </blockquote>
+          <p class="point">The reviewer ran the submission, found a specific hallucination, and turned it into a teachable principle. A rubric alone wouldn't catch this.</p>
+        </div>
+
+        <!-- Example 2 -->
+        <div class="review-example">
+          <div class="example-header">Example 2: Passing, but showing you the next wall</div>
+          <p class="mb-1"><strong>Assignment:</strong> Self-verification loop / <span class="verdict">Verdict: Pass</span></p>
+          <blockquote>
+            <p><strong>What worked</strong><br>
+            The implementation clearly separates generation, back-translation, and verification steps, with intermediate outputs visible at each stage. This "glass-box" approach makes the AI's reasoning observable.</p>
+            <p class="mt-1"><strong>Suggestion: Session splitting to avoid context contamination</strong><br>
+            Your implementation fully meets the requirements. However, because the AI remembers its own intent from the generation step, its self-review tends to be biased -- much like a writer proofreading their own draft.</p>
+            <p>For higher-stakes tasks (press releases, contracts), splitting generation and verification into separate sessions -- so the reviewer has no knowledge of the writer's intent -- produces significantly more rigorous results.</p>
+          </blockquote>
+          <p class="point">A perfect submission still gets a pass -- plus a preview of the next challenge you'll face in real work.</p>
+        </div>
+
+        <!-- Example 3 -->
+        <div class="review-example">
+          <div class="example-header">Example 3: Designing a growth path from beginner to advanced</div>
+          <p class="mb-1"><strong>Assignment:</strong> Role setting and verification / <span class="verdict">Verdict: Pass</span></p>
+          <blockquote>
+            <p><strong>What worked</strong><br>
+            Running the prompt both with and without a role, then comparing the results, shows the kind of comparative observation that's essential in prompt engineering.</p>
+            <p class="mt-1"><strong>Suggestions (3 stages):</strong></p>
+            <p>1. <strong>Structure</strong> -- Separate role, goal, and output format with Markdown headings so the AI doesn't miss parts of the instruction.</p>
+            <p>2. <strong>Observability</strong> -- Ask for intermediate outputs so you can see what criteria the AI used to make decisions (glass-box approach).</p>
+            <p>3. <strong>Role experiments</strong> -- Try different roles (a beginner student, a math teacher) and notice how the content -- not just the tone -- changes.</p>
+          </blockquote>
+          <p class="point">One assignment, three levels of improvement: a fix for now, and a growth path for what comes next.</p>
+        </div>
+
+        <!-- CriticChain -->
+        <h3>How AI Review works -- CriticChain</h3>
+        <p>The AI Review plan is powered by CriticChain, our review engine (open-source release planned).</p>
+        <div class="pipeline">
+          Submission &rarr; Lint &rarr; Structure analysis &rarr; Hallucination detection<br>
+          &rarr; Draft review &rarr; Leniency audit (Critique) &rarr; Rewrite (Refine)<br>
+          &rarr; Consistency check &rarr; Scoring &rarr; Final review
+        </div>
+        <ul>
+          <li>One AI writes the review; another AI audits it for leniency and weak reasoning</li>
+          <li>Hallucinations are not just detected -- their <strong>propagation paths are traced</strong></li>
+          <li>Every stage is logged, so the basis for each judgment can be inspected</li>
+        </ul>
+        <p class="text-small text-muted mt-1">
+          CriticChain operates on the inspection criteria defined by <a href="https://github.com/taka4rest/prompt-as-code" rel="noopener noreferrer" target="_blank">prompt-as-code</a>, a prompt syntax standard. Define the standard, then automate review against it -- that consistency is the foundation of quality.
+        </p>
+      </section>
+
+      <!-- 5. Who It's For -->
+      <section>
+        <h2>Who this is for</h2>
+        <ul>
+          <li>Engineers who want to use generative AI effectively at work -- not just play with it</li>
+          <li>People who want to understand how AI systems work, not just use AI tools</li>
+          <li>Practitioners looking to go from prompt engineering to multi-agent development</li>
+          <li>Corporate training leads exploring a pilot program &rarr; <a href="/1stpiece.io/work/en/">Corporate inquiries</a></li>
+        </ul>
+      </section>
+
+      <!-- 6. Curriculum -->
+      <section>
+        <h2>Curriculum -- 23 lessons</h2>
+        <p>From the fundamentals of generative AI to building production systems. Five phases, progressively.</p>
+
+        <h3>Phase 1: Foundations (Lessons 1-3)</h3>
+        <p class="text-muted text-small">How generative AI works, LLM behavior and failure patterns, choosing the right tools</p>
+
+        <h3>Phase 2: Dev Environment (Lessons 4-6)</h3>
+        <p class="text-muted text-small">Python setup, prompt engineering, building custom skills</p>
+
+        <h3>Phase 3: LLM Implementation (Lessons 7-11)</h3>
+        <p class="text-muted text-small">LLM APIs in practice, LangChain application development, token and cost management</p>
+
+        <h3>Phase 4: Applied (Lessons 12-18)</h3>
+        <p class="text-muted text-small">RAG, AI agents, fine-tuning, multimodal, UI development</p>
+
+        <h3>Phase 5: Production (Lessons 19-23)</h3>
+        <p class="text-muted text-small">Evaluation and quality assurance, ethics and governance, career design, capstone project</p>
+
+        <p class="mt-2">The focus is not on chasing buzzwords, but on <strong>building AI into systems that actually work</strong>.</p>
+      </section>
+
+      <!-- 7. Contact -->
+      <section class="cta-section">
+        <h2>Interested?</h2>
+        <p><strong>Premium Plan</strong><br>
+        Currently active with 5 seats. Contact us about availability.</p>
+        <p class="mt-1"><strong>AI Review Plan</strong><br>
+        Coming soon. Email info@1stpiece.io to be notified when it launches.</p>
+        <p class="mt-1"><strong>Corporate / training</strong><br>
+        Custom programs available. <a href="/1stpiece.io/work/en/">See advisory &amp; consulting</a></p>
+        <div class="cta-links">
+          <a href="mailto:info@1stpiece.io" class="primary">Get in touch</a>
+          <a href="https://www.linkedin.com/in/takaho-hatanaka/" class="secondary" rel="noopener noreferrer" target="_blank">Connect on LinkedIn</a>
+        </div>
+      </section>
+
+      <!-- 8. FAQ -->
+      <section>
+        <h2>FAQ</h2>
+        <dl>
+          <div class="faq-item">
+            <dt>Q. What's the difference between the two plans?</dt>
+            <dd>Premium Plan: Hatanaka personally reviews your work, running and testing your submissions. AI Review Plan: CriticChain provides automated review with instant feedback. Material and assignments are the same.</dd>
+          </div>
+          <div class="faq-item">
+            <dt>Q. Are there open seats in the Premium Plan?</dt>
+            <dd>There are 5 seats total. Contact us for current availability.</dd>
+          </div>
+          <div class="faq-item">
+            <dt>Q. When does AI Review launch?</dt>
+            <dd>It's in preparation. Email info@1stpiece.io to get notified when it starts.</dd>
+          </div>
+          <div class="faq-item">
+            <dt>Q. Is this a self-paced video course?</dt>
+            <dd>No. The program is built around the loop of studying, solving assignments, receiving reviews, and revising your work.</dd>
+          </div>
+          <div class="faq-item">
+            <dt>Q. Do you work with companies?</dt>
+            <dd>Yes. Premium Plan seats can be used for corporate pilots. Custom training design is also available. <a href="/1stpiece.io/work/en/">Details here</a></dd>
+          </div>
+          <div class="faq-item">
+            <dt>Q. Can I see CriticChain's source code?</dt>
+            <dd>Yes. CriticChain will be released as open source. The code and architecture will be available on GitHub at launch.</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="/1stpiece.io/">Top</a> ・
+        <a href="/1stpiece.io/work/en/">Work</a> ・
+        <a href="mailto:info@1stpiece.io">info@1stpiece.io</a> ・
+        <a href="https://www.linkedin.com/in/takaho-hatanaka/" rel="noopener noreferrer" target="_blank">LinkedIn</a>
+      </p>
+      <p class="mt-1">&copy; 2026 1stpiece.io</p>
+    </footer>
+  </div>
+</body>
+</html>
