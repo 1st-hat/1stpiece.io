@@ -478,26 +478,143 @@ section blockquote {
 .mb-2 { margin-bottom: 1rem; }
 
 /* ──────────── Responsive ──────────── */
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
+/* ──────────── Tablet ──────────── */
+@media (max-width: 768px) {
   .hero {
-    padding: 2.5rem 1.5rem 2rem;
+    padding: 2.8rem 1.5rem 2.2rem;
+    border-radius: 0 0 12px 12px;
   }
 
   .hero h1 {
-    font-size: 1.35rem;
+    font-size: 1.4rem;
   }
 
+  section {
+    padding: 2rem 0;
+  }
+
+  .plan-card,
+  .review-example {
+    padding: 1.2rem;
+  }
+
+  .review-example blockquote {
+    padding-left: 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ──────────── Mobile ──────────── */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  /* Header: stack logo and nav */
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1rem 0;
+  }
+
+  header nav {
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  /* Hero */
+  .hero {
+    margin: 0 -1rem;
+    padding: 2rem 1.2rem 1.8rem;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .hero h1 {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .hero h1 br {
+    display: none;
+  }
+
+  .hero .subcopy {
+    font-size: 0.88rem;
+  }
+
+  .hero .status {
+    font-size: 0.78rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .hero .status br {
+    display: none;
+  }
+
+  /* CTA */
   .cta-links {
     flex-direction: column;
   }
 
   .cta-links a {
     text-align: center;
+    padding: 0.7rem 1rem;
+  }
+
+  /* Sections */
+  section {
+    padding: 1.8rem 0;
+  }
+
+  section h2 {
+    font-size: 1.05rem;
+  }
+
+  section h3 {
+    font-size: 0.95rem;
+  }
+
+  /* Cards */
+  .plan-card,
+  .review-example {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+  }
+
+  /* Review blockquotes */
+  .review-example blockquote {
+    padding-left: 0.7rem;
+    margin: 0.6rem 0;
+    font-size: 0.84rem;
+    line-height: 1.7;
+  }
+
+  .review-example .point {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.7rem;
+  }
+
+  /* Pipeline */
+  .pipeline {
+    font-size: 0.72rem;
+    padding: 0.8rem;
+    line-height: 1.6;
+  }
+
+  /* FAQ */
+  .faq-item dt {
+    font-size: 0.88rem;
+  }
+
+  .faq-item dd {
+    font-size: 0.84rem;
+  }
+
+  /* Footer */
+  footer {
+    font-size: 0.75rem;
+    padding: 1.5rem 0;
   }
 }
