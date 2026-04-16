@@ -132,6 +132,8 @@ header nav .lang-link:hover {
   line-height: 1.4;
   margin-bottom: 1rem;
   color: var(--color-hero-text);
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .hero .subcopy {
