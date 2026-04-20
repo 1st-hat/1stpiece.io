@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit work, get it reviewed | Learn — Takajo AI Lab</title>
+  <meta name="description" content="Submit work, get it reviewed. A learning program where submissions are actually executed and reviewed. Premium (team, human review, currently full) and AI Review (individual, CriticChain, in preparation).">
+  <meta name="keywords" content="prompt engineering training, LLM training, AI learning program, prompt review, CriticChain, corporate AI training">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/learn/">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/learn/">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/learn/">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="Submit work, get it reviewed | Learn — Takajo AI Lab">
+  <meta property="og:description" content="A learning program where submissions are actually executed and reviewed. Premium and AI Review plans.">
+  <meta property="og:url" content="https://1stpiece.io/en/learn/">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Learn — Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Learn — Takajo AI Lab">
+  <meta name="twitter:description" content="Submit work, get it reviewed. Two plans: Premium (human review) and AI Review.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+    body.en-page .page-title { letter-spacing: -0.005em; max-width: 18ch; }
+    body.en-page .page-intro { max-width: 56ch; }
+    body.en-page .detail-h2 { letter-spacing: -0.005em; font-weight: 500; }
+
+    .plan-status { display:inline-block; font-family: var(--font-sans-en); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 2px; margin-left: 0.75rem; vertical-align: middle; }
+    .plan-status.active { background: var(--accent); color: #fff; }
+    .plan-status.upcoming { background: transparent; color: var(--text-muted); border: 1px solid var(--rule); }
+
+    .review-example { background: #F5EFE4; border-left: 3px solid var(--accent); padding: 2rem 2.25rem; margin-bottom: 1.5rem; }
+    .review-example-label { font-family: var(--font-sans-en); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .review-example-title { font-family: var(--font-serif-en); font-size: 1.25rem; font-weight: 500; color: var(--text); margin: 0 0 1rem 0; line-height: 1.4; letter-spacing: -0.005em; }
+    .review-example-meta { font-family: var(--font-serif-en); font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px dashed var(--rule); font-style: italic; }
+    .review-example-meta .verdict { color: var(--accent); font-weight: 600; margin-left: 0.75rem; font-style: normal; }
+    .review-quote { font-family: var(--font-serif-en); font-size: 1rem; line-height: 1.85; color: var(--text); }
+    .review-quote p { margin: 0 0 0.9rem 0; }
+    .review-quote p:last-child { margin-bottom: 0; }
+    .review-quote strong { color: var(--text); font-weight: 600; }
+    .review-quote em { font-style: italic; color: var(--navy-800); }
+    .review-point { font-family: var(--font-serif-en); font-size: 0.95rem; font-style: italic; color: var(--text-muted); margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--rule); line-height: 1.7; }
+
+    .pipeline-diagram { font-family: var(--font-mono); font-size: 0.85rem; line-height: 2; background: #1a1511; color: #E8DDCB; padding: 1.5rem 1.75rem; border-radius: 2px; margin: 1.5rem 0; letter-spacing: 0.02em; }
+    .pipeline-diagram .arrow { color: var(--accent); font-weight: bold; }
+
+    .phase-grid { display: grid; grid-template-columns: auto 1fr auto; gap: 0.5rem 1.5rem; margin: 2rem 0; }
+    .phase-grid .phase-num { font-family: var(--font-serif-en); font-style: italic; font-size: 1rem; color: var(--accent); padding-top: 0.15rem; white-space: nowrap; }
+    .phase-grid .phase-title { font-family: var(--font-serif-en); font-weight: 500; font-size: 1.05rem; color: var(--text); }
+    .phase-grid .phase-title .phase-desc { display: block; font-weight: 400; font-size: 0.9rem; color: var(--text-muted); margin-top: 0.15rem; font-family: var(--font-serif-en); font-style: italic; }
+    .phase-grid .phase-count { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); padding-top: 0.3rem; white-space: nowrap; letter-spacing: 0.05em; }
+    .phase-grid .phase-row { display: contents; }
+    .phase-grid .phase-row > * { padding-bottom: 1rem; border-bottom: 1px dashed var(--rule); }
+    .phase-grid .phase-row:last-child > * { border-bottom: none; }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="../about.html">About</a>
+          <a href="../projects/index.html">Projects</a>
+          <a href="index.html" aria-current="page">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="../../learn/index.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a>
+          <span class="sep">/</span>
+          <span>Learn</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Learn — a learning program</p>
+          <h1 class="page-title">Submit work,<br>get it reviewed<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            Lessons. Submissions. Reviews written against <em>what actually happened</em>.<br>
+            A practice loop for taking AI from <em>interesting</em> to <em>useful</em>.<br>
+            <span style="font-size: 0.9em; color: var(--text-muted);">Premium (teams · currently full · opening possible in ~3 months) / AI Review (individuals · in preparation)</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">Reading is not using.</h2>
+            <div class="detail-prose">
+              <p>
+                Takajo AI Lab exists to help people bring generative AI all the way into <em>real work</em>. The learning program is built as a single loop — lessons, submissions, reviews — designed together, not stitched together. It is not a video course. It is not a packet of slides.
+              </p>
+              <p>
+                Learning generative AI has to <strong>pass through the hand</strong> — write, run, read, revise — before it turns into capability. Reading along and nodding is a different activity. This program builds the iteration in as <em>structure</em>: every submission is actually executed, and the feedback is specific to what the execution produced.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pull quote -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote">
+            The problems a rubric will not catch,<br>
+            <em>surfaced by running the thing.</em>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Philosophy</p>
+            <h2 class="detail-h2">A review begins with running it.</h2>
+            <div class="detail-prose">
+              <p>
+                In most AI courses, a submitted prompt is <em>read</em> and nothing else. Someone looks at the text, praises the structure, issues a templated suggestion. What the student learns from that cycle is <strong>how to write a prompt that looks correct on the page</strong> — which is not the same as a prompt that works.
+              </p>
+              <p>
+                A review in this Lab begins by <em>executing the submission on a current model</em>. Only then do the real problems appear — the kind where, for instance, a prompt generating historical records drops the character for "Soga" in "the Soga clan" during the 645 Taika Reform entry, because the model is <em>running out of breath</em> in a bulk-generation task. These are things a rubric cannot see.
+              </p>
+              <p>
+                Reviews of this density are expensive to produce, which is why <strong>Premium — the human-reviewed plan — is restricted to companies and capped at five teams</strong> (currently full; an opening is possible in about three months). For individuals, the review process is being <em>automated</em> as the AI Review plan, which will launch once <a href="../projects/critic-chain.html">CriticChain</a> is tuned.
+              </p>
+              <p>
+                The standards discovered in human review are fed back into the design of the automated review — <strong>teaching is, in the end, how this lab does research</strong>. That circuit is the shape of Takajo AI Lab.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Two plans -->
+      <section class="detail-tech">
+        <div class="container">
+
+          <p class="section-eyebrow">Two plans</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Two review plans.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            Two plans. The <em>curriculum and assignments are shared</em>; what differs is <strong>who the plan is for and who writes the review</strong>. Premium is human review for <em>teams</em>; AI Review is automated review for <em>individuals</em>.
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>
+                Premium
+                <span class="plan-status active">Full</span>
+                <span class="spec-tag-accent">For teams / human review</span>
+              </th>
+              <td>
+                Hatanaka reviews every submission in person. Prompts and code are <strong>actually executed</strong> against a current model; the feedback covers not only pass/fail but <em>what to learn next</em>. Capped at <strong>five teams</strong>. <em>Companies only</em>. Currently <strong>full</strong>; an opening is possible in roughly three months, so teams that are interested are encouraged to make contact in advance.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                AI Review
+                <span class="plan-status upcoming">Soon</span>
+                <span class="spec-tag-accent">For individuals / CriticChain</span>
+              </th>
+              <td>
+                Automated review powered by <a href="../projects/critic-chain.html">CriticChain</a> (published under AGPL-3.0). A multi-stage pipeline in which one AI audits another's review as <em>"too lenient"</em> or <em>"poorly grounded"</em>, and requires revisions until the review itself meets a standard. For <strong>individuals</strong>; available once CriticChain's tuning is complete.
+              </td>
+            </tr>
+          </table>
+
+          <!-- Real reviews -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Real reviews</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">From the review archive.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2.5rem;">
+            Even a <em>passing</em> submission comes back with this density of feedback. The excerpts below are drawn from Premium reviews, anonymised.
+          </p>
+
+          <!-- 1 -->
+          <div class="review-example">
+            <p class="review-example-label">01 — Executing the prompt</p>
+            <h3 class="review-example-title">Submissions are run. That is where the review starts.</h3>
+            <p class="review-example-meta">
+              Assignment — improving a bulk-generation prompt<span class="verdict">Verdict: Pass</span>
+            </p>
+            <div class="review-quote">
+              <p><strong>What was strong.</strong><br>
+              The prompt is organised under clear headers — role, context, request — so the model can parse the instructions without ambiguity. An example output is provided with the expected format and level of detail, which keeps output variance low.</p>
+              <p><strong>Suggestion: the model "running out of breath" on bulk tasks.</strong><br>
+              Running your prompt against a current model, I found that in the entry on the 645 Taika Reform, the <em>character for "Soga" was dropped</em> — the text produced <em>"Shi clan"</em> where it should have said <em>"Soga clan"</em>. This is a textbook hallucination triggered by the model being forced to produce too much in a single pass.</p>
+              <p>Tasks of that volume should not be run in one go. Break them into steps and inject <em>Human-in-the-Loop (HITL)</em> checks at intermediate points. That is the pattern to reach for here.</p>
+            </div>
+            <p class="review-point">
+              — The reviewer actually executed the submission and found a specific hallucination. A problem no rubric could catch, surfaced by running it.
+            </p>
+          </div>
+
+          <!-- 2 -->
+          <div class="review-example">
+            <p class="review-example-label">02 — Beyond the pass mark</p>
+            <h3 class="review-example-title">It passed. Here is the next wall.</h3>
+            <p class="review-example-meta">
+              Assignment — a self-verification loop<span class="verdict">Verdict: Pass</span>
+            </p>
+            <div class="review-quote">
+              <p><strong>What was strong.</strong><br>
+              The implementation cleanly separates drafting, back-translation, verification, and revision — and crucially, it keeps the intermediate outputs visible rather than collapsing them. It is possible to see <em>where in the chain the model's reasoning happened</em>, which is the point (the <em>glass-box</em> approach).</p>
+              <p><strong>Suggestion: split the session to avoid context contamination.</strong><br>
+              The implementation meets the basic requirements perfectly. However: the model has context memory, which means it is reviewing its own text <em>while remembering the intent it wrote that text with</em>. Just as a human proofreading their own writing tends to miss things, a model self-evaluating in the same session is biased toward <em>reading its own output generously</em>.</p>
+              <p>When stricter verification is required, split generation and verification into <em>separate sessions</em>, so the verifying model is blind to the writer's intent. That is the technique.</p>
+            </div>
+            <p class="review-point">
+              — A perfect implementation is graded as a pass, and the next real-world wall (context contamination) is shown ahead of time.
+            </p>
+          </div>
+
+          <!-- 3 -->
+          <div class="review-example">
+            <p class="review-example-label">03 — A growth path</p>
+            <h3 class="review-example-title">Beginner to advanced, as a route.</h3>
+            <p class="review-example-meta">
+              Assignment — role-setting and verification<span class="verdict">Verdict: Pass</span>
+            </p>
+            <div class="review-quote">
+              <p><strong>What was strong.</strong><br>
+              Running the task <em>with</em> a role assigned and then <em>without</em>, and comparing the two — that comparative posture toward LLM behaviour is exactly right, and exactly what prompt engineering actually is.</p>
+              <p><strong>Suggestion — three steps.</strong></p>
+              <p>1. <strong>Structure.</strong> Separate role, goal, and output format under Markdown headers.<br>
+              2. <strong>Observability.</strong> Emit the intermediate work so the model's criteria are visible (glass-box).<br>
+              3. <strong>Role experiments.</strong> Try several different roles and notice that more than the tone shifts — the <em>substance of the advice</em> changes too.</p>
+            </div>
+            <p class="review-point">
+              — One assignment, two things at once: the fix suited to the current level, and the growth path that continues past it.
+            </p>
+          </div>
+
+          <!-- Pipeline -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">AI Review pipeline</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">How CriticChain works.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1.5rem;">
+            AI Review's engine — <a href="../projects/critic-chain.html">CriticChain</a> — is a <em>multi-stage review pipeline</em>. A draft review is written by one AI; another audits it and forces revisions until the review clears a standard.
+          </p>
+
+          <div class="pipeline-diagram">
+Submission <span class="arrow">→</span> Lint <span class="arrow">→</span> Structural analysis <span class="arrow">→</span> Hallucination detection<br>
+  <span class="arrow">→</span> Draft review <span class="arrow">→</span> Critique (leniency audit) <span class="arrow">→</span> Refine (rewrite)<br>
+  <span class="arrow">→</span> Consistency check <span class="arrow">→</span> Scoring <span class="arrow">→</span> Final review
+          </div>
+
+          <ul class="detail-list" style="margin-top: 1.25rem;">
+            <li>One AI's review is audited by another as "too soft" or "insufficiently grounded"</li>
+            <li>Hallucination detection goes beyond the fact itself, <strong>tracing the propagation path</strong></li>
+            <li>Every stage is logged; the grounds of the verdict are readable</li>
+          </ul>
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 1.25rem; font-size: 0.95rem;">
+            CriticChain works against the criteria defined in the prompt-standard <a href="../projects/prompt-as-code.html">prompt-as-code</a>. <em>Define a standard, then review against that standard automatically</em> — that coherence is what the quality rests on.
+          </p>
+
+          <!-- Curriculum -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Curriculum</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">23 lessons, 5 phases.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1.5rem;">
+            From the fundamentals of generative AI to building systems that hold up in production. The axis is not "keeping up with the buzzwords" but <strong>turning AI into something a team can actually run on</strong>.
+          </p>
+
+          <div class="phase-grid">
+            <div class="phase-row">
+              <div class="phase-num">Phase 01</div>
+              <div class="phase-title">Foundations
+                <span class="phase-desc">How generative AI works, how LLMs fail, choosing between the major tools</span>
+              </div>
+              <div class="phase-count">Lesson 01–03</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 02</div>
+              <div class="phase-title">Environment
+                <span class="phase-desc">Python setup, prompt engineering, building custom skills</span>
+              </div>
+              <div class="phase-count">Lesson 04–06</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 03</div>
+              <div class="phase-title">LLM implementation
+                <span class="phase-desc">LLM APIs in practice, LangChain applications, tokens and cost</span>
+              </div>
+              <div class="phase-count">Lesson 07–11</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 04</div>
+              <div class="phase-title">Applied
+                <span class="phase-desc">RAG, AI agents, fine-tuning, multimodal, UI construction</span>
+              </div>
+              <div class="phase-count">Lesson 12–18</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 05</div>
+              <div class="phase-title">In production
+                <span class="phase-desc">Evaluation and quality, ethics and governance, career design, capstone project</span>
+              </div>
+              <div class="phase-count">Lesson 19–23</div>
+            </div>
+          </div>
+
+          <!-- Who it's for -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Who it is for</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">The two audiences.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            The two plans address <em>clearly different audiences</em>. It is worth deciding, here, which one you are.
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>
+                Premium
+                <span class="spec-tag-accent">For teams</span>
+              </th>
+              <td>
+                <ul class="detail-list" style="margin: 0;">
+                  <li>Companies considering <em>in-house training or organisational rollout</em></li>
+                  <li>Leadership and business units who want <em>an organisation that can handle AI</em>, not just individuals who can</li>
+                  <li>Teams that need <em>high-density review</em> where the submission is actually executed</li>
+                  <li>Organisations that want the <em>prompt-as-code</em> and <em>CriticChain</em> thinking internalised</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                  <em>Currently full (max 5 teams). An opening is possible in about three months.</em> Interested companies are encouraged to make contact in advance. Can be combined with the technical advisory / AI Strategic Partner engagement → <a href="../work/index.html">Work</a>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                AI Review
+                <span class="spec-tag-accent">For individuals</span>
+              </th>
+              <td>
+                <ul class="detail-list" style="margin: 0;">
+                  <li>Engineers who want to take generative AI all the way to <em>running in their day job</em></li>
+                  <li>People who are done <em>using AI tools</em> and want to understand them <em>as systems</em></li>
+                  <li>Anyone moving from prompt engineering toward multi-agent development</li>
+                  <li>Anyone who wants to submit at their own pace and get fast, specific feedback</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                  <em>In preparation — launches once CriticChain's tuning is complete.</em> Register for launch notification at <a href="mailto:info@1stpiece.io">info@1stpiece.io</a>.
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <!-- FAQ -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">FAQ</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Questions that come up.</h2>
+
+          <table class="spec-table">
+            <tr>
+              <th>What is the difference between the two plans?</th>
+              <td>Premium is <strong>for teams</strong> — Hatanaka reviews submissions personally, after actually executing them against a current model. AI Review is <strong>for individuals</strong> — CriticChain returns automated review immediately. <em>Curriculum and assignments are shared across both.</em></td>
+            </tr>
+            <tr>
+              <th>Is Premium open?</th>
+              <td>Currently <strong>full</strong> (companies only, capped at 5 teams). An <em>opening is possible in about three months</em>; interested teams are welcome to reach out in advance and we will respond in order.</td>
+            </tr>
+            <tr>
+              <th>When does AI Review launch?</th>
+              <td>In preparation for individuals. Launches once CriticChain's tuning is complete. Write to <a href="mailto:info@1stpiece.io">info@1stpiece.io</a> and we will notify you at launch.</td>
+            </tr>
+            <tr>
+              <th>Is it a watch-the-videos-at-your-own-pace course?</th>
+              <td>No. The program is designed around an <em>iteration</em>: study, submit, get reviewed, revise.</td>
+            </tr>
+            <tr>
+              <th>Can individuals take it now?</th>
+              <td>At this moment, only AI Review (still in preparation) is planned for individuals. Premium is restricted to companies. We recommend registering for the AI Review launch notification.</td>
+            </tr>
+            <tr>
+              <th>Is CriticChain open source?</th>
+              <td>Yes — AGPL-3.0. <a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">GitHub: taka4rest/CriticChain</a></td>
+            </tr>
+          </table>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-inner">
+            <h2 class="detail-cta-title">Start with an inquiry.</h2>
+            <p class="detail-cta-text">
+              For Premium availability, AI Review launch notifications, or a company pilot — we respond case by case.
+            </p>
+            <div class="detail-cta-actions">
+              <a href="mailto:info@1stpiece.io?subject=Premium%20Plan%20%E2%80%94%20notify%20me%20when%20a%20seat%20opens&body=Company%3A%0AContext%20of%20interest%3A%0APreferred%20start%20window%3A%0A">Notify me when a Premium seat opens →</a>
+              <a href="mailto:info@1stpiece.io?subject=AI%20Review%20Plan%20%E2%80%94%20notify%20me%20at%20launch">Notify me when AI Review launches →</a>
+              <a href="../work/index.html">Work (for companies) →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../../index.html">日本語</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

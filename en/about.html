@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Takajo AI Lab</title>
+  <meta name="description" content="Why 'Takajo' — the falconer's art. A small AI research lab, grown from more than 1,000 prompt reviews, that treats AI as a hawk: kept sharp, trusted slowly, worked with — never tamed.">
+  <meta name="keywords" content="Takajo, falconer, AI research lab, prompt reviews, AI philosophy">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/about.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/about.html">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="About — Takajo AI Lab">
+  <meta property="og:description" content="Why 'Takajo' — the falconer's art. A small AI research lab.">
+  <meta property="og:url" content="https://1stpiece.io/en/about.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="About — Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About — Takajo AI Lab">
+  <meta name="twitter:description" content="Why 'Takajo' — the falconer's art.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css">
+
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+    body.en-page .page-title { letter-spacing: -0.01em; max-width: 22ch; }
+    body.en-page .page-intro { max-width: 54ch; }
+    body.en-page .detail-h2  { letter-spacing: -0.005em; font-weight: 500; }
+
+    /* Kanji inline gloss */
+    .kanji {
+      font-family: "Shippori Mincho", serif;
+      font-weight: 500;
+      color: var(--navy-900);
+      margin: 0 0.1em;
+    }
+
+    /* Opening epigraph block */
+    .epigraph {
+      max-width: 38rem;
+      margin: 3rem 0 4rem 0;
+      padding: 2rem 2.25rem 2rem 2.5rem;
+      border-left: 3px solid var(--accent);
+      background: transparent;
+    }
+    .epigraph-line {
+      font-family: var(--font-serif-en);
+      font-size: 1.4rem;
+      line-height: 1.55;
+      color: var(--navy-900);
+      margin: 0 0 0.9rem 0;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+    }
+    .epigraph-line:last-of-type { margin-bottom: 0; }
+    .epigraph-line em {
+      font-style: italic;
+      color: var(--navy-800);
+    }
+    .epigraph-attribution {
+      font-family: var(--font-serif-en);
+      font-style: italic;
+      color: var(--ink-500);
+      font-size: 0.9rem;
+      margin: 1.2rem 0 0 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* Two-column translation block: JP original ↔ EN rendering */
+    .bilingual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin: 3rem 0 4rem 0;
+      padding: 2rem 0 0 0;
+      border-top: 1px solid var(--ink-200);
+      max-width: 56rem;
+    }
+    .bilingual-col .bilingual-mark {
+      font-family: var(--font-serif-en);
+      font-style: italic;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink-500);
+      margin: 0 0 1rem 0;
+    }
+    .bilingual-col .jp-text {
+      font-family: "Shippori Mincho", serif;
+      font-size: 1rem;
+      line-height: 1.95;
+      color: var(--navy-900);
+      letter-spacing: 0.02em;
+    }
+    .bilingual-col .en-text {
+      font-family: var(--font-serif-en);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--ink-900);
+      letter-spacing: 0;
+    }
+    .bilingual-col p { margin: 0 0 1rem 0; }
+    .bilingual-col p:last-child { margin: 0; }
+    @media (max-width: 780px) {
+      .bilingual { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* Numbered principle rows (for the four falconer tenets) */
+    .tenets {
+      margin: 2.5rem 0 3rem 0;
+      max-width: 42rem;
+      border-top: 1px solid var(--ink-200);
+    }
+    .tenet {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--ink-200);
+      align-items: start;
+    }
+    .tenet-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-500);
+      text-transform: uppercase;
+      padding-top: 0.4rem;
+    }
+    .tenet-body h3 {
+      font-family: var(--font-serif-en);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--navy-900);
+      margin: 0 0 0.6rem 0;
+      letter-spacing: -0.005em;
+    }
+    .tenet-body h3 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .tenet-body .tenet-jp {
+      font-family: "Shippori Mincho", serif;
+      font-size: 0.85rem;
+      color: var(--ink-500);
+      margin: 0 0 0.8rem 0;
+      letter-spacing: 0.02em;
+    }
+    .tenet-body p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--ink-700);
+      margin: 0;
+      max-width: 58ch;
+    }
+    .tenet-body p em {
+      font-style: italic;
+      color: var(--navy-800);
+    }
+    .tenet-body p strong {
+      font-weight: 500;
+      color: var(--navy-900);
+    }
+
+    /* Placeholder note (for founder-voice sections awaiting 畑中さん input) */
+    .placeholder-note {
+      margin: 1.25rem 0 0 0;
+      padding: 0.8rem 1rem;
+      border-left: 2px solid var(--ink-300);
+      background: var(--paper-alt);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.7;
+      color: var(--ink-500);
+      letter-spacing: 0.02em;
+      max-width: 54rem;
+    }
+    .placeholder-note::before {
+      content: "DRAFT · ";
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+    }
+
+    /* Footnote-style aside */
+    .aside-note {
+      max-width: 42rem;
+      padding: 1.5rem 0 1.5rem 1.5rem;
+      border-left: 1px solid var(--ink-300);
+      font-family: var(--font-serif-en);
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--ink-700);
+      margin: 2.5rem 0;
+    }
+    .aside-note .aside-mark {
+      font-style: normal;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Signature-style footer for this page */
+    .about-sign-off {
+      margin: 4rem 0 0 0;
+      padding: 2.5rem 0 0 0;
+      border-top: 1px solid var(--ink-200);
+      max-width: 42rem;
+    }
+    .about-sign-off p {
+      font-family: var(--font-serif-en);
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--ink-700);
+      margin: 0 0 0.75rem 0;
+    }
+    .about-sign-off .name {
+      font-family: "EB Garamond", serif;
+      font-size: 1.15rem;
+      color: var(--navy-900);
+      margin-top: 1.5rem;
+      letter-spacing: 0;
+    }
+    .about-sign-off .name-jp {
+      font-family: "Shippori Mincho", serif;
+      color: var(--ink-500);
+      font-size: 0.9rem;
+      margin-left: 0.75rem;
+    }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html" aria-current="page">About</a>
+          <a href="projects/index.html">Projects</a>
+          <a href="learn/index.html">Learn</a>
+          <a href="work/index.html">Work</a>
+          <a href="../index.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep">/</span>
+          <span>About</span>
+        </nav>
+      </div>
+
+      <!-- Page header -->
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">About — why this lab is called Takajo</p>
+          <h1 class="page-title">
+            The falconer's art<span class="accent-dot">.</span>
+          </h1>
+          <p class="page-intro">
+            <em>Takajo</em><span class="kanji">鷹匠</span>is the Japanese word for a falconer — the person who hunts with a hawk rather than in its place. The name was not chosen for its aesthetic. It describes, exactly, how this lab thinks about AI.
+          </p>
+        </div>
+      </section>
+
+      <!-- ========== Epigraph ========== -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner" style="max-width: 42rem;">
+            <p class="detail-section-mark">Epigraph</p>
+
+            <div class="epigraph">
+              <p class="epigraph-line">The falconer does not tame the hawk.</p>
+              <p class="epigraph-line">The hawk keeps its wild precision;<br>
+                the falconer earns its trust over long seasons.</p>
+              <p class="epigraph-line"><em>They hunt together — neither replacing the other.</em></p>
+            </div>
+
+            <p class="detail-prose" style="max-width: 56ch;">
+              Falconry is one of humanity's oldest working relationships with a non-human intelligence. The falconer does not <em>operate</em> the hawk. There is no command interface. What there is, instead, is a long apprenticeship: the patience to keep the bird hungry but not starved, alert but not afraid, yours but not broken.
+            </p>
+            <p class="detail-prose" style="max-width: 56ch;">
+              Every discipline has its metaphor for the relationship between a human and a powerful non-human thing. Most of them, today, are the wrong metaphor for AI. AI is not a machine to be commanded, nor a servant to be trained into obedience, nor a colleague to be delegated to. The closest thing we already have a word for — at least in Japanese — is the falconer.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== Pull quote ========== -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote" style="max-width: 42rem;">
+            Not tamed. Not automated away.<br>
+            <em>Worked with — carefully, over seasons.</em>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- ========== Four tenets ========== -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner" style="max-width: 44rem;">
+            <p class="detail-section-mark">Four tenets of the falconer's art</p>
+            <h2 class="detail-h2">What Takajo means, translated into practice.</h2>
+
+            <div class="tenets">
+
+              <div class="tenet">
+                <div class="tenet-num">I</div>
+                <div class="tenet-body">
+                  <h3>Keep the <em>wildness</em> intact.</h3>
+                  <p class="tenet-jp">野生の鋭さを、鈍らせない。</p>
+                  <p>
+                    A hawk trained to sit politely on the glove is useless. What makes it valuable is exactly what makes it dangerous — its edge. The same is true of a capable model. Prompts that flatten the model's sharpness into safe, generic prose are the equivalent of clipping a hawk's wings. We write prompts that <em>preserve the capacity</em>, then aim it.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tenet">
+                <div class="tenet-num">II</div>
+                <div class="tenet-body">
+                  <h3>Do not do the hawk's <em>job</em>.</h3>
+                  <p class="tenet-jp">鷹の仕事を、人間が代わりにやらない。</p>
+                  <p>
+                    The falconer does not catch the prey. The hawk does. The falconer's job is to choose the field, read the wind, release at the right moment, and recognise when the bird has returned with something real. Most AI implementation gets this inverted — humans end up doing the AI's work while the AI does the human's. <em>Rebuild the division of labor</em> so the model does what only it can do, and the human does what only a human can judge.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tenet">
+                <div class="tenet-num">III</div>
+                <div class="tenet-body">
+                  <h3>Trust is earned over <em>seasons</em>, not demos.</h3>
+                  <p class="tenet-jp">信頼は、デモではなく季節で育つ。</p>
+                  <p>
+                    A working falconer-hawk pair takes years. Not because the hawk is slow, but because trust is a record of what happened together, accumulated across weather and conditions. A model deployed into a business cannot be judged on a demo — only on its record across the seasons of real use. We build engagements that <strong>last long enough to see the record accumulate</strong>, and we design review systems that notice when it changes.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tenet">
+                <div class="tenet-num">IV</div>
+                <div class="tenet-body">
+                  <h3>The partnership is <em>never symmetrical</em>.</h3>
+                  <p class="tenet-jp">関係は、対等ではない。</p>
+                  <p>
+                    The hawk does not understand falconry. The falconer cannot see what the hawk sees. The partnership works because each contributes something the other cannot, and because the human <em>takes responsibility</em> for the result. AI is not a peer to be consulted as an equal, nor a tool to be waved around — it is a working partner whose output a human remains accountable for. Everything we build assumes this shape.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== The three pieces ========== -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner" style="max-width: 44rem;">
+            <p class="detail-section-mark">How the Lab is shaped</p>
+            <h2 class="detail-h2">Three pieces, one question.</h2>
+            <div class="detail-prose">
+              <p>
+                The Lab exists to answer one question: <em>how do you actually use AI in real work</em> — not demo it, not automate around it, but use it, with discipline, over time. That single question produced three artefacts, each feeding the others.
+              </p>
+              <p>
+                <strong><a href="projects/prompt-as-code.html">prompt-as-code</a></strong> — a language specification for prose written to be executed. If a prompt has undefined variables, ambiguous instructions, or room for hallucination, those are treated as syntax errors. This is the vocabulary we use to talk about what a <em>good</em> prompt even means.
+              </p>
+              <p>
+                <strong><a href="learn/index.html">Learn</a></strong> — the teaching layer. Submissions are not graded on the page; they are <em>executed on the current model</em>, and the review is written against what actually happened. This is where the standard meets real hands and real work.
+              </p>
+              <p>
+                <strong><a href="projects/critic-chain.html">CriticChain</a></strong> — the engine. A multi-agent pipeline in which one AI audits another's review and forces it to revise until the review itself meets a standard. This is how the Lab's judgment scales without the judgment dissolving. Published under AGPL-3.0.
+              </p>
+              <p>
+                Each piece sharpens the others. Human reviews feed the engine; the engine challenges the standard; the standard tightens the next review. The Lab is not a consultancy that happens to publish. It is a research loop whose <em>outputs</em> — advisory, teaching, open-source — are how it pays for the next turn of the loop.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== Founder's voice ========== -->
+      <section class="detail-abstract" style="background: var(--paper-alt); padding: 4rem 0;">
+        <div class="container">
+          <div class="detail-abstract-inner" style="max-width: 44rem;">
+            <p class="detail-section-mark">From the founder</p>
+            <h2 class="detail-h2">Three small confessions, before this goes any further.</h2>
+
+            <div class="detail-prose">
+
+              <!-- I. On the name -->
+              <p style="font-family: var(--font-serif-en); font-style: italic; color: var(--accent); font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; margin: 2rem 0 0.75rem 0;">I — On the name</p>
+              <p>
+                The truth is that the name came last. For months, while the learning program's submission system was being built, the Lab had no name at all. Then, one morning around five, half-asleep, I found myself thinking about <em>Shizuoka-shi Aoi-ku Takajō</em> <span class="kanji">鷹匠</span> — a place name in central Shizuoka — and how beautiful it was as a set of characters. That was the entire origin.
+              </p>
+              <p>
+                The meaning came afterwards. Once I started sketching what a falconer actually <em>does</em> — trusts a sharp, semi-wild thing with a piece of the hunt, while remaining responsible for the outcome — the figure snapped into alignment with how I already talked about working with AI. I drew the mark to see if it would hold, and when I saw the hawk on the page, I stopped looking for alternatives.
+              </p>
+              <p>
+                <strong>The meaning is genuine. Its arrival was not grand.</strong> I prefer to say so. A lab whose first public commitment is an exaggeration about its own origin would not be the lab I wanted to run.
+              </p>
+
+              <!-- II. The moment -->
+              <p style="font-family: var(--font-serif-en); font-style: italic; color: var(--accent); font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; margin: 2.5rem 0 0.75rem 0;">II — The moment it became necessary</p>
+              <p>
+                In one of the early reviews, I watched a student type into the prompt window: <em>“nande konna koto mo dekinai n da”</em> — <em>“why can't you even do this.”</em> Frustrated, at the screen, to the model. They were trying to coerce it back to usefulness by sheer force of tone.
+              </p>
+              <p>
+                What made that moment clarifying was not the frustration. It was the quiet mechanical fact that <strong>the model could not hear them the way they thought it could</strong>. A language model treats the accumulating contents of its context window as the shape of the truth. Once a conversation has gone wrong, no amount of forceful language from inside that same context pulls it out — the frustration simply becomes another piece of context the model will now harmonise with.
+              </p>
+              <p>
+                That is a technical detail. But watching a person try to get a hawk back by shouting at it — while the hawk cheerfully interprets the shouting as instruction — makes it impossible to keep teaching AI the way most courses teach AI. <em>A review system has to start from how the thing actually behaves</em>, not from how we wish it behaved. Everything the Lab publishes followed from that morning.
+              </p>
+
+              <!-- III. Why this site exists -->
+              <p style="font-family: var(--font-serif-en); font-style: italic; color: var(--accent); font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; margin: 2.5rem 0 0.75rem 0;">III — Why this site exists at all</p>
+              <p>
+                For years I worked as a freelancer, quietly, by preference. I was comfortable there. When the three research outputs — <a href="projects/prompt-as-code.html">prompt-as-code</a>, <a href="learn/index.html">the learning program</a>, <a href="projects/critic-chain.html">CriticChain</a> — finally stood finished on the desk in front of me, I understood, with some reluctance, that <strong>hiding them would be a way of quietly failing them</strong>. So I built this site, and attached my name to it.
+              </p>
+              <p>
+                A small trace of the earlier preference survives in public: inside one of the CriticChain documents on GitHub, there is a phrase I left in — <em>name-less architect</em>. I haven't removed it. It records the version of me that would have preferred to publish the work without a face, and I want it to remain legible alongside the version of me that decided otherwise. The work is stronger for having a name attached. It is also stronger for remembering that the name was, until recently, optional.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== Aside: on the name ========== -->
+      <section>
+        <div class="container">
+          <div class="detail-abstract-inner" style="max-width: 44rem;">
+            <aside class="aside-note">
+              <span class="aside-mark">A note on the name</span>
+              The lab is called <strong style="font-weight:500;">Takajo AI Lab</strong> in English writing, and <span class="kanji">鷹匠 AI 研究室</span> (<em>Takajo AI Kenkyū-shitsu</em>) in Japanese. The English name is not a translation — it is the Japanese word kept intact, because there is no single English word for what a falconer actually does. The hawk on the mark is the same mark in both writings. This page is the footnote it refers to.
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== Sign-off ========== -->
+      <section class="detail-abstract" style="padding-bottom: 5rem;">
+        <div class="container">
+          <div class="detail-abstract-inner" style="max-width: 44rem;">
+            <div class="about-sign-off">
+              <p>
+                If any of this resonates — in the way you think about the tools you use, or the way you want your team to learn them, or the way you want your organisation's AI work audited by someone who won't flatter it — <a href="mailto:info@1stpiece.io">write to the Lab</a>. There aren't many openings at a given time, and that is on purpose.
+              </p>
+              <p class="name">Takaho Hatanaka <span class="name-jp">畑中 たかほ</span></p>
+              <p style="font-style: italic; color: var(--ink-500); font-size: 0.9rem; margin-top: 0.3rem;">Founder, Takajo AI Lab</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../index.html">日本語</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

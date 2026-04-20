@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Three forms of one question | Takajo AI Lab</title>
+  <meta name="description" content="Three forms of one question. The Lab's research output: a prompt specification, a learning program, and an adversarial review engine.">
+  <meta name="keywords" content="prompt-as-code, CriticChain, AI research, prompt specification, LLM review, open source AI">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/projects/">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="Projects — Three forms of one question | Takajo AI Lab">
+  <meta property="og:description" content="A prompt specification, a learning program, and an adversarial review engine. Open source.">
+  <meta property="og:url" content="https://1stpiece.io/en/projects/">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Projects — Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Projects — Takajo AI Lab">
+  <meta name="twitter:description" content="Three forms of one question — prompt spec, learning program, review engine.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+    body.en-page .page-title { letter-spacing: -0.005em; max-width: 22ch; }
+    body.en-page .page-intro { max-width: 56ch; }
+    body.en-page .projects-list-title { font-weight: 500; letter-spacing: -0.005em; }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="../about.html">About</a>
+          <a href="index.html" aria-current="page">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="../../projects/index.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a>
+          <span class="sep">/</span>
+          <span>Projects</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Projects — research output</p>
+          <h1 class="page-title">One question, three shapes<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            The Lab takes a single question — <em>how do you actually use AI in real work</em> — and answers it in three forms: a <em>standard</em> for how prompts should be written, a <em>program</em> for teaching that standard through real submissions, and an <em>engine</em> that enforces it automatically. Each one stands on its own; each one feeds the others.
+          </p>
+        </div>
+      </section>
+
+      <section class="projects-list">
+        <div class="container">
+
+          <!-- 01 prompt-as-code -->
+          <article class="projects-list-item">
+            <div class="projects-list-index">
+              <span class="num">01 / STANDARD</span>
+              Prompt&nbsp;constructs
+            </div>
+            <div class="projects-list-body">
+              <h2 class="projects-list-title">
+                <a href="prompt-as-code.html">prompt-as-code</a>
+                <span class="status-pill">v0.3.0</span>
+              </h2>
+              <p class="projects-list-subtitle">Prompt Engineering Standards</p>
+              <p class="projects-list-desc">
+                A language specification for prose written to be executed. <em>Undefined variables</em>, <em>ambiguous instructions</em>, and <em>hallucinations</em> — treated as syntax errors. A ten-section standard that synthesises public guidance from OpenAI, Anthropic, and Google with patterns drawn from community practice.
+              </p>
+              <a href="prompt-as-code.html" class="projects-list-more">Read the spec →</a>
+            </div>
+            <dl class="projects-list-meta">
+              <dt>Version</dt><dd>v0.3.0 (pre-release)</dd>
+              <dt>Updated</dt><dd>2025-12-04</dd>
+              <dt>Spec</dt><dd><a href="https://github.com/taka4rest/prompt-as-code/blob/main/STANDARDS.md" target="_blank" rel="noopener noreferrer">STANDARDS.md</a></dd>
+              <dt>Repo</dt><dd><a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">GitHub</a></dd>
+            </dl>
+          </article>
+
+          <!-- 02 Learn -->
+          <article class="projects-list-item">
+            <div class="projects-list-index">
+              <span class="num">02 / LEARNING</span>
+              Curriculum
+            </div>
+            <div class="projects-list-body">
+              <h2 class="projects-list-title">
+                <a href="../learn/index.html">Learn</a>
+                <span class="status-pill accent">Premium full · AI Review soon</span>
+              </h2>
+              <p class="projects-list-subtitle">Submit work, get it reviewed</p>
+              <p class="projects-list-desc">
+                A learning program designed as a single loop: lessons, submissions, reviews. <em>Premium</em> — human review for company teams, capped at five, currently full (an opening may appear in about three months). <em>AI Review</em> — automated review powered by CriticChain, in preparation. Curriculum and submissions are shared across both plans.
+              </p>
+              <a href="../learn/index.html" class="projects-list-more">Read →</a>
+            </div>
+            <dl class="projects-list-meta">
+              <dt>Premium</dt><dd>Teams only · currently full</dd>
+              <dt>AI Review</dt><dd>Individuals · in preparation</dd>
+              <dt>Curriculum</dt><dd>23 lessons / 5 phases</dd>
+              <dt>Contact</dt><dd><a href="mailto:info@1stpiece.io">info@1stpiece.io</a></dd>
+            </dl>
+          </article>
+
+          <!-- 03 CriticChain -->
+          <article class="projects-list-item">
+            <div class="projects-list-index">
+              <span class="num">03 / ENGINE</span>
+              Review&nbsp;chain
+            </div>
+            <div class="projects-list-body">
+              <h2 class="projects-list-title">
+                <a href="critic-chain.html">CriticChain</a>
+                <span class="status-pill">v0.x</span>
+              </h2>
+              <p class="projects-list-subtitle">Adversarial Review Engine</p>
+              <p class="projects-list-desc">
+                One AI <em>adversarially</em> audits the output of another. Eleven specialist agents run on LangGraph, looping through Draft → Critique → Refine until a review that merely sounds good has to either ground itself or be thrown out. An audit pipeline built to leave a trace — something defensible — in the age of AI governance.
+              </p>
+              <a href="critic-chain.html" class="projects-list-more">Read →</a>
+            </div>
+            <dl class="projects-list-meta">
+              <dt>Status</dt><dd>v0.x</dd>
+              <dt>Started</dt><dd>2025-11</dd>
+              <dt>License</dt><dd>AGPL-3.0</dd>
+              <dt>Repo</dt><dd><a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">GitHub</a></dd>
+            </dl>
+          </article>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../../index.html">日本語</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

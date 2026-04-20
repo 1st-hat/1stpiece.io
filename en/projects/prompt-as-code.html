@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>prompt-as-code — A language specification for prompts | Takajo AI Lab</title>
+  <meta name="description" content="Prompt Engineering Standards. A language specification for prose written to be executed. v0.3.0 now public. AGPL-3.0.">
+  <meta name="keywords" content="prompt-as-code, prompt engineering, prompt specification, LLM, prompt syntax, open source">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/projects/prompt-as-code.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/prompt-as-code.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/prompt-as-code.html">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="prompt-as-code — A language specification for prompts">
+  <meta property="og:description" content="Prompt Engineering Standards. A language specification for prose written to be executed. v0.3.0 now public.">
+  <meta property="og:url" content="https://1stpiece.io/en/projects/prompt-as-code.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="prompt-as-code — Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="prompt-as-code — Takajo AI Lab">
+  <meta name="twitter:description" content="A language specification for prompts. v0.3.0.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+    body.en-page .page-title { letter-spacing: -0.005em; max-width: 16ch; }
+    body.en-page .page-intro { max-width: 56ch; }
+    body.en-page .detail-h2 { letter-spacing: -0.005em; font-weight: 500; }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="../about.html">About</a>
+          <a href="index.html" aria-current="page">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="../../projects/prompt-as-code.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a>
+          <span class="sep">/</span>
+          <a href="index.html">Projects</a>
+          <span class="sep">/</span>
+          <span>prompt-as-code</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Project 01 — Prompt Engineering Standards</p>
+          <h1 class="page-title">prompt-as-code<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            We are, at this point, <em>writing code in plain prose</em> — but there is no compiler, no linter, no type checker watching us.<br>
+            <strong>prompt-as-code</strong> is a language specification that treats a prompt as what it actually is: <em>executable code</em>.
+          </p>
+        </div>
+      </section>
+
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">Why a prompt needs a syntax.</h2>
+            <div class="detail-prose">
+              <p>
+                We have quietly begun writing code in natural language. And yet the tools that make code code — a compiler, a linter, a type checker — are absent from the writing surface. <em>Undefined variables</em>. <em>Ambiguous instructions</em>. <em>Hallucinations</em>. In any serious programming language, every one of these is a <strong>syntax error</strong>. In prompt engineering, they are somehow treated as matters of taste.
+              </p>
+              <p>
+                This document is a <strong>language specification</strong> for prompts written to be executed. Its standardisation is the central concern of this Lab.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pull quote -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote">
+            Undefined variables, ambiguous instructions, hallucinations.<br>
+            <em>Every one of them is a syntax error.</em>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Philosophy</p>
+            <h2 class="detail-h2">The Lab's position.</h2>
+            <div class="detail-prose">
+              <p>
+                The specification is written from one position: prompt engineering is not a collection of <em>magic spells</em> or <em>tips and tricks</em>. It is a field of <strong>systematic engineering principles</strong>, and it is past time it was treated that way.
+              </p>
+              <p>
+                The aim is to establish prompt design as a serious practical discipline — one with <em>reproducible</em> and <em>testable</em> methods. The specification synthesises public guidance from OpenAI, Anthropic, and Google, together with patterns drawn from community practice, into a single structured standard.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core principles -->
+      <section class="detail-abstract" style="padding-top: 2rem; padding-bottom: 5rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Core Principles</p>
+            <h2 class="detail-h2">Three principles.</h2>
+
+            <ol class="principles">
+              <li>
+                <span class="principle-num">§ 01</span>
+                <strong>Markdown-Native Syntax</strong>
+                Write prompts in Markdown. This has become the industry's de facto standard for a reason. Use headers (<code>#</code>), bullets (<code>-</code>), and code fences (<code>```</code>). Structured information is dramatically easier for an LLM to parse than paragraphs of undifferentiated prose.
+              </li>
+              <li>
+                <span class="principle-num">§ 02</span>
+                <strong>Principle of Explicitness</strong>
+                Do not rely on implicit instructions. State everything. Name variables, define delimiters, number the steps. <em>Do not expect the model to read between the lines.</em> It will read between them — just not the lines you wrote.
+              </li>
+              <li>
+                <span class="principle-num">§ 03</span>
+                <strong>Reproducibility</strong>
+                Write prompts that produce consistent results across independent executions. No "as I mentioned in the previous chat" — no outside references — unless you are <em>deliberately</em> managing context. A prompt that only works once is not a prompt; it is a happy accident.
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- Specification -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Specification</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">What's in v0.3.0</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            Ten sections. Begins with the three core principles, passes through variable declaration, delimiters, and structured patterns, and ends with LLMOps, anti-patterns, and debugging.
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>§ 1. Core Principles</th>
+              <td>Markdown-Native / Explicitness / Reproducibility — the three foundations</td>
+            </tr>
+            <tr>
+              <th>§ 2. Variable Declaration</th>
+              <td><code>{variable_name}:</code> + <code>"""</code> as the standard declaration form</td>
+            </tr>
+            <tr>
+              <th>§ 3. Delimiters</th>
+              <td>Triple quotes / XML tags / YAML — where each belongs, and where it doesn't</td>
+            </tr>
+            <tr>
+              <th>§ 4. Global Standards</th>
+              <td>Recommended patterns from OpenAI, Anthropic, and <em>CO-STAR</em> (Singapore GovTech)</td>
+            </tr>
+            <tr>
+              <th>§ 5. Structuring Patterns</th>
+              <td>Role / Context / Goal / Constraints and five further structural elements</td>
+            </tr>
+            <tr>
+              <th>§ 6. Structured Reasoning</th>
+              <td>SCoT, Chain of Verification (CoVe), Chain of Density (CoD)</td>
+            </tr>
+            <tr>
+              <th>§ 7. Prompt Chaining</th>
+              <td>Multi-step prompts, context management, data-dependency tracking</td>
+            </tr>
+            <tr>
+              <th>§ 8. LLMOps</th>
+              <td>Version control, observability, evaluation, governance</td>
+            </tr>
+            <tr>
+              <th>§ 9. Anti-patterns</th>
+              <td>The taxonomy of how prompts go wrong — and how to stop writing them that way</td>
+            </tr>
+            <tr>
+              <th>§ 10. Debugging</th>
+              <td>Glass-box techniques, variable inspection, an error-isolation checklist</td>
+            </tr>
+          </table>
+
+          <div class="grid-2" style="margin-top: 3rem;">
+            <div>
+              <p class="code-caption">§ 2 — Variable Declaration</p>
+<pre class="code-block"><span class="cm"># ✅ Recommended</span>
+
+<span class="kw">{target_audience}</span>:
+<span class="str">"""
+Mid-level Sales Professional
+Annual Income: $80,000
+Location: New York City
+"""</span>
+
+<span class="kw">{pain_points}</span>:
+<span class="str">"""
+Struggling with public speaking in English
+Handling international negotiations
+"""</span>
+
+<span class="cm"># ❌ Avoid — headers are not variables</span>
+<span class="cm"># Target Audience</span>
+<span class="cm"># Mid-level Sales Professional</span></pre>
+            </div>
+            <div>
+              <p class="code-caption">§ 6 — Chain of Verification (CoVe)</p>
+<pre class="code-block"><span class="cm"># Verified Answer Generation</span>
+
+[<span class="kw">C1</span>] <span class="tag">Draft</span>
+Generate initial answer to <span class="kw">{question}</span>.
+
+[<span class="kw">C2</span>] <span class="tag">Plan Verification</span>
+Identify claims in <span class="kw">{draft}</span>
+needing fact-checking.
+
+[<span class="kw">C3</span>] <span class="tag">Execute</span>
+Answer <span class="kw">{verification_questions}</span>
+using external knowledge.
+
+[<span class="kw">C4</span>] <span class="tag">Revise</span>
+Based on <span class="kw">{verification_results}</span>,
+produce <span class="kw">{final_answer}</span>.</pre>
+            </div>
+          </div>
+
+          <div style="margin-top: 4rem;">
+            <p class="section-eyebrow">Meta</p>
+            <table class="spec-table">
+              <tr>
+                <th>Version</th>
+                <td><code>v0.3.0</code> — pre-release (v1.0.0 to follow community adoption)</td>
+              </tr>
+              <tr>
+                <th>Last updated</th>
+                <td>2025-12-04</td>
+              </tr>
+              <tr>
+                <th>Authoritative version</th>
+                <td>English (<code>STANDARDS.md</code>). The Japanese version is a community translation.</td>
+              </tr>
+              <tr>
+                <th>Original editor</th>
+                <td>Takaho Hatanaka (2024)</td>
+              </tr>
+              <tr>
+                <th>Synthesised from</th>
+                <td>OpenAI / Anthropic / Google public guidance + community practice via LangChain</td>
+              </tr>
+              <tr>
+                <th>Repository</th>
+                <td><a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">github.com/taka4rest/prompt-as-code</a></td>
+              </tr>
+              <tr>
+                <th>Spec document</th>
+                <td><a href="https://github.com/taka4rest/prompt-as-code/blob/main/STANDARDS.md" target="_blank" rel="noopener noreferrer">STANDARDS.md</a></td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-inner">
+            <h2 class="detail-cta-title">Read it. Argue with it. Improve it.</h2>
+            <p class="detail-cta-text">
+              The specification is run as a <em>living standard</em>. Anyone can contribute — through GitHub Issues or pull requests — a new anti-pattern observed in the wild, a new structuring pattern worth naming, a sharper example, or a translation. The point is the standard, not the editor.
+            </p>
+            <div class="detail-cta-actions">
+              <a href="https://github.com/taka4rest/prompt-as-code/blob/main/STANDARDS.md" target="_blank" rel="noopener noreferrer">Read STANDARDS.md →</a>
+              <a href="https://github.com/taka4rest/prompt-as-code/issues" target="_blank" rel="noopener noreferrer">Open issues →</a>
+              <a href="mailto:info@1stpiece.io">Contact the Lab →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../../index.html">日本語</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

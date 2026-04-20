@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /old/
+
+Sitemap: https://1stpiece.io/sitemap.xml

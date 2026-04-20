@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CriticChain — AI が AI を監査する | Takajo AI Lab</title>
+  <meta name="description" content="11 専門エージェントによる多段レビューを行う adversarial review エンジン。AI 出力の品質を AI 自身に監査させる仕組み。オープンソース(AGPL-3.0)で公開中。">
+  <meta name="keywords" content="CriticChain, AI レビュー, AI 監査, マルチエージェント, adversarial review, LLM 評価, プロンプト 品質, AGPL, オープンソース">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/projects/critic-chain.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/critic-chain.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/critic-chain.html">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="CriticChain — AI が AI を監査する">
+  <meta property="og:description" content="11 専門エージェントによる多段レビューを行う adversarial review エンジン。AGPL-3.0 で公開中。">
+  <meta property="og:url" content="https://1stpiece.io/projects/critic-chain.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CriticChain — Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CriticChain — Takajo AI Lab">
+  <meta name="twitter:description" content="AI が AI を監査する。11 エージェントによる多段レビューエンジン。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../index.html">Top</a>
+          <a href="index.html" aria-current="page">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="../notes/index.html">Notes</a>
+          <a href="../en/projects/critic-chain.html" class="lang-link">EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../index.html">Top</a>
+          <span class="sep">/</span>
+          <a href="index.html">Projects</a>
+          <span class="sep">/</span>
+          <span>CriticChain</span>
+        </nav>
+      </div>
+
+      <!-- Page header -->
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Project 03 — Adversarial Review Engine</p>
+          <h1 class="page-title">CriticChain<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            AI の出力を、別の AI が<em>敵対的に</em>監査する。<br>
+            <strong>CriticChain</strong> は、11 の専門エージェントで LLM 出力を多段に洗う、adversarial review エンジンである。
+          </p>
+        </div>
+      </section>
+
+      <!-- ========== EDITORIAL TOP ========== -->
+
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">なぜ AI が AI を監査するのか。</h2>
+            <div class="detail-prose">
+              <p>
+                LLM は強力だ。しかし、<em>嘘をつく</em>。ハルシネーションを起こし、危険なコードにも <span style="white-space: nowrap;">“Looks Good To Me”</span> と返してしまう。Prompt Injection を「読みやすさの改善提案」と誤認することもある——これが本番運用 LLM の現実であり、人間のレビュアーはその全てを検知することが難しい。
+              </p>
+              <p>
+                CriticChain は、この構造的欠陥に<strong>敵対的設計</strong>で応える。Draft Review の判定が甘ければ、別の Agent が即座に異議を唱える。逆に、内部解析(<code>PASS</code>)と Draft(<code>FAIL</code>)が食い違えば、その判断の根拠を問い直す。根拠薄弱な称賛は差し戻され、論拠のある判定に至るまでループは止まらない——<em>証跡</em>として使える監査ログを残しながら。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pull quote -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote">
+            AI が馴れ合わないよう、AI に異議を唱えさせる。
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Philosophy</p>
+            <h2 class="detail-h2">Adversarial Review という設計原理。</h2>
+            <div class="detail-prose">
+              <p>
+                LLM にレビューを任せると、<em>親切すぎる</em>答えが返る。「とても良く書けています」「readability の観点から改善余地があります」——致命的な欠陥がそこに混ざっていても、断じない。これは LLM の<strong>構造的バイアス</strong>であり、単一のプロンプトでは解消できない。
+              </p>
+              <p>
+                CriticChain の答えは明快だ。<em>レビューそのものをレビューさせる</em>。Draft Review の判断を、別の Agent が「甘い」「論拠が弱い」「語調が馴れ合いだ」と徹底的に洗う。Refine が書き直す。それでも根拠が弱ければ、再考を促す。<strong>AI が馴れ合わないよう、徹底して問い直させる</strong>——これが Adversarial Review である。
+              </p>
+              <p>
+                この設計は、AI 教育の現場で生まれた。学生が呪文を当て推量し、LLM は称賛で応じる。誰も間違いを正さない。そこで、馴れ合いを許さない仕組みが必要になった。<em>原理は教育固有ではない</em>。本番運用の AI ガバナンスにそのまま移植できる。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TECHNICAL BOTTOM ========== -->
+
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Architecture — 11 Agents</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">11 の専門エージェント。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            LangGraph 上の directed graph として構成される。Router で入力を分類し、Linter が静的解析、Research が外部知識を参照、Analyze と Fact-Check が深掘り、Draft が初稿を書き、Critique が噛みつき、Refine が書き直し、Consistency が整合性を確認し、Evaluate が最終スコアを出す。
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>Router</th>
+              <td>入力を Prompt Engineering / Programming に分類する</td>
+            </tr>
+            <tr>
+              <th>Linter</th>
+              <td>構造的エラー・Prompt Injection の兆候を静的解析で検出</td>
+            </tr>
+            <tr>
+              <th>Research</th>
+              <td>Web 検索でベストプラクティスを参照</td>
+            </tr>
+            <tr>
+              <th>Analyze</th>
+              <td>アーキテクチャレベルの深いレビュー</td>
+            </tr>
+            <tr>
+              <th>Fact-Check</th>
+              <td>ハルシネーション検出。主張を外部ソースで検証</td>
+            </tr>
+            <tr>
+              <th>Draft Review</th>
+              <td>フィードバックの初稿を生成</td>
+            </tr>
+            <tr>
+              <th>Critique<span class="spec-tag-accent">Devil's Advocate</span></th>
+              <td><strong>Draft を敵対的にレビューする</strong>。甘さ・馴れ合い・論拠薄弱を洗い出す</td>
+            </tr>
+            <tr>
+              <th>Refine</th>
+              <td>Critique の指摘を反映し、レビューを書き直す</td>
+            </tr>
+            <tr>
+              <th>Manager</th>
+              <td>Hybrid / Consensus モードで複数レビューソースを統合</td>
+            </tr>
+            <tr>
+              <th>Consistency</th>
+              <td>内部矛盾を検出</td>
+            </tr>
+            <tr>
+              <th>Evaluate</th>
+              <td>LLM-as-a-Judge による最終スコアリング</td>
+            </tr>
+          </table>
+
+          <!-- Flow diagram — SVG systems graph -->
+          <div style="margin-top: 3rem;">
+            <p class="code-caption">Directed graph — Standard mode</p>
+            <figure class="agent-diagram">
+              <div class="agent-diagram-inner">
+                <svg viewBox="0 0 860 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cc-diagram-title cc-diagram-desc">
+                  <title id="cc-diagram-title">CriticChain 11-agent directed graph</title>
+                  <desc id="cc-diagram-desc">LangGraph 上に構成された 11 エージェントの有向グラフ。Router から入力を受け、Linter による静的解析、Research による外部参照、Analyze と Fact-Check による深掘り、Draft Review が初稿を書き、Critique が敵対的にレビューし、Refine が書き直す。Critique と Refine の間には反復ループが存在する。最後に Consistency と Evaluate を経て監査ログと判定が出力される。</desc>
+
+                  <defs>
+                    <!-- Arrowhead: forward flow -->
+                    <marker id="cc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(232, 221, 203, 0.55)"/>
+                    </marker>
+                    <!-- Arrowhead: adversarial loop (accent) -->
+                    <marker id="cc-arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#C94F2D"/>
+                    </marker>
+                    <!-- Arrowhead: side branch -->
+                    <marker id="cc-arrow-side" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(232, 221, 203, 0.35)"/>
+                    </marker>
+                  </defs>
+
+                  <style>
+                    .cc-node-rect { stroke-width: 1.2; }
+                    .cc-label { font-family: "EB Garamond", "Shippori Mincho", Georgia, serif; font-size: 15px; font-weight: 500; fill: #E8DDCB; }
+                    .cc-sublabel { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: 0.1em; fill: rgba(232, 221, 203, 0.55); text-transform: uppercase; }
+                    .cc-edge { stroke: rgba(232, 221, 203, 0.45); stroke-width: 1.3; fill: none; }
+                    .cc-edge-thin { stroke: rgba(232, 221, 203, 0.28); stroke-width: 1; fill: none; }
+                    .cc-edge-adv { stroke: #C94F2D; stroke-width: 1.8; fill: none; }
+                    .cc-edge-label { font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.08em; fill: rgba(232, 221, 203, 0.45); text-transform: uppercase; }
+                    .cc-edge-label-accent { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: 0.08em; fill: #E87A5A; text-transform: uppercase; font-weight: 500; }
+                    .cc-phase { font-family: "IBM Plex Mono", monospace; font-size: 8.5px; letter-spacing: 0.18em; fill: rgba(232, 221, 203, 0.3); text-transform: uppercase; }
+                  </style>
+
+                  <!-- Phase labels (left gutter) -->
+                  <text class="cc-phase" x="20" y="62">01 — Gate</text>
+                  <text class="cc-phase" x="20" y="158">02 — Static</text>
+                  <text class="cc-phase" x="20" y="254">03 — Context</text>
+                  <text class="cc-phase" x="20" y="358">04 — Analysis</text>
+                  <text class="cc-phase" x="20" y="478">05 — Draft</text>
+                  <text class="cc-phase" x="20" y="560">06 — Adversarial Loop</text>
+                  <text class="cc-phase" x="20" y="650">07 — Judgment</text>
+
+                  <!-- Phase dividers -->
+                  <line x1="160" y1="56" x2="860" y2="56" stroke="rgba(232, 221, 203, 0.08)" stroke-dasharray="2 4"/>
+                  <line x1="160" y1="152" x2="860" y2="152" stroke="rgba(232, 221, 203, 0.08)" stroke-dasharray="2 4"/>
+                  <line x1="160" y1="248" x2="860" y2="248" stroke="rgba(232, 221, 203, 0.08)" stroke-dasharray="2 4"/>
+                  <line x1="160" y1="352" x2="860" y2="352" stroke="rgba(232, 221, 203, 0.08)" stroke-dasharray="2 4"/>
+                  <line x1="160" y1="472" x2="860" y2="472" stroke="rgba(232, 221, 203, 0.08)" stroke-dasharray="2 4"/>
+                  <line x1="160" y1="644" x2="860" y2="644" stroke="rgba(232, 221, 203, 0.08)" stroke-dasharray="2 4"/>
+
+                  <!-- ===== Edges (drawn first so they sit under nodes) ===== -->
+
+                  <!-- Router -> Linter -->
+                  <path class="cc-edge" d="M 480 92 L 480 130" marker-end="url(#cc-arrow)"/>
+
+                  <!-- Linter -> Research -->
+                  <path class="cc-edge" d="M 480 188 L 480 226" marker-end="url(#cc-arrow)"/>
+
+                  <!-- Research -> Analyze & Fact-Check (fork) -->
+                  <path class="cc-edge" d="M 480 284 L 480 300 L 340 300 L 340 330" marker-end="url(#cc-arrow)"/>
+                  <path class="cc-edge" d="M 480 284 L 480 300 L 620 300 L 620 330" marker-end="url(#cc-arrow)"/>
+
+                  <!-- Analyze & Fact-Check -> Draft Review (merge) -->
+                  <path class="cc-edge" d="M 340 388 L 340 420 L 480 420 L 480 452" marker-end="url(#cc-arrow)"/>
+                  <path class="cc-edge" d="M 620 388 L 620 420 L 480 420" />
+
+                  <!-- Draft Review -> Critique -->
+                  <path class="cc-edge-adv" d="M 440 510 L 340 540" marker-end="url(#cc-arrow-accent)"/>
+                  <text class="cc-edge-label-accent" x="298" y="528">Challenge</text>
+
+                  <!-- Critique -> Refine -->
+                  <path class="cc-edge-adv" d="M 340 598 L 340 614 L 620 614 L 620 598" marker-end="url(#cc-arrow-accent)"/>
+
+                  <!-- Refine -> Critique (LOOP — the heart of the design) -->
+                  <path class="cc-edge-adv" d="M 620 540 C 580 520, 420 520, 380 540" marker-end="url(#cc-arrow-accent)" stroke-dasharray="5 3"/>
+                  <text class="cc-edge-label-accent" x="425" y="515">loop · until resolved</text>
+
+                  <!-- Manager (side: consensus mode) -->
+                  <path class="cc-edge-thin" d="M 480 510 L 480 560 L 760 560 L 760 598" marker-end="url(#cc-arrow-side)" stroke-dasharray="4 3"/>
+                  <text class="cc-edge-label" x="640" y="555">hybrid / consensus</text>
+
+                  <!-- Refine -> Consistency -->
+                  <path class="cc-edge" d="M 620 598 L 620 612 L 480 612 L 480 630" marker-end="url(#cc-arrow)"/>
+
+                  <!-- Consistency -> Evaluate -->
+                  <path class="cc-edge" d="M 480 660 L 480 678" marker-end="url(#cc-arrow)"/>
+
+                  <!-- ===== Nodes ===== -->
+
+                  <!-- Router -->
+                  <g>
+                    <rect class="cc-node-rect" x="420" y="34" width="120" height="58" rx="3" fill="#1f1a16" stroke="#8B7355"/>
+                    <text class="cc-label" x="480" y="60" text-anchor="middle">Router</text>
+                    <text class="cc-sublabel" x="480" y="78" text-anchor="middle">Classify input</text>
+                  </g>
+
+                  <!-- Linter -->
+                  <g>
+                    <rect class="cc-node-rect" x="420" y="130" width="120" height="58" rx="3" fill="#1f1a16" stroke="#5C7A8C"/>
+                    <text class="cc-label" x="480" y="156" text-anchor="middle">Linter</text>
+                    <text class="cc-sublabel" x="480" y="174" text-anchor="middle">Static analysis</text>
+                  </g>
+
+                  <!-- Research -->
+                  <g>
+                    <rect class="cc-node-rect" x="420" y="226" width="120" height="58" rx="3" fill="#1f1a16" stroke="#5C7A8C"/>
+                    <text class="cc-label" x="480" y="252" text-anchor="middle">Research</text>
+                    <text class="cc-sublabel" x="480" y="270" text-anchor="middle">External refs</text>
+                  </g>
+
+                  <!-- Analyze -->
+                  <g>
+                    <rect class="cc-node-rect" x="280" y="330" width="120" height="58" rx="3" fill="#1f1a16" stroke="#7A9A7A"/>
+                    <text class="cc-label" x="340" y="356" text-anchor="middle">Analyze</text>
+                    <text class="cc-sublabel" x="340" y="374" text-anchor="middle">Deep read</text>
+                  </g>
+
+                  <!-- Fact-Check -->
+                  <g>
+                    <rect class="cc-node-rect" x="560" y="330" width="120" height="58" rx="3" fill="#1f1a16" stroke="#7A9A7A"/>
+                    <text class="cc-label" x="620" y="356" text-anchor="middle">Fact-Check</text>
+                    <text class="cc-sublabel" x="620" y="374" text-anchor="middle">Verify claims</text>
+                  </g>
+
+                  <!-- Draft Review -->
+                  <g>
+                    <rect class="cc-node-rect" x="400" y="452" width="160" height="58" rx="3" fill="#1f1a16" stroke="#B8A878"/>
+                    <text class="cc-label" x="480" y="478" text-anchor="middle">Draft Review</text>
+                    <text class="cc-sublabel" x="480" y="496" text-anchor="middle">First opinion</text>
+                  </g>
+
+                  <!-- Critique (ACCENT — left of loop) -->
+                  <g>
+                    <rect class="cc-node-rect" x="260" y="540" width="160" height="58" rx="3" fill="#2a1a12" stroke="#C94F2D" stroke-width="2"/>
+                    <text class="cc-label" x="340" y="566" text-anchor="middle" style="fill: #fff;">Critique</text>
+                    <text class="cc-sublabel" x="340" y="584" text-anchor="middle" style="fill: #E87A5A;">Devil's advocate</text>
+                  </g>
+
+                  <!-- Refine (right of loop) -->
+                  <g>
+                    <rect class="cc-node-rect" x="540" y="540" width="160" height="58" rx="3" fill="#1f1a16" stroke="#B8A878"/>
+                    <text class="cc-label" x="620" y="566" text-anchor="middle">Refine</text>
+                    <text class="cc-sublabel" x="620" y="584" text-anchor="middle">Rewrite w/ challenge</text>
+                  </g>
+
+                  <!-- Manager (side) -->
+                  <g>
+                    <rect class="cc-node-rect" x="720" y="598" width="120" height="46" rx="3" fill="#1a1511" stroke="rgba(232, 221, 203, 0.35)" stroke-dasharray="3 2"/>
+                    <text class="cc-label" x="780" y="622" text-anchor="middle" style="font-size: 13px; fill: rgba(232, 221, 203, 0.75);">Manager</text>
+                    <text class="cc-sublabel" x="780" y="636" text-anchor="middle" style="fill: rgba(232, 221, 203, 0.35);">side · optional</text>
+                  </g>
+
+                  <!-- Consistency -->
+                  <g>
+                    <rect class="cc-node-rect" x="420" y="630" width="120" height="48" rx="3" fill="#1f1a16" stroke="#B8A878"/>
+                    <text class="cc-label" x="480" y="652" text-anchor="middle">Consistency</text>
+                    <text class="cc-sublabel" x="480" y="668" text-anchor="middle">Internal coherence</text>
+                  </g>
+
+                  <!-- Evaluate -->
+                  <g>
+                    <rect class="cc-node-rect" x="340" y="678" width="280" height="34" rx="3" fill="#E8DDCB" stroke="#E8DDCB"/>
+                    <text x="480" y="700" text-anchor="middle" style="font-family: 'EB Garamond', serif; font-size: 14px; font-weight: 600; fill: #0f0d0b;">Evaluate — Audit Log + Verdict</text>
+                  </g>
+
+                </svg>
+              </div>
+              <div class="agent-legend">
+                <span class="lg-gate">Gate</span>
+                <span class="lg-static">Static / Context</span>
+                <span class="lg-analysis">Analysis</span>
+                <span class="lg-adversarial">Adversarial</span>
+                <span class="lg-synthesis">Synthesis</span>
+                <span class="lg-final">Final verdict</span>
+              </div>
+            </figure>
+            <p class="detail-prose" style="max-width: 58ch; margin-top: 1.5rem; font-size: 0.95rem; color: var(--ink-500);">
+              赤い辺が <em>敵対的ループ</em>。Critique が Draft に異議を唱え、Refine が書き直し、再び Critique の判定を受ける。<strong>根拠のある判定に至るまでループは止まらない</strong>——ここが設計の核にあたる。
+            </p>
+          </div>
+
+          <!-- Real log samples -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Real Log — 実際のエージェント対話</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Critique は見逃さない。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            以下は CriticChain の実行ログから抜粋した、実際のエージェント対話である。Draft Review が「不合格」を出し、Critique Agent が内部解析(<code>PASS</code>)との食い違いを検知する——多数決では見えない<strong>判断の根拠</strong>を、エージェント同士が問い直す。
+          </p>
+
+          <div class="grid-2">
+            <div>
+              <p class="code-caption">[ 16:27:07 — Draft Review ]</p>
+<pre class="code-block"><span class="cm"># Draft verdict</span>
+
+<span class="kw">評価</span>: <span class="tag">不合格</span>
+
+AI が元の報告書にない
+<span class="str">具体的な数値</span>を多数創作
+(例: 新規会員登録者数 6,240人、
+ 売上高 2,780万円)。
+
+報告書としての信頼性に重大な
+欠陥があります。これは
+<span class="kw">ハルシネーション</span>と呼ばれる
+現象であり、報告書作成では
+最も避けるべき点です。
+
+<span class="cm"># Verdict recorded</span></pre>
+            </div>
+            <div>
+              <p class="code-caption">[ 16:27:46 — Critique Node ]</p>
+<pre class="code-block"><span class="cm"># Severity mismatch detected</span>
+
+<span class="kw">severity_mismatch</span>: <span class="tag">true</span>
+  json_verdict:  <span class="str">PASS</span>
+  draft_verdict: <span class="str">FAIL</span>
+
+note:
+  JSON分析では「PASS」かつ
+  fatal_flaws なしですが、
+  Draft は「不合格」と判定。
+  <span class="str">重大な不一致が発生</span>。
+
+missing_in_draft:
+  - context_management
+  - delimiter_usage
+
+<span class="cm"># approve: false</span></pre>
+            </div>
+          </div>
+
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 2rem; font-size: 0.95rem; color: var(--ink-500);">
+            この後、Refine Node は<em>Critique の提言を部分的にオーバーライド</em>した——ハルシネーションは致命的欠陥であるとして Draft の <code>FAIL</code> 判定は維持し、同時に Critique が指摘した欠落項目(コンテキスト管理・区切り文字の使用)をレビュー本文に追記した。この<em>説得と反論</em>のプロセスこそが、CriticChain の設計の核である。すべての工程は監査ログに記録される。
+          </p>
+
+          <!-- vs Microsoft Critique -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Positioning</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">vs Microsoft Critique.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            2026 年 3 月、Microsoft が <strong>Critique</strong>(GPT が草稿 → Claude がレビュー)を公開した。「AI が AI を監査する」という発想は、いまや業界の主流である。<br>
+            ただし CriticChain は 2025 年 11 月には動いていた。また、大手製品には返しにくい<em>独自の路線</em>を取る。
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>方向性</th>
+              <td><strong>CriticChain</strong>: 反復対話(Critique ↔ Refine のループ)<br><span style="color: var(--ink-500);">Microsoft Critique: 単方向(Draft → Review)</span></td>
+            </tr>
+            <tr>
+              <th>エージェント数</th>
+              <td><strong>CriticChain</strong>: 11 の専門エージェント<br><span style="color: var(--ink-500);">Microsoft Critique: 2 モデル</span></td>
+            </tr>
+            <tr>
+              <th>領域</th>
+              <td><strong>CriticChain</strong>: Code + Prompt Engineering レビュー<br><span style="color: var(--ink-500);">Microsoft Critique: 研究文書の fact-checking</span></td>
+            </tr>
+            <tr>
+              <th>デプロイ</th>
+              <td><strong>CriticChain</strong>: セルフホスト / オープンソース<br><span style="color: var(--ink-500);">Microsoft Critique: Copilot クラウド限定</span></td>
+            </tr>
+            <tr>
+              <th>カスタマイズ</th>
+              <td><strong>CriticChain</strong>: プロンプト・ワークフローの完全制御<br><span style="color: var(--ink-500);">Microsoft Critique: 不可</span></td>
+            </tr>
+          </table>
+
+          <!-- Positioning on cost -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">On Cost</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">安くはない。だから深い。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 0;">
+            CriticChain は<em>安くて速い</em>リンターではない。多段レビューを徹底するため、1 件あたりの処理は単純な review API 呼び出しより重く、時間もかかる。<strong>深く多視点の監査</strong>が欲しい場面——本番運用の AI 出力、品質の責任を負う成果物——のためのツールである。日常の軽い確認には Copilot の review で十分だろう。その上位、<em>誤りが許されない局面</em>に CriticChain を使う。
+          </p>
+
+          <!-- Meta -->
+          <div style="margin-top: 5rem;">
+            <p class="section-eyebrow">Meta — メタ情報</p>
+            <table class="spec-table">
+              <tr>
+                <th>Status</th>
+                <td><code>v0.x</code> — OSS Lite Architecture(Enterprise Edition 別途)</td>
+              </tr>
+              <tr>
+                <th>Started</th>
+                <td>2025-11</td>
+              </tr>
+              <tr>
+                <th>License</th>
+                <td>AGPL-3.0-only(ネットワーク経由で改変版を提供する場合は、ソース開示義務あり)</td>
+              </tr>
+              <tr>
+                <th>Stack</th>
+                <td>Python 3.10+ / LangGraph / LangChain / Gemini API / Streamlit</td>
+              </tr>
+              <tr>
+                <th>Original author</th>
+                <td>Takaho Hatanaka(28 年のシステムアーキテクト経験から)</td>
+              </tr>
+              <tr>
+                <th>Repository</th>
+                <td><a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">github.com/taka4rest/CriticChain</a></td>
+              </tr>
+              <tr>
+                <th>Full log sample</th>
+                <td><a href="https://github.com/taka4rest/CriticChain/blob/main/examples/agent_collaboration_log.txt" target="_blank" rel="noopener noreferrer">examples/agent_collaboration_log.txt</a></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Language note -->
+          <aside class="lang-note" aria-label="Language policy">
+            <p class="lang-note-head">A note on language.</p>
+            <p class="lang-note-body">
+              本プロジェクトは、世界のコミュニティに向けた提案として、README・コード・ログすべて英語で記述されています。日本語話者の方は、ブラウザの翻訳機能をご利用ください。翻訳版の追加 PR も歓迎します。
+            </p>
+          </aside>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-inner">
+            <h2 class="detail-cta-title">まず動かすことから。議論と改善提案も歓迎。</h2>
+            <p class="detail-cta-text">
+              CriticChain は AGPL-3.0 の OSS として、誰でもローカルで動かせます。Streamlit UI または CLI から利用可能。プロプライエタリな SaaS への組み込みや、ドメイン特化のチューニングが必要な場合は、別途ご相談ください。
+            </p>
+            <div class="detail-cta-actions">
+              <a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">Get CriticChain →</a>
+              <a href="https://github.com/taka4rest/CriticChain/issues" target="_blank" rel="noopener noreferrer">Open Issues →</a>
+              <a href="mailto:info@1stpiece.io">Enterprise Inquiry →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

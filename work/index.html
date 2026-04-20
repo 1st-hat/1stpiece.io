@@ -3,152 +3,555 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>技術顧問・AI導入支援 - Takajo AI Lab</title>
-  <meta name="description" content="AI導入、レビュー基盤設計、実務向け研修設計。判断と設計を支援します。">
-  <link rel="canonical" href="https://www.1stpiece.io/work/">
+  <title>判断のそばに、座る | Work — Takajo AI Lab</title>
+  <meta name="description" content="AI 導入戦略・AI 顧問・AI アドバイザリー。年間契約で経営判断に伴走する、法人向け AI コンサルティング。28 年のシステム設計経験と 1,000 件以上のプロンプトレビューを土台に、AI 戦略・診断・組織化までカバー。">
+  <meta name="keywords" content="AI 導入, AI 戦略, AI コンサルティング, AI 顧問, AI アドバイザリー, 生成 AI 法人, AI 戦略パートナー, 年間契約, 法人 AI 導入">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/work/">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/work/">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/work/">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+
   <meta property="og:type" content="website">
-  <meta property="og:title" content="技術顧問・AI導入支援 - Takajo AI Lab">
-  <meta property="og:description" content="AI導入、レビュー設計、実務向け研修。判断と設計を支援します。">
-  <meta property="og:image" content="https://www.1stpiece.io/assets/og-image.png">
-  <meta property="og:url" content="https://www.1stpiece.io/work/">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="判断のそばに、座る | Work — Takajo AI Lab">
+  <meta property="og:description" content="年間契約で経営判断に伴走する、法人向け AI アドバイザリー。AI 導入戦略・診断・組織化まで。">
+  <meta property="og:url" content="https://1stpiece.io/work/">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="判断のそばに、座る | Work — Takajo AI Lab">
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="技術顧問・AI導入支援 - Takajo AI Lab">
-  <meta name="twitter:description" content="AI導入、レビュー設計、実務向け研修。判断と設計を支援します。">
-  <meta name="twitter:image" content="https://www.1stpiece.io/assets/og-image.png">
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/styles.css">
+  <meta name="twitter:title" content="判断のそばに、座る | Work — Takajo AI Lab">
+  <meta name="twitter:description" content="年間契約で経営判断に伴走する、法人向け AI アドバイザリー。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css">
+
+  <style>
+    /* Phase grid (same as learn) */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.5rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .phase-grid .phase-num {
+      font-family: var(--font-serif-en);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--accent);
+      padding-top: 0.15rem;
+      white-space: nowrap;
+    }
+    .phase-grid .phase-title {
+      font-family: var(--font-serif-jp);
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .phase-grid .phase-title .phase-desc {
+      display: block;
+      font-weight: 400;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+    .phase-grid .phase-count {
+      font-family: var(--font-serif-en);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      padding-top: 0.2rem;
+      white-space: nowrap;
+    }
+    .phase-grid .phase-row {
+      display: contents;
+    }
+    .phase-grid .phase-row > * {
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .phase-grid .phase-row:last-child > * {
+      border-bottom: none;
+    }
+
+    /* Practice Areas / Scope table: wider th, tag on new line for predictable rhythm */
+    .spec-table-wide th {
+      width: 14rem;
+      padding-right: 2rem;
+    }
+    .spec-table-wide th .spec-tag-accent {
+      display: inline-block;
+      margin-left: 0;
+      margin-top: 0.45rem;
+    }
+    .spec-table-wide th .th-title {
+      display: block;
+      font-family: var(--font-serif-jp);
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--ink-900);
+      text-transform: none;
+      letter-spacing: 0;
+      line-height: 1.5;
+    }
+
+    /* Filter callout */
+    .filter-callout {
+      background: #1a1511;
+      color: #E8DDCB;
+      padding: 2.5rem 2.75rem;
+      margin: 3rem 0;
+      border-radius: 2px;
+      position: relative;
+    }
+    .filter-callout::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+    }
+    .filter-callout .filter-label {
+      font-family: var(--font-sans-en);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 1rem 0;
+    }
+    .filter-callout .filter-title {
+      font-family: var(--font-serif-jp);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 1.25rem 0;
+      line-height: 1.5;
+    }
+    .filter-callout .filter-body {
+      font-family: var(--font-serif-jp);
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: #E8DDCB;
+      margin: 0;
+    }
+    .filter-callout .filter-body em {
+      color: #fff;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="site-name"><a href="/" class="site-name-link"><img src="/assets/takajo-logo.png" alt="Takajo AI Lab" height="32">TAKAJO AI Lab</a></div>
-      <nav>
-        <a href="/">Top</a>
-        <a href="/learn/">Learn</a>
-        <a href="/work/" aria-current="page">Work</a>
-        <a href="/work/en/" class="lang-link">EN</a>
-      </nav>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../index.html">Top</a>
+          <a href="../projects/index.html">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="index.html" aria-current="page">Work</a>
+          <a href="../notes/index.html">Notes</a>
+          <a href="../en/work/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
     </header>
 
     <main>
-      <!-- 1. Hero -->
-      <div class="hero">
-        <h1>AI導入、レビュー設計、実務向け研修<br>判断と設計を支援します</h1>
-        <p class="subcopy">
-          生成AIを使うだけでなく、品質・運用・レビュー・教育まで含めて設計したいチーム向けの支援です。
-        </p>
-        <div class="cta-links">
-          <a href="mailto:info@1stpiece.io" class="primary">メールで相談する</a>
-          <a href="https://www.linkedin.com/in/takaho-hatanaka/" class="secondary" rel="noopener noreferrer" target="_blank">LinkedIn で連絡する</a>
-        </div>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../index.html">Top</a>
+          <span class="sep">/</span>
+          <span>Work</span>
+        </nav>
       </div>
 
-      <!-- 2. What I Help With -->
-      <section>
-        <h2>何を依頼できるか</h2>
-
-        <div class="plan-card">
-          <h3>AI導入アドバイザリ</h3>
-          <ul>
-            <li>AI導入の技術・運用設計</li>
-            <li>LLM出力の品質評価と信頼性設計</li>
-            <li>実装前の前提整理と論点の構造化</li>
-          </ul>
-        </div>
-
-        <div class="plan-card">
-          <h3>レビュー基盤設計</h3>
-          <ul>
-            <li>AI-assisted review workflow の設計</li>
-            <li>CriticChain をベースにしたカスタマイズ</li>
-            <li>品質監査プロセスの構築</li>
-          </ul>
-        </div>
-
-        <div class="plan-card">
-          <h3>研修・学習プログラム設計</h3>
-          <ul>
-            <li>社内研修の設計（法人パイロット含む）</li>
-            <li>教材・課題・レビューの一体設計</li>
-            <li>Takajo AI Lab の法人向け活用</li>
-          </ul>
+      <!-- Page header -->
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Work — AI 戦略パートナー</p>
+          <h1 class="page-title">判断のそばに、<br>座る<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            AI 導入は、ツール選定ではなく、<em>判断の連鎖</em>である。<br>
+            年間契約で、経営判断に伴走する<strong>法人向けアドバイザリー</strong>。
+          </p>
         </div>
       </section>
 
-      <!-- 3. Good Fit -->
-      <section>
-        <h2>こういう課題に入っています</h2>
-        <ul>
-          <li>AIを導入したいが、品質や責任分界が曖昧</li>
-          <li>LLMの出力を業務に使いたいが、信頼性の担保方法がわからない</li>
-          <li>教育や研修を属人的に回していて、仕組みに落としたい</li>
-          <li>AIを使った新規プロダクトの方向性を詰めたい</li>
-        </ul>
-      </section>
+      <!-- ========== EDITORIAL TOP ========== -->
 
-      <!-- 4. How I Work -->
-      <section>
-        <h2>どういうスタンスで入るか</h2>
-        <ul>
-          <li>単なる実装代行ではなく、判断と設計を支援する</li>
-          <li>技術、運用、教育をまたいで論点整理できる</li>
-          <li>小さなPoCから実運用まで、壊れやすいところを先に見る</li>
-          <li>AIの便利さより、AIの間違い方と運用上の危険を見る</li>
-          <li>日本語が母語。英語での成果物作成・ドキュメンテーションに対応可能。英語でのミーティングも可能</li>
-        </ul>
-      </section>
-
-      <!-- 5. Background -->
-      <section>
-        <h2>背景</h2>
-
-        <p>1998年からシステム開発に従事。組み込み・制御系、研究・特許、起業、Web・インフラ、教育を経て現在に至る。</p>
-
-        <ul class="mt-1">
-          <li>プロンプトの構文標準 <a href="https://github.com/taka4rest/prompt-as-code" rel="noopener noreferrer" target="_blank">prompt-as-code</a> を策定</li>
-          <li>標準に基づく品質監査エンジン <a href="https://github.com/taka4rest/CriticChain" rel="noopener noreferrer" target="_blank">CriticChain</a> を開発・公開（AGPL-3.0）</li>
-          <li>Takajo AI Lab（AI実務研修プログラム）を設計・運営 &rarr; <a href="/learn/">詳細</a></li>
-        </ul>
-
-        <blockquote class="mt-2">
-          <p>プロンプトの構文標準を策定し、その標準で動く品質監査エンジンを実装し、そのエンジンを組み込んだ教育プログラムを設計・運営しています。</p>
-          <p class="mt-1">これらを別々のプロジェクトとして外注したのではなく、一人の手で一貫して設計・実装・運用しています。</p>
-          <p class="mt-1">だから「理論上はこう動くはず」ではなく「実際に動かすとここで壊れる」という話ができます。</p>
-          <p class="mt-1">AIのレビュー設計、品質基準、人間とAIの役割分担。まだ業界で正解が出ていない領域を先に歩いている分、どこに落とし穴があるかはお伝えできます。</p>
-        </blockquote>
-      </section>
-
-      <!-- 6. Ways to Work Together -->
-      <section>
-        <h2>相談の形</h2>
-        <ul>
-          <li>スポット相談</li>
-          <li>月次アドバイザリ</li>
-          <li>設計レビュー</li>
-          <li>法人パイロット / 研修設計</li>
-        </ul>
-      </section>
-
-      <!-- 7. CTA -->
-      <section class="cta-section">
-        <h2>ご相談はこちら</h2>
-        <div class="cta-links">
-          <a href="mailto:info@1stpiece.io" class="primary">メールで相談する</a>
-          <a href="https://www.linkedin.com/in/takaho-hatanaka/" class="secondary" rel="noopener noreferrer" target="_blank">LinkedIn で連絡する</a>
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">AI コンサルは、スライドを納品して帰る。</h2>
+            <div class="detail-prose">
+              <p>
+                多くの AI 導入支援は、現状整理・ロードマップ・ユースケース例——これらを成果物として納品し、そこで関係が終わる。組織に残るのは「AI を導入した」という事実と、実装段階で無数に立ち上がる<strong>判断の瞬間</strong>である。ロードマップには書かれていない、現場の判断。その一つひとつが、成果を左右する。
+              </p>
+              <p>
+                Takajo AI Lab の <strong>AI 戦略パートナー</strong>は、この構造への反論として設計された。年間契約で、判断が起きる場面に何度も戻る>。初期監査からロードマップ、実装レビュー、そして学習組織化まで——同じ人間が、一年を通して同じ机に座る。
+              </p>
+            </div>
+          </div>
         </div>
       </section>
+
+      <!-- Pull quote -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote">
+            決裁の机の、<br>
+            <em>もう一つの椅子</em>として。
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Philosophy</p>
+            <h2 class="detail-h2">反復することでしか、質は上がらない。</h2>
+            <div class="detail-prose">
+              <p>
+                本ラボが 1,000 件以上のプロンプトレビューで確認したのは、きわめて単純な事実だ——<strong>一度では、何も定着しない</strong>。書いて、動かして、批判を浴びて、書き直す。その反復の中でしか、プロンプトは鍛えられない。
+              </p>
+              <p>
+                経営の意思決定も、同じ構造を持つ。AI 戦略は、初期のキックオフで決まるのではない。半年後に顕在化する技術的負債、現場から上がってくる想定外の要請、競合が出してきた新しい選択肢——こうした揺らぎに対して、<strong>判断を更新し続けられる組織</strong>だけが、AI を実装できる。
+              </p>
+              <p>
+                年間契約という形式を採るのは、この反復を契約として保証するためだ。スポットの相談ではない。半年後の判断にも、一年後の振り返りにも、<strong>同じ人間が関わる</strong>。教えることが、そのまま研究になる——Learn Premium と同じ構造が、Work にも貫かれている。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TECHNICAL BOTTOM ========== -->
+
+      <section class="detail-tech">
+        <div class="container">
+
+          <!-- Practice Areas (職域の幅) -->
+          <p class="section-eyebrow" id="practice-areas">Practice Areas</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">扱う領域。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            <strong>28 年のシステム設計経験</strong>と、1,000 件以上のプロンプトレビュー——この 2 つを土台に、プロンプト技術に閉じた専門家ではなく、プロダクトと業務全体を俯瞰する設計者として関わる。主な領域は 4 つ。
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">AI 導入戦略</span>
+                <span class="spec-tag-accent">Strategy</span>
+              </th>
+              <td>
+                経営目標から逆算し、業務全体を俯瞰して AI 活用機会を特定する。「どこに AI を入れるか」ではなく、<strong>どの意思決定を AI で更新すべきか</strong>を問う。部門横断で設計する。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">AI プロダクトの診断・最適化</span>
+                <span class="spec-tag-accent">Diagnostic</span>
+              </th>
+              <td>
+                うまく動いていない既存の AI 実装・プロンプト・エージェント構成を、実際に動かしてレビュー。何が甘く、何が致命的かを見分け、<strong>改善の順序</strong>を示す。「導入したが成果が出ていない」状態からの建て直しに、特に有効。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">非 AI 開発の加速</span>
+                <span class="spec-tag-accent">Acceleration</span>
+              </th>
+              <td>
+                AI プロダクトでない通常のソフトウェア開発を、AI を道具として使うことで<strong>強く、早く</strong>する。コード生成・レビュー自動化・仕様書設計への AI 活用を、現場の事情に合わせて設計。既存システムへの AI 組み込みの相談も含む。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">業務全体の再設計</span>
+                <span class="spec-tag-accent">Process</span>
+              </th>
+              <td>
+                部門横断で業務フローを俯瞰し、AI 導入で効率化・強化できる箇所を示す。単一ツール導入に止まらず、<strong>業務の連鎖全体を書き直す</strong>視点で、誰がどこで何を判断するかを再設計する。
+              </td>
+            </tr>
+          </table>
+
+          <!-- Scope of Service -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Scope</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">年間契約でカバーする範囲。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            一度きりの監査や単発のロードマップ策定ではなく、<em>一年を通した伴走</em>として設計されている。以下の 4 層を、契約期間を通じて往復する。
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">初期監査</span>
+                <span class="spec-tag-accent">Strategic Audit</span>
+              </th>
+              <td>
+                経営目標と現行の AI 活用・組織構造・技術資産を、同じ地図の上で俯瞰する。何が足りないかではなく、<strong>何を止めるべきか</strong>まで踏み込む。初期 4〜6 週間、その後は必要に応じて再実施。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">ロードマップ</span>
+                <span class="spec-tag-accent">Roadmap</span>
+              </th>
+              <td>
+                監査を受けた上での、1 年〜3 年の実装方針。<em>プロダクト導入ありき</em>ではなく、意思決定の順序を設計する。四半期ごとに見直し、現実に合わせて書き直す——ロードマップは生き物として扱う。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">実装レビュー</span>
+                <span class="spec-tag-accent">Implementation Review</span>
+              </th>
+              <td>
+                現場が走らせている実装を、実際に動かしてレビューする。AI プロダクトのプロンプト・エージェント構成の診断、非 AI プロダクトに AI を組み込む場面の設計、既存コードベースの AI による加速——いずれも<strong>「動かして暴く」型の監査</strong>。月 1 回を基本に、重要局面では随時。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">組織化</span>
+                <span class="spec-tag-accent">Knowledge Transfer</span>
+              </th>
+              <td>
+                属人化したノウハウを、<strong>組織の型</strong>として定着させる。<a href="../projects/prompt-as-code.html">prompt-as-code</a> を社内標準として導入し、<a href="../projects/critic-chain.html">CriticChain</a> の思想でレビュー文化を構築する。<a href="../learn/index.html">Learn Premium</a> との統合契約も可能。
+              </td>
+            </tr>
+          </table>
+
+          <!-- Engagement Model -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Engagement</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">契約の形。</h2>
+
+          <table class="spec-table">
+            <tr>
+              <th>契約形態</th>
+              <td><strong>年間契約</strong>を基本とする。月次リテイナーやスポット相談は、原則として受けていない。</td>
+            </tr>
+            <tr>
+              <th>期間</th>
+              <td>12 ヶ月を 1 期とし、両者合意の上で更新。途中解約は可能だが、<strong>構造上、短期では効果が出ない</strong>設計になっている。</td>
+            </tr>
+            <tr>
+              <th>稼働</th>
+              <td>月次定例(2 時間)+ 実装レビュー(月 1〜2 回)+ Slack / メールでの随時相談。重要局面(重大な意思決定・障害対応など)では、必要に応じて臨時稼働。</td>
+            </tr>
+            <tr>
+              <th>関わる人</th>
+              <td>畑中が<strong>すべての局面</strong>に直接関わる。下請けやアソシエイトへの委譲はしない。これが年間契約クライアントの上限を厳しく絞っている理由。</td>
+            </tr>
+            <tr>
+              <th>料金</th>
+              <td>個別見積もり。規模・期待成果・Learn Premium との組み合わせで変動。初期ヒアリング後に提示。</td>
+            </tr>
+            <tr>
+              <th>組み合わせ</th>
+              <td><a href="../learn/index.html">Learn Premium</a>(法人向け人間レビュー型学習)と<strong>統合契約</strong>が可能。戦略と学習を一体で運用したい組織に推奨。</td>
+            </tr>
+          </table>
+
+          <!-- To Clients — ご検討いただく方へ -->
+          <div class="filter-callout">
+            <p class="filter-label">To Clients &mdash; ご検討いただく方へ</p>
+            <h3 class="filter-title">年に数社と、深く組む設計です。</h3>
+            <p class="filter-body">
+              本サービスは、<strong>年間を通して経営判断に伴走する</strong>設計になっています。畑中がすべての局面に直接関わるため、同時に並行できるお取引先は、ごく少数に限られます。
+            </p>
+            <p class="filter-body" style="margin-top: 1rem;">
+              そのため、短期の成果を急ぐ関係よりも、<strong>年単位で判断の質を育てる関係</strong>を前提にお話しいただけると、双方にとって意味のある時間になります。以下の 5 つの観点は、ご検討の補助線としてお使いください。
+            </p>
+          </div>
+
+          <!-- 5 つの観点 -->
+          <p class="section-eyebrow" style="margin-top: 3rem;">Perspectives</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">5 つの観点。</h2>
+
+          <table class="spec-table">
+            <tr>
+              <th>意思</th>
+              <td>AI を<strong>経営課題</strong>として扱う姿勢を、組織として持てていますか。現場施策の一つとしてではなく、組織構造を更新していく前提でご検討いただけているでしょうか。</td>
+            </tr>
+            <tr>
+              <th>時間軸</th>
+              <td>短期の ROI だけではなく、<strong>3 年スパンで判断の質を上げる</strong>ことに投資できる環境が、ご用意いただけますか。</td>
+            </tr>
+            <tr>
+              <th>資金</th>
+              <td>年間契約に見合う予算が、<strong>経営判断として</strong>位置づけられていますか。本格的に契約をお考えいただける段階ですか。</td>
+            </tr>
+            <tr>
+              <th>経営の関与</th>
+              <td>経営層の方が<strong>月次定例にご同席いただける</strong>体制が整っていますか。担当の方にお任せではなく、判断の場に直接関わっていただけると、件数の密度が高まります。</td>
+            </tr>
+            <tr>
+              <th>透明性</th>
+              <td>失敗・負債・内部の摩擦を含めて、<strong>率直に共有できる関係</strong>を築いていきたいと考えております。成功事例のみを承けたりしていただく必要はありません。</td>
+            </tr>
+          </table>
+
+          <!-- Process / First Year -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">First Year</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">最初の 12 ヶ月の地図。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1.5rem;">
+            すべてがこの通りに進むわけではない——現実は常に書き換える。これは<strong>初期の骨格</strong>であり、四半期ごとに更新される。
+          </p>
+
+          <div class="phase-grid">
+            <div class="phase-row">
+              <div class="phase-num">Q1</div>
+              <div class="phase-title">Audit &mdash; 監査
+                <span class="phase-desc">現行の AI 活用・組織・技術資産を俯瞰。止めるべきもの・始めるべきものを仕分ける。</span>
+              </div>
+              <div class="phase-count">Month 01–03</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Q2</div>
+              <div class="phase-title">Roadmap &mdash; 方針策定
+                <span class="phase-desc">1〜3 年の実装方針。意思決定の順序を設計する。経営層と合意形成。</span>
+              </div>
+              <div class="phase-count">Month 04–06</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Q3</div>
+              <div class="phase-title">Implementation &mdash; 実装伴走
+                <span class="phase-desc">走り出した実装を、動かしてレビュー。現場のプロンプト・エージェント構成を精査。</span>
+              </div>
+              <div class="phase-count">Month 07–09</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Q4</div>
+              <div class="phase-title">Transfer &mdash; 組織化と更新
+                <span class="phase-desc">ノウハウを組織の型に。ロードマップを書き直し、2 年目の契約更新を判断する。</span>
+              </div>
+              <div class="phase-count">Month 10–12</div>
+            </div>
+          </div>
+
+          <!-- Background -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Background</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">28 年の、システム設計から。</h2>
+          <p class="detail-prose" style="max-width: 58ch;">
+            畑中 隆穂(Takaho Hatanaka)。<strong>28 年のシステムアーキテクト経験</strong>——基幹系・Web・クラウド・そして AI。それぞれの世代で、経営判断の翻訳を現場でやってきた。技術を経営の言葉にし、経営を技術の要件にする往復運動が、本サービスの土台にある。
+          </p>
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 1rem;">
+            2023 年以降、<strong>1,000 件以上のプロンプトレビュー</strong>を通じて、LLM を業務で使う方法論を体系化。その研究成果が、構文仕様 <a href="../projects/prompt-as-code.html">prompt-as-code</a> と、敵対的レビューエンジン <a href="../projects/critic-chain.html">CriticChain</a> として結実している。研究が、そのまま実務の道具になる——この循環が、本ラボの構造である。
+          </p>
+
+          <!-- FAQ -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">FAQ</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">よくある質問。</h2>
+
+          <table class="spec-table">
+            <tr>
+              <th>現在の受付状況は?</th>
+              <td><strong>常に枠が限られている</strong>。畑中が全局面に直接関わる構造上、同時進行できる年間契約クライアントは極めて少数。空き状況は、初期ヒアリングの中で確認する。</td>
+            </tr>
+            <tr>
+              <th>スポット相談は?</th>
+              <td>原則として受けていない。<strong>反復することでしか質は上がらない</strong>という本ラボの思想と、単発相談は構造的に噛み合わない。</td>
+            </tr>
+            <tr>
+              <th>料金を先に教えてほしい</th>
+              <td>Web 上では非公開。規模・期待成果・Learn との組み合わせで変動するため、初期ヒアリング後に個別提示する。<strong>見積だけを先に求める</strong>相談には応じていない。</td>
+            </tr>
+            <tr>
+              <th>Learn Premium との違いは?</th>
+              <td>Work は<strong>経営判断の伴走</strong>、Learn Premium は<strong>実務担当者の学習</strong>。両者は補完関係で、統合契約が可能。戦略と実装を分けない組織運営に向く。</td>
+            </tr>
+            <tr>
+              <th>業界の縛りは?</th>
+              <td>特定業界への特化はしていない。業界固有の事情よりも、<strong>判断の構造</strong>が共通するため。ただし、倫理的に受けられない案件はお断りする場合がある。</td>
+            </tr>
+            <tr>
+              <th>プロンプト技術以外の相談は?</th>
+              <td>もちろん可能。<strong>28 年のシステム設計経験</strong>を土台に、AI プロダクトの診断・非 AI 開発の AI による加速・業務全体の再設計まで、幅広く関わる。詳細は、ページ上部の <a href="#practice-areas">「扱う領域」</a> セクションをご覧ください。</td></td>
+            </tr>
+            <tr>
+              <th>地域は?</th>
+              <td>国内を基本に、オンラインで世界対応。月次定例はハイブリッドで柔軟に設計する。</td>
+            </tr>
+            <tr>
+              <th>NDA は?</th>
+              <td>当然締結する。実装レビューで扱う情報は機密性が高いため、契約書の整備は初期プロセスの一部として組み込まれている。</td>
+            </tr>
+          </table>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-inner">
+            <h2 class="detail-cta-title">まずは、お話を聞かせてください。</h2>
+            <p class="detail-cta-text">
+              初期ヒアリングは 60 分、無償でお受けしています。現状・ご関心・意思決定の体制などを伺い、本サービスが御社にお役に立てる場面があるかどうかを、一緒に見極める時間です。短期のツール導入のご相談よりも、<strong>年間を通じて判断に伴走する関係</strong>をお探しの方に、お声がけいただけますと幸いです。
+            </p>
+            <p class="detail-cta-text" style="margin-top: 1.5rem; font-size: 0.92rem; color: var(--text-muted);">
+              ※ ご案内の前提として。同時に並行できるお取引先がごく少数に限られるため、すべてのお問い合わせに契約の形でお応えできるわけではありません。また、畑中一人で対応しておりますので、<strong>お返事までお時間をいただくことがあります</strong>。あらかじめご了承ください。
+            </p>
+            <div class="detail-cta-actions">
+              <a href="mailto:info@1stpiece.io?subject=AI%20%E6%88%A6%E7%95%A5%E3%83%91%E3%83%BC%E3%83%88%E3%83%8A%E3%83%BC%20%E5%88%9D%E6%9C%9F%E3%83%92%E3%82%A2%E3%83%AA%E3%83%B3%E3%82%B0">初期ヒアリングを申し込む →</a>
+              <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn で連絡する →</a>
+              <a href="../learn/index.html">Learn Premium を読む →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
 
-    <footer>
-      <p>
-        <a href="/">Top</a> ・
-        <a href="/learn/">Learn</a> ・
-        <a href="mailto:info@1stpiece.io">info@1stpiece.io</a> ・
-        <a href="https://www.linkedin.com/in/takaho-hatanaka/" rel="noopener noreferrer" target="_blank">LinkedIn</a>
-      </p>
-      <p class="mt-1">&copy; 2026 1stpiece.io</p>
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
     </footer>
+
   </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
 </body>
 </html>

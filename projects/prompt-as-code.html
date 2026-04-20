@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>prompt-as-code — プロンプトに言語仕様を与える | Takajo AI Lab</title>
+  <meta name="description" content="プロンプトエンジニアリング標準化の試み。自然言語で書かれたコード(プロンプト)に言語仕様を与える、オープンソースの構文規約。v0.3.0 公開中、AGPL-3.0。">
+  <meta name="keywords" content="prompt-as-code, プロンプトエンジニアリング, プロンプト 標準, プロンプト 構文, LLM, プロンプト 仕様, AGPL, オープンソース">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/projects/prompt-as-code.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/prompt-as-code.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/prompt-as-code.html">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="prompt-as-code — プロンプトに言語仕様を与える">
+  <meta property="og:description" content="自然言語で書かれたコードに言語仕様を与える試み。v0.3.0 公開中、AGPL-3.0。">
+  <meta property="og:url" content="https://1stpiece.io/projects/prompt-as-code.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="prompt-as-code — Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="prompt-as-code — Takajo AI Lab">
+  <meta name="twitter:description" content="プロンプトに言語仕様を与える試み。v0.3.0 公開中。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../index.html">Top</a>
+          <a href="index.html" aria-current="page">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="../notes/index.html">Notes</a>
+          <a href="../en/projects/prompt-as-code.html" class="lang-link">EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../index.html">Top</a>
+          <span class="sep">/</span>
+          <a href="index.html">Projects</a>
+          <span class="sep">/</span>
+          <span>prompt-as-code</span>
+        </nav>
+      </div>
+
+      <!-- Page header -->
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Project 01 — Prompt Engineering Standards</p>
+          <h1 class="page-title">prompt-as-code<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            私たちはいま、<em>自然言語でコードを書いている</em>。しかしそこには、コンパイラも lint も存在しない。<br>
+            <strong>prompt-as-code</strong> は、プロンプトを<em>実行可能なコード</em>として扱うための言語仕様である。
+          </p>
+        </div>
+      </section>
+
+      <!-- ========== EDITORIAL TOP ========== -->
+
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">なぜ Prompt に Syntax が要るのか。</h2>
+            <div class="detail-prose">
+              <p>
+                私たちはいま、自然言語でコードを書いている。しかしそこには、コンパイラも lint も、型チェッカーも存在しない。<em>未定義の変数</em>、<em>曖昧な指示</em>、<em>ハルシネーション</em>——これらはすべて、プログラミング言語で言うところの <strong>Syntax Error</strong> である。
+              </p>
+              <p>
+                本仕様書は、プロンプトを実行可能なコードとして扱うための <strong>Language Specification</strong>(言語仕様)である。本 Lab はその標準化を、研究の中核に置く。
+              </p>
+              <p>
+                <em>なぜ今、この仕様が要るのか。</em>AI エージェントを組める人の定義が、<strong>コードの外側へ広がった</strong>——それは同時に、品質・統制・判断の責任が組織全体に分散した、ということでもある。<a href="#why-now" style="color: var(--accent);">時代背景を読む →</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pull quote -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote">
+            未定義の変数、曖昧な指示、ハルシネーション。<br>
+            これらはすべて、Syntax Error である。
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Philosophy</p>
+            <h2 class="detail-h2">Takajo AI Lab の思想。</h2>
+            <div class="detail-prose">
+              <p>
+                本仕様は Lab の思想に基づいて編まれている。<em>魔法の呪文</em>や<em>コツ</em>を積み重ねる営みではなく、<strong>体系的な工学的原理</strong>を積み上げる営みとして、Prompt Engineering を再定義する試み。
+              </p>
+              <p>
+                目的は、プロンプト設計を、<em>再現可能</em>で<em>テスト可能</em>な手法群を持つ、<strong>堅牢な実務領域</strong>として確立することである。OpenAI・Anthropic・Google の公開知見、およびコミュニティの実践を、1 つの構造化された標準として統合する。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== Why Now ============================== -->
+      <section class="detail-abstract detail-why-now" id="why-now" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Why Now — 2026</p>
+            <h2 class="detail-h2">時代が、変わった。</h2>
+
+            <div class="detail-prose">
+              <p class="why-lede">
+                AI エージェントは、<em>プログラミングができる人だけの宝石</em>ではなくなった。
+              </p>
+
+              <p>
+                かつて、複雑なエージェント制御は LangGraph をはじめとするコードの領域だった。Lab もそこで <a href="critic-chain.html">CriticChain</a> を組み、コードの力を確かめてきた。複数のエージェントを連携させ、敵対的な批評ループを回す——それはプログラミング言語の抽象化能力があって初めて可能な設計だった。
+              </p>
+
+              <p>
+                しかし <strong>スキル機能の台頭</strong>(Claude Skills / MCP / 自然言語オーケストレーション)が、その地図を書き換えた。自然言語——プロンプトだけで、複雑なエージェント的処理が走る時代になった。かつて「呪文芸」と矮小化されていた<em>プロンプトエンジニアリング</em>が、<strong>工学として復権した</strong>ということである。
+              </p>
+
+              <p>
+                だが、本当に起きているのはプロンプトの復権だけではない。エンジニアでなくとも、組織の多くの席から AI エージェントが組めるようになった。結果として、<strong>組織の中で「誰が何を決めるか」が揺らぎはじめている</strong>。部門ごとに独自プロンプトが乱立する。品質監査を通さない AI 出力が本番で走る。事業部で組まれた自動化が、経営判断と矛盾する——これらは、もう遠い話ではない。
+              </p>
+
+              <hr class="why-divider">
+
+              <p class="why-lede-small">
+                <em>自然言語で動くからこそ、より厳格な管理が要る。</em>
+              </p>
+
+              <p>
+                仕様書のないコード、テストの通らないコード、レビューを経ないコード——それが本番で走っている状態が、いま世界中のプロンプトで起きている。プロンプトが工学として復権したなら、<strong>工学の規律</strong>——仕様・再現性・レビュー・バージョン管理——を備えなければならない。
+              </p>
+
+              <p>
+                <strong>prompt-as-code</strong> は、その規律を定義する試みである。プロンプトを書き捨てのテキストではなく、<em>実行可能なコード</em>として扱う。Syntax(構文)、Type(型)、Context(文脈)、Error(誤り)——これらを明示的に定義することで、自然言語の曖昧さを工学的に管理可能にする。
+              </p>
+
+              <p>
+                そしてこの仕様が 1 つあるだけでは足りない。それを使いこなす<em>人</em>を育てる <a href="../learn/index.html">Learn</a>、出力を監査する <a href="critic-chain.html">CriticChain</a>、そして全体を経営判断に接続する <a href="../index.html#work">Work</a>——標準・学習・審査基盤・戦略。この四つが揃って初めて、AI は組織の道具になる。
+              </p>
+
+              <hr class="why-divider">
+
+              <p class="why-close">
+                Prompt engineering must become engineering.
+                <span class="close-jp">プロンプトは工学に<em>昇格</em>する。<br>同時に、その工学を運用する組織の側も、<em>再設計</em>が要る。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Principles (3 core) -->
+      <section class="detail-abstract" style="padding-top: 2rem; padding-bottom: 5rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Core Principles</p>
+            <h2 class="detail-h2">三つの原則。</h2>
+
+            <ol class="principles">
+              <li>
+                <span class="principle-num">§ 01</span>
+                <strong>Markdown-Native Syntax</strong>
+                プロンプトは Markdown で書く。これが事実上の業界標準である。ヘッダー(<code>#</code>)、箇条書き(<code>-</code>)、コードブロック(<code>```</code>)を活用する。構造化された情報は、LLM にとって格段にパースしやすい。
+              </li>
+              <li>
+                <span class="principle-num">§ 02</span>
+                <strong>Principle of Explicitness</strong>
+                暗黙の指示を避ける。すべてを明示する。変数名、区切り子、手順番号をすべて明確に定義する。<em>AI が「行間を読む」ことを、期待してはならない。</em>
+              </li>
+              <li>
+                <span class="principle-num">§ 03</span>
+                <strong>Reproducibility</strong>
+                異なる実行でも一貫した結果を得られるように設計する。「前のチャットで述べたように」のような外部依存を持たない。コンテクストを明示的に管理する場合を除いて。
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TECHNICAL BOTTOM ========== -->
+
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Specification — 仕様書</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">v0.3.0 の構成</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            仕様書は 10 セクションから構成される。Core Principles(原則)から始まり、変数宣言・区切り子・構造化パターンを経て、LLMOps やアンチパターンまでを扱う。
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>§ 1. Core Principles</th>
+              <td>Markdown-Native / Explicitness / Reproducibility の 3 原則</td>
+            </tr>
+            <tr>
+              <th>§ 2. Variable Declaration</th>
+              <td><code>{variable_name}:</code> + <code>"""</code> を標準とする宣言形式</td>
+            </tr>
+            <tr>
+              <th>§ 3. Delimiters</th>
+              <td>Triple Quotes / XML Tags / YAML を場面に応じて使い分ける</td>
+            </tr>
+            <tr>
+              <th>§ 4. Global Standards</th>
+              <td>OpenAI / Anthropic / <em>CO-STAR</em>(Singapore GovTech)の各推奨パターン</td>
+            </tr>
+            <tr>
+              <th>§ 5. Structuring Patterns</th>
+              <td>Role / Context / Goal / Constraints 他、8 構成要素</td>
+            </tr>
+            <tr>
+              <th>§ 6. Structured Reasoning</th>
+              <td>SCoT、Chain of Verification (CoVe)、Chain of Density (CoD)</td>
+            </tr>
+            <tr>
+              <th>§ 7. Prompt Chaining</th>
+              <td>多段プロンプト・文脈管理・データ依存の追跡</td>
+            </tr>
+            <tr>
+              <th>§ 8. LLMOps</th>
+              <td>バージョン管理・Observability・評価・ガバナンス</td>
+            </tr>
+            <tr>
+              <th>§ 9. Anti-patterns</th>
+              <td>やってはいけない書き方の類型</td>
+            </tr>
+            <tr>
+              <th>§ 10. Debugging</th>
+              <td>Glass Box 技法、変数検査、エラー切り分けチェックリスト</td>
+            </tr>
+          </table>
+
+          <div class="grid-2" style="margin-top: 3rem;">
+            <div>
+              <p class="code-caption">§ 2 — Variable Declaration</p>
+<pre class="code-block"><span class="cm"># ✅ Recommended</span>
+
+<span class="kw">{target_audience}</span>:
+<span class="str">"""
+Mid-level Sales Professional
+Annual Income: $80,000
+Location: New York City
+"""</span>
+
+<span class="kw">{pain_points}</span>:
+<span class="str">"""
+Struggling with public speaking in English
+Handling international negotiations
+"""</span>
+
+<span class="cm"># ❌ Avoid — headers are not variables</span>
+<span class="cm"># Target Audience</span>
+<span class="cm"># Mid-level Sales Professional</span></pre>
+            </div>
+            <div>
+              <p class="code-caption">§ 6 — Chain of Verification (CoVe)</p>
+<pre class="code-block"><span class="cm"># Verified Answer Generation</span>
+
+[<span class="kw">C1</span>] <span class="tag">Draft</span>
+Generate initial answer to <span class="kw">{question}</span>.
+
+[<span class="kw">C2</span>] <span class="tag">Plan Verification</span>
+Identify claims in <span class="kw">{draft}</span>
+needing fact-checking.
+
+[<span class="kw">C3</span>] <span class="tag">Execute</span>
+Answer <span class="kw">{verification_questions}</span>
+using external knowledge.
+
+[<span class="kw">C4</span>] <span class="tag">Revise</span>
+Based on <span class="kw">{verification_results}</span>,
+produce <span class="kw">{final_answer}</span>.</pre>
+            </div>
+          </div>
+
+          <!-- Prompt Syntax Error — terminal set-piece -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Debugging — Prompt Syntax Error</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Prompt を、<em>コード</em>として診る。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            Prompt Linter が実際に返すエラーは、コンパイラエラーに似ている。<em>場所・原因・修正方針</em>が、構造化された診断として返る。以下は仕様の <code>§ 9 Anti-patterns</code> を違反したプロンプトに対する、標準的な診断出力である。
+          </p>
+
+          <figure class="terminal">
+            <div class="terminal-bar">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="title">prompt-lint — v0.3.0 — diagnostic</span>
+            </div>
+            <div class="terminal-body">
+<pre><span class="prompt">$</span> <span class="cmd">prompt-lint check ./sales-pitch.prompt.md</span>
+
+<span class="cm"># parsing &hellip; 14 lines, 2 variables, 1 structured block</span>
+<span class="cm"># loading §1–§9 ruleset (prompt-as-code v0.3.0)</span>
+
+<span class="path">./sales-pitch.prompt.md</span>:<span class="warn">5</span>:<span class="warn">3</span>
+  <span class="err-label">error [PAC-E203]</span> <span class="err">undefined variable referenced</span>
+   <span class="arrow">&rarr;</span> § 2 · Variable Declaration
+   <span class="arrow">&rarr;</span> variable <span class="cmd">`{customer_profile}`</span> used without declaration
+
+    3 │  # Role
+    4 │  You are a senior B2B sales strategist.
+    5 │  <span class="err">&ndash; Tailor the pitch to {customer_profile}.</span>
+      │     <span class="err">^^^^^^^^^^^^^^^^^^ not found in scope</span>
+    6 │  &hellip;
+
+  <span class="warn">hint:</span> declare before use &mdash;
+         <span class="out">{customer_profile}:
+         """
+         (&hellip; structured content &hellip;)
+         """</span>
+
+<hr>
+
+<span class="path">./sales-pitch.prompt.md</span>:<span class="warn">9</span>:<span class="warn">1</span>
+  <span class="err-label">error [PAC-E107]</span> <span class="err">implicit instruction &mdash; model must infer intent</span>
+   <span class="arrow">&rarr;</span> § 1.2 · Principle of Explicitness
+   <span class="arrow">&rarr;</span> phrasing expects the model to &ldquo;read between the lines&rdquo;
+
+    9 │  <span class="err">Make it sound more professional but also friendly.</span>
+
+  <span class="warn">hint:</span> specify both dimensions on explicit axes &mdash;
+         register: <span class="cmd">formal | neutral | casual</span>
+         warmth:   <span class="cmd">reserved | balanced | warm</span>
+
+<hr>
+
+<span class="path">./sales-pitch.prompt.md</span>:<span class="warn">12</span>:<span class="warn">1</span>
+  <span class="err-label">warning [PAC-W312]</span> <span class="warn">external context dependency</span>
+   <span class="arrow">&rarr;</span> § 1.3 · Reproducibility
+   <span class="arrow">&rarr;</span> reference to prior conversation breaks re-runnability
+
+   12 │  <span class="warn">As we discussed in the previous chat, apply the same tone.</span>
+
+  <span class="warn">hint:</span> inline the referenced material, or declare
+         it as an explicit <span class="cmd">{prior_context}</span> variable.
+
+<hr>
+
+<span class="cm"># summary</span>
+<span class="err">2 errors</span>, <span class="warn">1 warning</span> <span class="cm"># violations of §1, §2 detected</span>
+<span class="out">run </span><span class="cmd">prompt-lint explain PAC-E107</span><span class="out"> for rule rationale.</span>
+
+<span class="prompt">$</span> <span class="cmd">_</span></pre>
+            </div>
+          </figure>
+
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 1.5rem; font-size: 0.95rem; color: var(--ink-500);">
+            エラーコードの命名(<code>PAC-E203</code>, <code>PAC-E107</code>, <code>PAC-W312</code>)は TypeScript / Rust コンパイラの規約に倣う。<em>プロンプトが壊れている</em>のではなく、<strong>仕様のどの条項に違反しているのか</strong>が、プロンプトを書き直す前に分かるように設計されている。
+          </p>
+
+          <div style="margin-top: 4rem;">
+            <p class="section-eyebrow">Meta — メタ情報</p>
+            <table class="spec-table">
+              <tr>
+                <th>Version</th>
+                <td><code>v0.3.0</code> — Pre-release(v1.0.0 は community adoption 後)</td>
+              </tr>
+              <tr>
+                <th>Last updated</th>
+                <td>2025-12-04</td>
+              </tr>
+              <tr>
+                <th>Authoritative version</th>
+                <td>English(<code>STANDARDS.md</code>)。日本語版はコミュニティ翻訳。</td>
+              </tr>
+              <tr>
+                <th>Original editor</th>
+                <td>Takaho Hatanaka(2024)</td>
+              </tr>
+              <tr>
+                <th>Synthesized from</th>
+                <td>OpenAI / Anthropic / Google の公開ガイド + LangChain コミュニティ実践</td>
+              </tr>
+              <tr>
+                <th>Repository</th>
+                <td><a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">github.com/taka4rest/prompt-as-code</a></td>
+              </tr>
+              <tr>
+                <th>Spec document</th>
+                <td><a href="https://github.com/taka4rest/prompt-as-code/blob/main/STANDARDS.md" target="_blank" rel="noopener noreferrer">STANDARDS.md</a></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Language note -->
+          <aside class="lang-note" aria-label="Language policy">
+            <p class="lang-note-head">A note on language.</p>
+            <p class="lang-note-body">
+              本仕様は、世界のコミュニティに向けた提案として、英語で記述されています。日本語話者の方は、ブラウザの翻訳機能ご利用ください。翻訳版(<code>STANDARDS_ja.md</code>)の追加 PR も歓迎します。
+            </p>
+          </aside>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-inner">
+            <h2 class="detail-cta-title">まず読むことから。議論と改善提案も歓迎。</h2>
+            <p class="detail-cta-text">
+              本仕様は living standard として運用されており、GitHub Issues / Pull Request を通じて誰でも参加できます。翻訳の追加、アンチパターンの報告、新しいパターンの提案など、形式を問わず受けつけています。
+            </p>
+            <div class="detail-cta-actions">
+              <a href="https://github.com/taka4rest/prompt-as-code/blob/main/STANDARDS.md" target="_blank" rel="noopener noreferrer">Read STANDARDS.md →</a>
+              <a href="https://github.com/taka4rest/prompt-as-code/issues" target="_blank" rel="noopener noreferrer">Open Issues →</a>
+              <a href="mailto:info@1stpiece.io">Contact →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

@@ -3,256 +3,580 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Takajo AI Lab - 学習プログラム</title>
-  <meta name="description" content="課題を出して、レビューが返る。AIを実務に届けるループ。Takajo AI Lab の学習プログラム。">
-  <link rel="canonical" href="https://www.1stpiece.io/learn/">
+  <title>課題を出して、レビューが返る | Learn — Takajo AI Lab</title>
+  <meta name="description" content="生成 AI・プロンプトエンジニアリングの学習プログラム。Premium(法人向け・人間レビュー・5名限定)と AI Review(CriticChain・準備中)の 2 プラン。実際に実行し、11 段階のレビューで「動かして暴く」型の研修。">
+  <meta name="keywords" content="プロンプトエンジニアリング 研修, 生成 AI 研修, AI 学習, プロンプト レビュー, 法人 AI 研修, CriticChain, LLM 研修">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/learn/">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/learn/">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/learn/">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Takajo AI Lab - 学習プログラム">
-  <meta property="og:description" content="課題を出して、レビューが返る。AIを実務に届けるループ。">
-  <meta property="og:image" content="https://www.1stpiece.io/assets/og-image.png">
-  <meta property="og:url" content="https://www.1stpiece.io/learn/">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="課題を出して、レビューが返る | Learn — Takajo AI Lab">
+  <meta property="og:description" content="プロンプトエンジニアリングの学習プログラム。Premium(法人・人間レビュー)と AI Review(CriticChain)の 2 プラン。">
+  <meta property="og:url" content="https://1stpiece.io/learn/">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="課題を出して、レビューが返る | Learn — Takajo AI Lab">
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Takajo AI Lab - 学習プログラム">
-  <meta name="twitter:description" content="課題を出して、レビューが返る。AIを実務に届けるループ。">
-  <meta name="twitter:image" content="https://www.1stpiece.io/assets/og-image.png">
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/styles.css">
+  <meta name="twitter:title" content="課題を出して、レビューが返る | Learn — Takajo AI Lab">
+  <meta name="twitter:description" content="プロンプトエンジニアリングの学習プログラム。法人向け人間レビュー型と AI レビュー型の 2 プラン。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css">
+
+  <style>
+    /* Plan status tag */
+    .plan-status {
+      display: inline-block;
+      font-family: var(--font-sans-en);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 2px;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .plan-status.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .plan-status.upcoming {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--rule);
+    }
+
+    /* Review example card */
+    .review-example {
+      background: var(--card-bg, #F5EFE4);
+      border-left: 3px solid var(--accent);
+      padding: 2rem 2.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .review-example-label {
+      font-family: var(--font-sans-en);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .review-example-title {
+      font-family: var(--font-serif-jp);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 1rem 0;
+      line-height: 1.4;
+    }
+    .review-example-meta {
+      font-family: var(--font-serif-en);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .review-example-meta .verdict {
+      color: var(--accent);
+      font-weight: 600;
+      margin-left: 0.75rem;
+    }
+    .review-quote {
+      font-family: var(--font-serif-jp);
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--text);
+    }
+    .review-quote p {
+      margin: 0 0 0.9rem 0;
+    }
+    .review-quote p:last-child {
+      margin-bottom: 0;
+    }
+    .review-quote strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .review-point {
+      font-family: var(--font-serif-jp);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--rule);
+      line-height: 1.7;
+    }
+
+    /* Pipeline diagram */
+    .pipeline-diagram {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 2;
+      background: #1a1511;
+      color: #E8DDCB;
+      padding: 1.5rem 1.75rem;
+      border-radius: 2px;
+      margin: 1.5rem 0;
+      letter-spacing: 0.02em;
+    }
+    .pipeline-diagram .arrow {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* Phase grid */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.5rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .phase-grid .phase-num {
+      font-family: var(--font-serif-en);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--accent);
+      padding-top: 0.15rem;
+      white-space: nowrap;
+    }
+    .phase-grid .phase-title {
+      font-family: var(--font-serif-jp);
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .phase-grid .phase-title .phase-desc {
+      display: block;
+      font-weight: 400;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+    .phase-grid .phase-count {
+      font-family: var(--font-serif-en);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      padding-top: 0.2rem;
+      white-space: nowrap;
+    }
+    .phase-grid .phase-row {
+      display: contents;
+    }
+    .phase-grid .phase-row > * {
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .phase-grid .phase-row:last-child > * {
+      border-bottom: none;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="site-name"><a href="/" class="site-name-link"><img src="/assets/takajo-logo.png" alt="Takajo AI Lab" height="32">TAKAJO AI Lab</a></div>
-      <nav>
-        <a href="/">Top</a>
-        <a href="/learn/" aria-current="page">Learn</a>
-        <a href="/work/">Work</a>
-        <a href="/learn/en/" class="lang-link">EN</a>
-      </nav>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../index.html">Top</a>
+          <a href="../projects/index.html">Projects</a>
+          <a href="index.html" aria-current="page">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="../notes/index.html">Notes</a>
+          <a href="../en/learn/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
     </header>
 
     <main>
-      <!-- 1. Hero -->
-      <div class="hero">
-        <h1>課題を出して、レビューが返る<br>AIを実務に届けるループ</h1>
-        <p class="subcopy">
-          Takajo AI Lab は、生成AIを実務で使うための小さなラボです。教材で学び、課題を解き、レビューを受けて直す。この反復を回す仕組みとして設計しています。
-        </p>
-        <div class="status">
-          Premium Plan（人間レビュー）は限定5名で運用中。<br>
-          AI Review Plan は準備中（開始通知を受付中）。
-        </div>
-        <div class="cta-links">
-          <a href="mailto:info@1stpiece.io" class="primary">メールで問い合わせる</a>
-          <a href="https://www.linkedin.com/in/takaho-hatanaka/" class="secondary" rel="noopener noreferrer" target="_blank">LinkedIn で連絡する</a>
-        </div>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../index.html">Top</a>
+          <span class="sep">/</span>
+          <span>Learn</span>
+        </nav>
       </div>
 
-      <!-- 2. What's Different -->
-      <section>
-        <h2>何が違うのか</h2>
-        <p>Takajo AI Lab は、単なる教材配布や動画視聴型の講座ではありません。</p>
-        <p>特徴は、以下を一体で設計していることです。</p>
-        <ul>
-          <li><strong>教材</strong> -- 実務に必要な知識を体系的に整理</li>
-          <li><strong>課題</strong> -- 読むだけでなく、自分で作って提出する</li>
-          <li><strong>レビュー</strong> -- 提出物に対して具体的なフィードバックが返る</li>
-        </ul>
-        <p>生成AIの学習では、読むだけでは進みません。実際に作って、出して、レビューされて、直すところまで回して初めて実力になります。</p>
-        <p>このラボでは、その反復を前提に設計しています。</p>
-      </section>
-
-      <!-- 3. Two Plans -->
-      <section>
-        <h2>2つのレビュープラン</h2>
-        <p>レビューの方法が2つあります。目的と状況に応じて選べます。</p>
-
-        <div class="plan-card">
-          <span class="plan-tag active">運用中</span>
-          <h3>Premium Plan -- 人間がレビューする</h3>
-          <ul>
-            <li>畑中が提出物を直接レビューします</li>
-            <li>提出されたプロンプトやコードを<strong>実際に動かして検証</strong>します</li>
-            <li>合否判定だけでなく、次に学ぶべきことまで含めた個別フィードバックを返します</li>
-            <li><strong>最大5名</strong>の限定プラン</li>
-          </ul>
-          <p class="text-small text-muted mt-1">
-            <strong>なぜ5名限定なのか</strong><br>
-            提出物を実際に動かして検証する高密度なレビューを維持するためです。また、このレビュープロセス自体がAIレビューシステムの研究開発を兼ねています。人間がレビューすることで得られる知見を、AIレビューの設計にフィードバックしています。
+      <!-- Page header -->
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Learn — 学習プログラム</p>
+          <h1 class="page-title">課題を出して、<br>レビューが返る<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            教材で学び、課題を解き、<em>レビューを受けて直す</em>。<br>
+            AI を実務に届けるための、<strong>反復の場</strong>。<br>
+            <span style="font-size: 0.9em; color: var(--text-muted);">法人向け Premium(満席・3 ヶ月後空き可能性) / 個人向け AI Review(準備中)</span>
           </p>
-          <p class="text-small mt-1"><a href="/work/">技術顧問・AI導入支援についてはこちら</a></p>
         </div>
+      </section>
 
-        <div class="plan-card">
-          <span class="plan-tag upcoming">準備中</span>
-          <h3>AI Review Plan -- AIがレビューする</h3>
-          <ul>
-            <li>CriticChain（<a href="https://github.com/taka4rest/CriticChain" rel="noopener noreferrer" target="_blank">オープンソースのレビューエンジン</a>）によるレビュー</li>
-            <li>AIが書いたレビューを、別のAIが「甘すぎる」「論拠が弱い」と監査し、基準を満たすまで書き直させる多段パイプライン</li>
-            <li>チューニング完了後に開始予定</li>
+      <!-- ========== EDITORIAL TOP ========== -->
+
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">読むだけでは、使えるようにならない。</h2>
+            <div class="detail-prose">
+              <p>
+                Takajo AI Lab は、生成 AI を<em>実務で使える</em>ところまで持っていくための、小さなラボである。教材・課題・レビュー——この 3 つを一体で設計した、反復型の学習プログラムだ。動画視聴型の講座でもなく、教材配布型のコースでもない。
+              </p>
+              <p>
+                生成 AI の学習は、<strong>手を動かし、出して、直す</strong>ところまで回して初めて実力になる。読んで頷いて終わる学習とは、着地が違う。本プログラムは、その反復を<em>構造として</em>組み込んでいる——提出物は実行され、結果に対して個別のフィードバックが返る。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pull quote -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote">
+            採点表には出ない問題を、<br>
+            <em>動かして</em>暴く。
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Philosophy</p>
+            <h2 class="detail-h2">レビューは、実行から始まる。</h2>
+            <div class="detail-prose">
+              <p>
+                多くの AI 講座では、提出されたプロンプトは<em>読まれる</em>だけで終わる。文字を見て、構造を褒めて、定型の改善提案が返ってくる。それで身につくのは、<strong>採点を通過する書き方</strong>であって、実務で動くプロンプトではない。
+              </p>
+              <p>
+                本ラボのレビューは、<em>提出物を実際に手元の AI で実行する</em>ところから始まる。そこで初めて、「この書き方だと 645 年の大化の改新が "蘇氏" に欠落する」といった、<strong>実行して初めて見える問題</strong>が浮かび上がる。
+              </p>
+              <p>
+                この密度を維持するために、人間がレビューする <strong>Premium Plan は法人限定・最大 5 名</strong>に絞っている(現在満席、3 ヶ月後に空き可能性)。個人向けには、このレビュープロセスを<em>自動化する</em> AI Review Plan を、<a href="../projects/critic-chain.html">CriticChain</a> の完成後に提供する。
+              </p>
+              <p>
+                法人レビューで得た基準を、個人向け自動レビューの設計に還元する——<strong>教えることが、そのまま研究になる</strong>。これが Takajo AI Lab の構造である。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TECHNICAL BOTTOM ========== -->
+
+      <section class="detail-tech">
+        <div class="container">
+
+          <!-- Two Plans -->
+          <p class="section-eyebrow">Two Plans</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">2 つのレビュープラン。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            プランは 2 つ。教材と課題は共通で、違うのは<strong>対象とレビューの担い手</strong>だ。Premium は法人向けの人間レビュー、AI Review は<em>個人向け</em>の自動レビュー。
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>
+                Premium
+                <span class="plan-status active">満席</span>
+                <span class="spec-tag-accent">法人向け / 人間レビュー</span>
+              </th>
+              <td>
+                畑中が提出物を直接レビューする。提出されたプロンプト・コードを<strong>実際に動かして検証</strong>し、合否だけでなく<em>次に学ぶべきこと</em>まで含めた個別フィードバックを返す。<strong>最大 5 名</strong>の限定プラン。<em>法人のみ</em>を対象とし、現在は満席。<strong>3 ヶ月後に空きが出る可能性</strong>があるため、関心のある企業は事前にご連絡を。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                AI Review
+                <span class="plan-status upcoming">準備中</span>
+                <span class="spec-tag-accent">個人向け / CriticChain</span>
+              </th>
+              <td>
+                <a href="../projects/critic-chain.html">CriticChain</a>(AGPL-3.0 で公開中のレビューエンジン)による自動レビュー。AI が書いたレビューを、別の AI が<em>「甘すぎる」「論拠が弱い」</em>と監査し、基準を満たすまで書き直させる多段パイプライン。<strong>個人向け</strong>として、CriticChain のチューニング完了後に提供開始予定。
+              </td>
+            </tr>
+          </table>
+
+          <!-- Review Examples -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Real Reviews</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">実際のレビューから。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2.5rem;">
+            合格した課題にも、このレベルのフィードバックが返る。<em>Premium Plan の実際のレビューから、匿名化して抜粋</em>したもの。
+          </p>
+
+          <!-- Example 1 -->
+          <div class="review-example">
+            <p class="review-example-label">例 01 &mdash; Executing the prompt</p>
+            <h3 class="review-example-title">提出されたプロンプトを、動かして検証する。</h3>
+            <p class="review-example-meta">
+              課題: 大量データ生成のプロンプト改善<span class="verdict">判定: 合格</span>
+            </p>
+            <div class="review-quote">
+              <p><strong>良かった点</strong><br>
+              役割・背景・依頼内容などの見出しを用いてプロンプトを整理しており、AI が指示を正確に解析できる構成になっています。出力形式の例として、実際に期待するフォーマットと内容の粒度を提示しており、AI の出力のブレを最小限に抑えられています。</p>
+              <p><strong>改善提案: 大量生成時の「AI の息切れ」の回避</strong><br>
+              実際に手元の AI(最新モデル)であなたのプロンプトを実行して検証してみたところ、645 年の大化の改新の記述において<em>「蘇我氏を倒し」となるべきところが「蘇氏を倒し」と文字が欠落する</em>ハルシネーションが確認できました。これは、AI が一度に大量の出力を強いられて「息切れ」を起こした典型的な例です。</p>
+              <p>このような膨大なタスクは一括で処理させず、手順を分割して途中で人間がチェックする「HITL(Human-in-the-Loop)」の設計を取り入れることがベストプラクティスです。</p>
+            </div>
+            <p class="review-point">
+              &mdash; レビュアーが提出物を実際に実行し、具体的なハルシネーションを発見している。採点表では見つからない問題を、動かして見つけている。
+            </p>
+          </div>
+
+          <!-- Example 2 -->
+          <div class="review-example">
+            <p class="review-example-label">例 02 &mdash; Beyond the pass mark</p>
+            <h3 class="review-example-title">合格でも、次の壁を先に見せる。</h3>
+            <p class="review-example-meta">
+              課題: 自己検証ループの実践<span class="verdict">判定: 合格</span>
+            </p>
+            <div class="review-quote">
+              <p><strong>良かった点</strong><br>
+              英文作成・逆翻訳・検証と修正のステップを明確に分け、それぞれの中間出力を省略させずに表示させています。AI がどの段階でどのような思考を行ったのかが可視化されています(<em>グラスボックス化</em>)。</p>
+              <p><strong>改善提案: コンテキスト汚染を回避する「セッション分割」</strong><br>
+              現在の実装は基本要件を完璧に満たしています。しかし、AI には直前の対話を記憶する「コンテキストメモリ」があるため、「自分がどういう意図でこの英文を書いたか」を知っている状態で自身の文章をレビューすることになります。人間が自分の文章を校正すると見落としが生じやすいように、AI の自己評価も<em>好意的な解釈に寄ってしまう</em>リスクがあります。</p>
+              <p>より厳格な検証が求められる場合は、生成と検証を「別のセッション」に分け、検証を行う AI が書き手の意図を一切知らない状態にする手法が有効です。</p>
+            </div>
+            <p class="review-point">
+              &mdash; 完璧な実装に対して「合格」を出した上で、実務で必ず直面する次の壁(コンテキスト汚染)を先に見せている。
+            </p>
+          </div>
+
+          <!-- Example 3 -->
+          <div class="review-example">
+            <p class="review-example-label">例 03 &mdash; A growth path</p>
+            <h3 class="review-example-title">初級から上級への道筋を、設計する。</h3>
+            <p class="review-example-meta">
+              課題: ロール設定と検証<span class="verdict">判定: 合格</span>
+            </p>
+            <div class="review-quote">
+              <p><strong>良かった点</strong><br>
+              ロールなしの場合も実行し、その結果と比較して振り返りを行えている点が高く評価できます。LLM の挙動を<em>相対的に観察する姿勢</em>は、プロンプトエンジニアリングにおいて非常に重要です。</p>
+              <p><strong>改善提案(3 段階)</strong></p>
+              <p>1. <strong>構造化</strong> — 役割・ゴール・出力形式を Markdown の見出しで分割する。<br>
+              2. <strong>可観測性の確保</strong> — 中間生成物を出力させ、AI がどの基準で判断したかを確認できるようにする(グラスボックス化)。<br>
+              3. <strong>ロール実験</strong> — 異なるロールで実行し、口調だけでなくアドバイスの内容自体が変わることに気づく。</p>
+            </div>
+            <p class="review-point">
+              &mdash; 1 つの課題に対して、今のレベルに合った改善と、その先に続く成長パスの両方を提示している。
+            </p>
+          </div>
+
+          <!-- CriticChain Pipeline -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">AI Review Pipeline</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">CriticChain の仕組み。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1.5rem;">
+            AI Review Plan の基盤となる <a href="../projects/critic-chain.html">CriticChain</a> は、<em>多段のレビューパイプライン</em>である。AI が書いたレビューを、別の AI が監査し、基準を満たすまで書き直させる。
+          </p>
+
+          <div class="pipeline-diagram">
+提出物 <span class="arrow">→</span> Lint検査 <span class="arrow">→</span> 構造分析 <span class="arrow">→</span> ハルシネーション検出<br>
+  <span class="arrow">→</span> レビュー初稿 <span class="arrow">→</span> 甘さ監査(Critique) <span class="arrow">→</span> 書き直し(Refine)<br>
+  <span class="arrow">→</span> 整合性チェック <span class="arrow">→</span> スコアリング <span class="arrow">→</span> 最終レビュー
+          </div>
+
+          <ul class="detail-list" style="margin-top: 1.25rem;">
+            <li>AI が書いたレビューを、別の AI が「甘すぎる」「根拠が弱い」と監査する</li>
+            <li>ハルシネーションの検出だけでなく、<strong>伝播経路まで追跡</strong>する</li>
+            <li>各段階が記録され、判断根拠を確認できる</li>
           </ul>
-        </div>
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 1.25rem; font-size: 0.95rem;">
+            CriticChain は、プロンプトの構文標準 <a href="../projects/prompt-as-code.html">prompt-as-code</a> の検査基準に基づいて動作する。<em>標準を定義し、その標準で自動レビューする</em>——この一貫した設計が品質の基盤である。
+          </p>
 
-        <p class="text-small text-muted">教材と課題は両プラン共通です。違いはレビューの方法です。</p>
+          <!-- Curriculum -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Curriculum</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">全 23 レッスン / 5 フェーズ。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1.5rem;">
+            生成 AI の基礎から、実務で使えるシステム構築まで。流行語を追うことではなく、<strong>AI を現場で使える仕組みに落とす</strong>ことを軸に設計している。
+          </p>
+
+          <div class="phase-grid">
+            <div class="phase-row">
+              <div class="phase-num">Phase 01</div>
+              <div class="phase-title">基礎
+                <span class="phase-desc">生成 AI の仕組み、LLM の挙動と失敗パターン、主要ツールの使い分け</span>
+              </div>
+              <div class="phase-count">Lesson 01–03</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 02</div>
+              <div class="phase-title">開発環境
+                <span class="phase-desc">Python 開発環境の構築、プロンプトエンジニアリング、カスタムスキル開発</span>
+              </div>
+              <div class="phase-count">Lesson 04–06</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 03</div>
+              <div class="phase-title">LLM 実装
+                <span class="phase-desc">LLM API の実践、LangChain によるアプリケーション開発、トークンとコスト管理</span>
+              </div>
+              <div class="phase-count">Lesson 07–11</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 04</div>
+              <div class="phase-title">応用
+                <span class="phase-desc">RAG、AI エージェント、ファインチューニング、マルチモーダル、UI 構築</span>
+              </div>
+              <div class="phase-count">Lesson 12–18</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-num">Phase 05</div>
+              <div class="phase-title">実務
+                <span class="phase-desc">評価と品質管理、倫理とガバナンス、キャリア設計、卒業プロジェクト</span>
+              </div>
+              <div class="phase-count">Lesson 19–23</div>
+            </div>
+          </div>
+
+          <!-- Who it's for -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Who it's for</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">向いている対象。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            2 つのプランは、<em>対象となる読者</em>が明確に違う。自分がどちらに該当するか、ここで見極めてほしい。
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>
+                Premium
+                <span class="spec-tag-accent">法人向け</span>
+              </th>
+              <td>
+                <ul class="detail-list" style="margin: 0;">
+                  <li>社内研修・組織導入を検討している法人担当者</li>
+                  <li>AI を使える個人ではなく、<em>扱える組織</em>を作りたい経営・事業部</li>
+                  <li>提出物を実際に動かして検証する、高密度なレビューを必要とするチーム</li>
+                  <li>prompt-as-code / CriticChain の思想を、自社に取り込みたい組織</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                  <em>現在満席(最大 5 社)。3 ヶ月後に空きが出る可能性あり。</em> 関心のある企業は事前にご連絡を。技術顧問・AI 戦略パートナーとの組み合わせも可能 → <a href="../work/index.html">Work</a>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                AI Review
+                <span class="spec-tag-accent">個人向け</span>
+              </th>
+              <td>
+                <ul class="detail-list" style="margin: 0;">
+                  <li>生成 AI を業務で使える形まで持っていきたいエンジニア</li>
+                  <li>AI ツールを使うだけでなく、<em>仕組みとして</em>理解したい人</li>
+                  <li>Prompt Engineering から Multi-Agent 開発まで、実践的に学びたい人</li>
+                  <li>自分のペースで課題を出し、即時にフィードバックを受けたい人</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                  <em>準備中。CriticChain のチューニング完了後に提供開始予定。</em> 開始通知の登録は <a href="mailto:info@1stpiece.io">info@1stpiece.io</a> まで。
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <!-- FAQ -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">FAQ</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">よくある質問。</h2>
+
+          <table class="spec-table">
+            <tr>
+              <th>2 つのプランの違いは?</th>
+              <td>Premium は<strong>法人向け</strong>で、畑中が直接レビューし、提出物を実際に動かして検証する。AI Review は<strong>個人向け</strong>で、CriticChain による自動レビューが即時に返る。<em>教材と課題は共通</em>。</td>
+            </tr>
+            <tr>
+              <th>Premium に空きは?</th>
+              <td>現在<strong>満席</strong>(法人のみ、最大 5 名)。3 ヶ月後に空きが出る可能性があるため、関心のある企業は事前にご連絡を。順次ご案内する。</td>
+            </tr>
+            <tr>
+              <th>AI Review はいつ開始?</th>
+              <td>個人向けとして準備中。CriticChain のチューニング完了後に提供開始予定。<a href="mailto:info@1stpiece.io">info@1stpiece.io</a> までご連絡いただければ、開始時にお知らせする。</td>
+            </tr>
+            <tr>
+              <th>自分のペースで動画を見るタイプ?</th>
+              <td>いいえ。教材で学び、課題を解き、レビューを受けて改善する<em>反復</em>を前提に設計している。</td>
+            </tr>
+            <tr>
+              <th>個人向けの提供は?</th>
+              <td>現時点では AI Review 準備中のみ。Premium は法人限定のため、個人の受講枠は設けていない。AI Review 開始通知の登録を推奨。</td>
+            </tr>
+            <tr>
+              <th>CriticChain のソースは?</th>
+              <td>AGPL-3.0 で公開中。<a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">GitHub: taka4rest/CriticChain</a></td>
+            </tr>
+          </table>
+
+        </div>
       </section>
 
-      <!-- 4. Review Examples -->
-      <section>
-        <h2>レビューで実際に何が返ってくるか</h2>
-        <p>合格した課題にも、このレベルのフィードバックが返ります。<br>
-        以下は Premium Plan の実際のレビューから、匿名化して抜粋したものです。</p>
-
-        <!-- Example 1 -->
-        <div class="review-example">
-          <div class="example-header">例1: 提出されたプロンプトを実際に動かして検証する</div>
-          <p class="mb-1"><strong>課題:</strong> 大量データ生成のプロンプト改善 / <span class="verdict">判定: 合格</span></p>
-          <blockquote>
-            <p><strong>良かった点</strong><br>
-            役割、背景、依頼内容などの見出しを用いてプロンプトを整理しており、AIが指示を正確に解析できる構成になっています。出力形式の例として、実際に期待するフォーマットと内容の粒度を提示しており、AIの出力のブレを最小限に抑えられています。</p>
-            <p class="mt-1"><strong>改善提案: 大量生成時の「AIの息切れ」の回避</strong><br>
-            実際に手元のAI（最新モデル）であなたのプロンプトを実行して検証してみたところ、645年の大化の改新の記述において「蘇我氏を倒し」となるべきところが「蘇氏を倒し」と文字が欠落するハルシネーションが確認できました。これは、AIが一度に大量の出力を強いられて「息切れ」を起こした典型的な例です。</p>
-            <p>このような膨大なタスクは一括で処理させず、手順を分割して途中で人間がチェックする「HITL（Human-in-the-Loop）」の設計を取り入れることがベストプラクティスです。</p>
-          </blockquote>
-          <p class="point">レビュアーが提出物を実際に実行し、具体的なハルシネーションを発見している。採点表では見つからない問題を、動かして見つけている。</p>
-        </div>
-
-        <!-- Example 2 -->
-        <div class="review-example">
-          <div class="example-header">例2: 合格でも、次の壁を先に見せる</div>
-          <p class="mb-1"><strong>課題:</strong> 自己検証ループの実践 / <span class="verdict">判定: 合格</span></p>
-          <blockquote>
-            <p><strong>良かった点</strong><br>
-            英文作成・逆翻訳・検証と修正のステップを明確に分け、それぞれの中間出力を省略させずに表示させています。AIがどの段階でどのような思考を行ったのかが可視化されています（グラスボックス化）。</p>
-            <p class="mt-1"><strong>改善提案: コンテキスト汚染を回避する「セッション分割」</strong><br>
-            現在の実装は基本要件を完璧に満たしています。しかし、AIには直前の対話を記憶する「コンテキストメモリ」があるため、「自分がどういう意図でこの英文を書いたか」を知っている状態で自身の文章をレビューすることになります。人間が自分の文章を校正すると見落としが生じやすいように、AIの自己評価も好意的な解釈に寄ってしまうリスクがあります。</p>
-            <p>より厳格な検証が求められる場合は、生成と検証を「別のセッション」に分け、検証を行うAIが書き手の意図を一切知らない状態にする手法が有効です。</p>
-          </blockquote>
-          <p class="point">完璧な実装に対して「合格」を出した上で、実務で必ず直面する次の壁（コンテキスト汚染）を先に見せている。</p>
-        </div>
-
-        <!-- Example 3 -->
-        <div class="review-example">
-          <div class="example-header">例3: 初級から上級への成長パスを設計する</div>
-          <p class="mb-1"><strong>課題:</strong> ロール設定と検証 / <span class="verdict">判定: 合格</span></p>
-          <blockquote>
-            <p><strong>良かった点</strong><br>
-            ロールなしの場合も実行し、その結果と比較して振り返りを行えている点が高く評価できます。LLMの挙動を相対的に観察する姿勢は、プロンプトエンジニアリングにおいて非常に重要です。</p>
-            <p class="mt-1"><strong>改善提案（3段階）:</strong></p>
-            <p>1. <strong>構造化</strong> -- 役割・ゴール・出力形式をMarkdownの見出しで分割する。</p>
-            <p>2. <strong>可観測性の確保</strong> -- 中間生成物を出力させ、AIがどの基準で判断したかを確認できるようにする（グラスボックス化）。</p>
-            <p>3. <strong>ロール実験</strong> -- 異なるロールで実行し、口調だけでなくアドバイスの内容自体が変わることに気づく。</p>
-          </blockquote>
-          <p class="point">1つの課題に対して、今のレベルに合った改善と、その先に続く成長パスの両方を提示している。</p>
-        </div>
-
-        <!-- CriticChain -->
-        <h3>AI Review の仕組み -- CriticChain</h3>
-        <p>Takajo AI Lab の AI Review は、オープンソースの <a href="https://github.com/taka4rest/CriticChain" rel="noopener noreferrer" target="_blank">CriticChain</a> を基盤にしています。</p>
-        <div class="pipeline">
-          提出物 &rarr; Lint検査 &rarr; 構造分析 &rarr; ハルシネーション検出<br>
-          &rarr; レビュー初稿 &rarr; 甘さ監査（Critique） &rarr; 書き直し（Refine）<br>
-          &rarr; 整合性チェック &rarr; スコアリング &rarr; 最終レビュー
-        </div>
-        <ul>
-          <li>AIが書いたレビューを、別のAIが「甘すぎる」「根拠が弱い」と監査する</li>
-          <li>ハルシネーションの検出だけでなく、<strong>伝播経路まで追跡</strong>する</li>
-          <li>レビュープロセスの各段階が記録され、判断根拠を確認できる</li>
-        </ul>
-        <p class="text-small text-muted mt-1">
-          CriticChain は、プロンプトの構文標準 <a href="https://github.com/taka4rest/prompt-as-code" rel="noopener noreferrer" target="_blank">prompt-as-code</a> の検査基準に基づいて動作しています。標準を定義し、その標準で自動レビューする -- この一貫した設計が品質の基盤です。
-        </p>
-      </section>
-
-      <!-- 5. Who It's For -->
-      <section>
-        <h2>こんな人に向いています</h2>
-        <ul>
-          <li>生成AIを業務で使える形まで持っていきたいエンジニア</li>
-          <li>AIツールを使うだけでなく、仕組みとして理解したい人</li>
-          <li>Prompt Engineering から Multi-Agent 開発まで、実践的に学びたい人</li>
-          <li>社内研修や法人向けパイロットを検討している担当者 &rarr; <a href="/work/">法人向けのご相談はこちら</a></li>
-        </ul>
-      </section>
-
-      <!-- 6. Learning Scope -->
-      <section>
-        <h2>カリキュラム -- 全23レッスン</h2>
-        <p>生成AIの基礎から、実務で使えるシステム構築まで。5つのフェーズで段階的に学びます。</p>
-
-        <h3>Phase 1: 基礎（Lesson 1-3）</h3>
-        <p class="text-muted text-small">生成AIの仕組み、LLMの挙動と失敗パターン、主要ツールの使い分け</p>
-
-        <h3>Phase 2: 開発環境（Lesson 4-6）</h3>
-        <p class="text-muted text-small">Python開発環境の構築、プロンプトエンジニアリング、カスタムスキル開発</p>
-
-        <h3>Phase 3: LLM実装（Lesson 7-11）</h3>
-        <p class="text-muted text-small">LLM API の実践、LangChain によるアプリケーション開発、トークンとコスト管理</p>
-
-        <h3>Phase 4: 応用（Lesson 12-18）</h3>
-        <p class="text-muted text-small">RAG、AIエージェント、ファインチューニング、マルチモーダル、UI構築</p>
-
-        <h3>Phase 5: 実務（Lesson 19-23）</h3>
-        <p class="text-muted text-small">評価と品質管理、倫理とガバナンス、キャリア設計、卒業プロジェクト</p>
-
-        <p class="mt-2">学習の中心は、流行語を追うことではなく、<strong>AIを現場で使える仕組みに落とすこと</strong>にあります。</p>
-      </section>
-
-      <!-- 7. Contact -->
-      <section class="cta-section">
-        <h2>興味がある方へ</h2>
-        <p><strong>Premium Plan に興味がある方</strong><br>
-        現在、限定5名で運用中です。空き状況は個別にお問い合わせください。</p>
-        <p class="mt-1"><strong>AI Review Plan に興味がある方</strong><br>
-        現在準備中です。info@1stpiece.io までご連絡いただければ、開始時にお知らせします。</p>
-        <p class="mt-1"><strong>法人パイロット・研修相談</strong><br>
-        人数や目的に応じた設計が可能です。<a href="/work/">技術顧問・AI導入支援についてはこちら</a></p>
-        <div class="cta-links">
-          <a href="mailto:info@1stpiece.io" class="primary">メールで問い合わせる</a>
-          <a href="https://www.linkedin.com/in/takaho-hatanaka/" class="secondary" rel="noopener noreferrer" target="_blank">LinkedIn で連絡する</a>
+      <!-- CTA -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-inner">
+            <h2 class="detail-cta-title">まずは、問い合わせから。</h2>
+            <p class="detail-cta-text">
+              Premium Plan の空き状況、AI Review の開始通知、法人パイロット相談——目的に応じて、個別にご案内します。
+            </p>
+            <div class="detail-cta-actions">
+              <a href="mailto:info@1stpiece.io?subject=Premium%20Plan%20%E7%A9%BA%E5%B8%AD%E9%80%9A%E7%9F%A5%E5%B8%8C%E6%9C%9B&body=%E6%89%80%E5%B1%9E%EF%BC%9A%0A%E3%81%94%E9%96%A2%E5%BF%83%E3%81%AE%E8%83%8C%E6%99%AF%EF%BC%9A%0A%E5%B8%8C%E6%9C%9B%E3%81%AE%E9%96%8B%E5%A7%8B%E6%99%82%E6%9C%9F%EF%BC%9A%0A">Premium の空き通知を希望する →</a>
+              <a href="mailto:info@1stpiece.io?subject=AI%20Review%20Plan%20%E9%96%8B%E5%A7%8B%E9%80%9A%E7%9F%A5%E5%B8%8C%E6%9C%9B">AI Review の開始通知を希望する →</a>
+              <a href="../work/index.html">Work(法人向け)→</a>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- 8. FAQ -->
-      <section>
-        <h2>FAQ</h2>
-        <dl>
-          <div class="faq-item">
-            <dt>Q. 2つのプランの違いは何ですか？</dt>
-            <dd>Premium Plan は畑中が直接レビューします。提出物を実際に動かして検証し、個別のフィードバックを返します。AI Review Plan は CriticChain による自動レビューで、即時にフィードバックが返ります。教材と課題は共通です。</dd>
-          </div>
-          <div class="faq-item">
-            <dt>Q. Premium Plan に空きはありますか？</dt>
-            <dd>最大5名の限定枠です。空き状況は個別にお問い合わせください。</dd>
-          </div>
-          <div class="faq-item">
-            <dt>Q. AI Review はいつ始まりますか？</dt>
-            <dd>現在準備中です。info@1stpiece.io までご連絡いただければ、開始時にお知らせします。</dd>
-          </div>
-          <div class="faq-item">
-            <dt>Q. 自分のペースで動画を見るタイプの講座ですか？</dt>
-            <dd>いいえ。教材で学び、課題を解き、レビューを受けて改善する反復を前提に設計しています。</dd>
-          </div>
-          <div class="faq-item">
-            <dt>Q. 法人向けの相談は可能ですか？</dt>
-            <dd>はい。Premium Plan の枠を法人パイロットとして利用する形が可能です。<a href="/work/">詳しくはこちら</a></dd>
-          </div>
-          <div class="faq-item">
-            <dt>Q. CriticChain のソースコードは見られますか？</dt>
-            <dd>はい。CriticChain はオープンソース（AGPL-3.0）で <a href="https://github.com/taka4rest/CriticChain" rel="noopener noreferrer" target="_blank">GitHub に公開</a>しています。</dd>
-          </div>
-        </dl>
-      </section>
     </main>
 
-    <footer>
-      <p>
-        <a href="/">Top</a> ・
-        <a href="/work/">Work</a> ・
-        <a href="mailto:info@1stpiece.io">info@1stpiece.io</a> ・
-        <a href="https://www.linkedin.com/in/takaho-hatanaka/" rel="noopener noreferrer" target="_blank">LinkedIn</a>
-      </p>
-      <p class="mt-1">&copy; 2026 1stpiece.io</p>
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
     </footer>
+
   </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
 </body>
 </html>

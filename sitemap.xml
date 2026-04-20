@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Japanese pages -->
+  <url>
+    <loc>https://1stpiece.io/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/projects/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/projects/prompt-as-code.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/prompt-as-code.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/prompt-as-code.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/projects/critic-chain.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/critic-chain.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/critic-chain.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/learn/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/learn/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/learn/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/work/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/work/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/work/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/notes/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- English pages -->
+  <url>
+    <loc>https://1stpiece.io/en/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/en/about.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/en/projects/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/en/projects/prompt-as-code.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/prompt-as-code.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/prompt-as-code.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/en/projects/critic-chain.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/critic-chain.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/critic-chain.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/en/learn/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/learn/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/learn/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://1stpiece.io/en/work/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://1stpiece.io/en/work/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://1stpiece.io/work/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>

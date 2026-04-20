@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes — 研究ノート | Takajo AI Lab</title>
+  <meta name="description" content="Takajo AI Lab の研究ノート。プロンプトレビューの現場で得た知見、prompt-as-code の仕様変更の理由、CriticChain のチューニングログなどを、月 1〜2 本のペースで公開していきます。">
+  <meta name="keywords" content="AI 研究ノート, プロンプトエンジニアリング, プロンプト レビュー, LLM 研究, AI 導入 知見, CriticChain, prompt-as-code">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/notes/">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="Notes — 研究ノート | Takajo AI Lab">
+  <meta property="og:description" content="プロンプトレビューの現場で得た知見、仕様変更の理由、チューニングログ。月 1〜2 本のペースで公開予定。">
+  <meta property="og:url" content="https://1stpiece.io/notes/">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Notes — 研究ノート | Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Notes — Takajo AI Lab">
+  <meta name="twitter:description" content="研究ノート。プロンプトレビューの現場から。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../index.html">Top</a>
+          <a href="../projects/index.html">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="index.html" aria-current="page">Notes</a>
+          <a href="../en/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../index.html">Top</a>
+          <span class="sep">/</span>
+          <span>Notes</span>
+        </nav>
+      </div>
+
+      <!-- Page header -->
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — 研究ノート</p>
+          <h1 class="page-title">現場で、考えたこと<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            プロンプトレビューの現場で得た知見、<em>prompt-as-code</em> の仕様を変えた理由、<em>CriticChain</em> のチューニングログ——ラボの仕事のそばで書かれた、短い文章を置いていきます。
+          </p>
+        </div>
+      </section>
+
+      <!-- Coming soon notice -->
+      <section class="projects-list">
+        <div class="container">
+
+          <div class="filter-callout" style="max-width: 720px; margin: 0 auto 2rem;">
+            <p class="filter-label">Upcoming</p>
+            <h3 class="filter-title">このサイトを、Claude Design で作り直した話<span class="accent-dot">.</span></h3>
+            <p class="filter-body">
+              このページを含むサイト全体は、Anthropic の <em>Claude Design</em>——デザインに特化したオンライン版の Claude Code——で全面リデザインしたものです。「軽く試す」つもりが、思いのほか大がかりな工程になりました。その記録を、近日中にここに書きます。
+            </p>
+            <p class="filter-body" style="margin-top: 1rem;">
+              前サイトはそのまま <a href="/old/">1stpiece.io/old/</a> に残してあります。Before / After として見比べられます。
+            </p>
+          </div>
+
+          <div class="filter-callout" style="max-width: 720px; margin: 0 auto;">
+            <p class="filter-label">Coming soon</p>
+            <h3 class="filter-title">準備中です。</h3>
+            <p class="filter-body">
+              月 1〜2 本のペースで、研究ノートを公開していく予定です。扱うのは、次のようなテーマ:
+            </p>
+            <ul class="filter-list" style="margin-top: 1.25rem;">
+              <li><strong>レビューの現場から</strong>——新しいプロンプトレビュー基準の発見や、現場で見えてきた失敗のパターン。</li>
+              <li><strong>仕様のログ</strong>——prompt-as-code の仕様変更の理由、設計判断の経緯。</li>
+              <li><strong>CriticChain のチューニング</strong>——11 エージェントの調整ログ、評価軸の再設計。</li>
+              <li><strong>小さな実験</strong>——本番で採用しなかった試み、うまくいかなかった方向。</li>
+            </ul>
+            <p class="filter-body" style="margin-top: 1.25rem;">
+              公開開始のご案内は、<a href="mailto:info@1stpiece.io">メール</a>または <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a> でお知らせします。
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

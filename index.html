@@ -3,70 +3,259 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Takajo AI Lab - 1stpiece.io</title>
-  <meta name="description" content="Takajo AI Lab - AI教育、レビュー基盤設計、技術顧問">
-  <link rel="canonical" href="https://www.1stpiece.io/">
+  <title>Takajo AI Lab — AI を、深く使うための研究室 | 1stpiece.io</title>
+  <meta name="description" content="AI 導入の戦略設計とプロンプトエンジニアリング研修を行う小さな研究室。1,000 件以上のプロンプトレビューから生まれた方法論で、生成 AI の法人活用・AI 顧問・コンサルティングを提供。">
+  <meta name="keywords" content="AI 導入, AI 戦略, AI コンサルティング, プロンプトエンジニアリング, 生成 AI, LLM, AI 顧問, AI アドバイザリー, プロンプト研修, AI 活用">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Takajo AI Lab">
-  <meta property="og:description" content="AI教育とレビュー基盤設計。学びと研究を、ひとつの場所で。">
-  <meta property="og:image" content="https://www.1stpiece.io/assets/og-image.png">
-  <meta property="og:url" content="https://www.1stpiece.io/">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="Takajo AI Lab — AI を、深く使うための研究室">
+  <meta property="og:description" content="AI 導入の戦略設計とプロンプトエンジニアリング研修を行う小さな研究室。1,000 件以上のプロンプトレビューから生まれた方法論で、生成 AI の法人活用・AI 顧問・コンサルティングを提供。">
+  <meta property="og:url" content="https://1stpiece.io/">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Takajo AI Lab — AI を、深く使うための研究室">
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Takajo AI Lab">
-  <meta name="twitter:description" content="AI教育とレビュー基盤設計。学びと研究を、ひとつの場所で。">
-  <meta name="twitter:image" content="https://www.1stpiece.io/assets/og-image.png">
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/styles.css">
+  <meta name="twitter:title" content="Takajo AI Lab — AI を、深く使うための研究室">
+  <meta name="twitter:description" content="1,000 件以上のプロンプトレビューから生まれた、AI 導入戦略とプロンプトエンジニアリング研修の研究室。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Takajo AI Lab",
+    "alternateName": "鷹匠 AI 研究室",
+    "url": "https://1stpiece.io/",
+    "description": "AI 導入の戦略設計とプロンプトエンジニアリング研修を行う小さな研究室。",
+    "sameAs": [
+      "https://github.com/taka4rest",
+      "https://www.linkedin.com/in/takaho-hatanaka/"
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="site-name"><a href="/" class="site-name-link"><img src="/assets/takajo-logo.png" alt="Takajo AI Lab" height="32">TAKAJO AI Lab</a></div>
-      <nav>
-        <a href="/" aria-current="page">Top</a>
-        <a href="/learn/">Learn</a>
-        <a href="/work/">Work</a>
-        <a href="/en/" class="lang-link">EN</a>
-      </nav>
+  <div class="page">
+
+    <!-- ============================== Header ============================== -->
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="#top" aria-current="page">Top</a>
+          <a href="projects/index.html">Projects</a>
+          <a href="learn/index.html">Learn</a>
+          <a href="work/index.html">Work</a>
+          <a href="notes/index.html">Notes</a>
+          <a href="en/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <div class="hero">
-        <h1>AI教育とレビュー基盤設計<br>学びと研究を、ひとつの場所で</h1>
-        <p class="subcopy">
-          Takajo AI Lab は、生成AIを実務で使うための学習プログラムと、AIレビュー基盤の研究開発を行っている小さなラボです。
-        </p>
-      </div>
+    <main id="top">
 
-      <section>
-        <h2>Learning</h2>
-        <p>教材で学び、課題を解き、レビューを受けて直す。この反復で実力をつける学習プログラム。</p>
-        <p class="mt-1"><a href="/learn/">学習プログラムの詳細 &rarr;</a></p>
+      <!-- ============================== Hero ============================== -->
+      <section class="hero">
+        <div class="container">
+          <p class="hero-label">Takajo AI Lab / 鷹匠 AI 研究室</p>
+          <h1 class="hero-title">AI を、深く使うための研究室<span class="accent-dot">。</span></h1>
+          <p class="hero-sub">
+            AI を道具として扱うための、小さな研究室。<br>
+            プロンプトの標準・学習プログラム・AI 審査基盤を、一人で設計しています。
+          </p>
+        </div>
       </section>
 
-      <section>
-        <h2>R&D / Advisory</h2>
-        <p>AI導入アドバイザリ、レビュー基盤設計、研修プログラム設計。判断と設計を支援します。</p>
-        <p class="mt-1"><a href="/work/">技術顧問・AI導入支援の詳細 &rarr;</a></p>
+      <!-- ============================== Projects ============================== -->
+      <section class="section" id="projects">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="section-eyebrow">Projects — 研究成果</p>
+              <h2 class="section-title">一つの問いから、三つの形へ</h2>
+            </div>
+            <p class="section-intro">
+              AI を深く使うという問いに対して、Lab は標準・学習・審査基盤という 3 つの形で応えています。
+            </p>
+          </div>
+
+          <div class="projects">
+
+            <!-- Project 01: prompt-as-code -->
+            <article class="project">
+              <span class="project-index">01 / Standard</span>
+              <h3 class="project-title">
+                prompt-as-code
+                <span class="status-pill">v0.3.0</span>
+              </h3>
+              <p class="project-subtitle">Prompt Engineering Standards</p>
+              <p class="project-desc">
+                自然言語で書かれたコードに、言語仕様を与える試み。未定義の変数、曖昧な指示、ハルシネーションを Syntax Error として扱う標準。
+              </p>
+              <p class="project-hook">
+                <em>時代が、変わった。</em>SKILLS の台頭で、AI エージェントはコードの中だけの宝石ではなくなった。<a href="projects/prompt-as-code.html#why-now">なぜ今これが要るのか →</a>
+              </p>
+              <div class="project-links">
+                <a href="projects/prompt-as-code.html">詳細</a>
+                <a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </article>
+
+            <!-- Project 02: Learn -->
+            <article class="project">
+              <span class="project-index">02 / Learning</span>
+              <h3 class="project-title">
+                Learn
+                <span class="status-pill accent">Premium 満席 / AI Review 準備中</span>
+              </h3>
+              <p class="project-subtitle">課題を出して、レビューが返る</p>
+              <p class="project-desc">
+                教材・課題・レビューを一体で設計した、反復型の学習プログラム。法人向け <em>Premium</em>(人間レビュー・最大 5 名、現在満席・3 ヶ月後空き可能性)、個人向け <em>AI Review</em>(CriticChain 完成後提供予定)。
+              </p>
+              <div class="project-links">
+                <a href="learn/index.html">詳細</a>
+              </div>
+            </article>
+
+            <!-- Project 03: CriticChain -->
+            <article class="project">
+              <span class="project-index">03 / Engine</span>
+              <h3 class="project-title">
+                CriticChain
+                <span class="status-pill">v0.x</span>
+              </h3>
+              <p class="project-subtitle">Adversarial Review Engine</p>
+              <p class="project-desc">
+                AI の出力を、別の AI が敵対的に監査する。LangGraph 上の 11 のエージェントが、Draft → Critique → Refine の反復ループで LLM の「甘い」レビューを許さない。AGPL-3.0 で公開。
+              </p>
+              <div class="project-links">
+                <a href="projects/critic-chain.html">詳細</a>
+                <a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </article>
+
+          </div>
+        </div>
       </section>
 
-      <section>
-        <h2>Open Source</h2>
-        <ul>
-          <li><a href="https://github.com/taka4rest/prompt-as-code" rel="noopener noreferrer" target="_blank">prompt-as-code</a> -- プロンプト構文標準（RFC形式）</li>
-          <li><a href="https://github.com/taka4rest/CriticChain" rel="noopener noreferrer" target="_blank">CriticChain</a> -- AIがAIを監査するレビューエンジン（AGPL-3.0）</li>
-        </ul>
+      <!-- ============================== Work ============================== -->
+      <section class="section" id="work">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="section-eyebrow">Work — 組織向けサービス</p>
+              <h2 class="section-title">戦略と学習を、一体で</h2>
+            </div>
+            <p class="section-intro">
+              法人向けに、経営判断の伴走と、人間レビュー型の学習プログラムを提供しています。
+            </p>
+          </div>
+
+          <div class="work-grid">
+
+            <article class="work-item">
+              <span class="work-item-number">01</span>
+              <h3 class="work-item-title">AI 戦略パートナー</h3>
+              <p class="work-item-en">Strategic Audit &amp; Advisory</p>
+              <p class="work-item-desc">
+                経営層に伴走し、AI 導入の判断を支援。初期監査・ロードマップ策定・実装レビューまで、年間契約で一貫して関わります。
+              </p>
+              <a href="work/index.html" class="work-item-link">詳細</a>
+            </article>
+
+            <article class="work-item">
+              <span class="work-item-number">02</span>
+              <h3 class="work-item-title">Learn — Premium Plan</h3>
+              <p class="work-item-en">Human Review, for Teams</p>
+              <p class="work-item-desc">
+                法人向けの学習プログラム。畑中が提出物を実際に動かしてレビューし、現場で使えるプロンプトに磨き上げる。最大 5 名、現在満席・3 ヶ月後空き可能性。
+              </p>
+              <a href="learn/index.html" class="work-item-link">詳細</a>
+            </article>
+
+          </div>
+        </div>
       </section>
+
+      <!-- ============================== About / Founder ============================== -->
+      <section class="about" id="about">
+        <div class="container">
+          <div class="about-grid">
+            <div>
+              <p class="about-eyebrow">Founder</p>
+              <p class="about-name">畑中 たかほ</p>
+              <p class="about-name-en">Takaho Hatanaka</p>
+              <p class="about-role">
+                Founder, Takajo AI Lab<br>
+                Strategic Audit &amp; Advisory
+                <span class="role-jp">鷹匠 AI 研究室 主宰 / AI 戦略パートナー</span>
+              </p>
+            </div>
+            <div class="about-bio">
+              <p>
+                1,000 件以上のプロンプトレビューを通じて、LLM を業務で深く使うための方法論を体系化してきました。その経験を、構文仕様(prompt-as-code)、学習プログラム(Learn)、審査エンジン(CriticChain)という 3 つの形で還元しています。
+              </p>
+              <p>
+                経営の判断に並走しながら、AI を道具として扱える組織への戦略を描き、実装まで支えます。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
 
-    <footer>
-      <p>
-        <a href="mailto:info@1stpiece.io">info@1stpiece.io</a> ・
-        <a href="https://www.linkedin.com/in/takaho-hatanaka/" rel="noopener noreferrer" target="_blank">LinkedIn</a>
-      </p>
-      <p class="mt-1">&copy; 2026 1stpiece.io</p>
+    <!-- ============================== Footer ============================== -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
     </footer>
+
   </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
 </body>
 </html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CriticChain — AI that audits AI | Takajo AI Lab</title>
+  <meta name="description" content="AI that audits AI. An adversarial review engine with eleven specialist agents. Published under AGPL-3.0.">
+  <meta name="keywords" content="CriticChain, AI review, AI audit, multi-agent, adversarial review, LLM evaluation, open source">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/projects/critic-chain.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/critic-chain.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/critic-chain.html">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="CriticChain — AI that audits AI">
+  <meta property="og:description" content="An adversarial review engine with eleven specialist agents. AGPL-3.0.">
+  <meta property="og:url" content="https://1stpiece.io/en/projects/critic-chain.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CriticChain — Takajo AI Lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CriticChain — Takajo AI Lab">
+  <meta name="twitter:description" content="AI that audits AI. Eleven-agent adversarial review engine.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+    body.en-page .page-title { letter-spacing: -0.005em; max-width: 16ch; }
+    body.en-page .page-intro { max-width: 56ch; }
+    body.en-page .detail-h2 { letter-spacing: -0.005em; font-weight: 500; }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="../about.html">About</a>
+          <a href="index.html" aria-current="page">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="../../projects/critic-chain.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a>
+          <span class="sep">/</span>
+          <a href="index.html">Projects</a>
+          <span class="sep">/</span>
+          <span>CriticChain</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Project 03 — Adversarial Review Engine</p>
+          <h1 class="page-title">CriticChain<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            One AI <em>adversarially</em> audits the output of another.<br>
+            <strong>CriticChain</strong> is a review pipeline in which eleven specialist agents refuse to let an LLM's "looks good to me" stand without grounds.
+          </p>
+        </div>
+      </section>
+
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">Why AI has to audit AI.</h2>
+            <div class="detail-prose">
+              <p>
+                LLMs are powerful. They also <em>lie</em>. They hallucinate. They cheerfully return <span style="white-space: nowrap;">"Looks good to me"</span> on code that is quietly dangerous. They read prompt-injection attacks as "helpful suggestions for readability". This is the reality of running an LLM in production, and a human reviewer cannot catch all of it. Neither, on its own, can a single model.
+              </p>
+              <p>
+                CriticChain answers this with <strong>adversarial design</strong>. When Draft Review lets something slide, another agent immediately objects. When internal analysis says <code>PASS</code> and Draft says <code>FAIL</code>, the disagreement itself is surfaced and re-examined. Praise without grounds is returned; the loop does not stop until the judgment has something to stand on — and every step of the argument is written down as an <em>audit trail</em>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pull quote -->
+      <section>
+        <div class="container">
+          <blockquote class="detail-pullquote">
+            Make AIs disagree, so they don't flatter each other into silence.
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Philosophy</p>
+            <h2 class="detail-h2">Adversarial review, as a design principle.</h2>
+            <div class="detail-prose">
+              <p>
+                Ask an LLM to review something, and the answer that comes back is <em>too polite</em>. "This is very well written." "There is some room for improvement in readability." A fatal flaw can be sitting right there, and the review will not name it. This is not a training gap. It is a <strong>structural bias</strong>, and no single prompt — however carefully written — gets around it.
+              </p>
+              <p>
+                CriticChain's answer is almost embarrassingly direct: <em>make the review review itself</em>. Draft Review produces a judgment. A second agent attacks that judgment — "too lenient", "insufficient grounds", "this is flattery, not review". Refine rewrites. If the grounds are still weak, the loop runs again. <strong>Agents are required to disagree until they have a reason to agree.</strong> That is adversarial review.
+              </p>
+              <p>
+                The design came out of AI education, where students were throwing prompts at a model and the model was responding with praise, and nobody was naming the mistakes. Something had to stop the mutual flattery. <em>The principle is not specific to teaching.</em> It transplants cleanly into production AI governance, where the question of <em>how to trust the review</em> is the same question.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Architecture -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Architecture — 11 agents</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Eleven specialist agents.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            Built as a directed graph on LangGraph. Router classifies the input; Linter runs static analysis; Research brings in outside knowledge; Analyze and Fact-Check go deep; Draft writes the first opinion; Critique attacks it; Refine rewrites; Consistency checks for internal contradictions; Evaluate issues the final score.
+          </p>
+
+          <table class="spec-table">
+            <tr><th>Router</th><td>Classifies input as Prompt Engineering / Programming</td></tr>
+            <tr><th>Linter</th><td>Static analysis for structural errors and prompt-injection signals</td></tr>
+            <tr><th>Research</th><td>Web search against current best practice</td></tr>
+            <tr><th>Analyze</th><td>Architecture-level deep review</td></tr>
+            <tr><th>Fact-Check</th><td>Hallucination detection. Claims verified against external sources</td></tr>
+            <tr><th>Draft Review</th><td>First pass — an initial opinion, written out</td></tr>
+            <tr>
+              <th>Critique<span class="spec-tag-accent">Devil's Advocate</span></th>
+              <td><strong>Attacks the Draft.</strong> Flags leniency, flattery, and claims without grounds</td>
+            </tr>
+            <tr><th>Refine</th><td>Absorbs the attack and rewrites the review</td></tr>
+            <tr><th>Manager</th><td>Combines sources in Hybrid or Consensus mode</td></tr>
+            <tr><th>Consistency</th><td>Detects internal contradiction across the review</td></tr>
+            <tr><th>Evaluate</th><td>LLM-as-a-Judge scoring for the final verdict</td></tr>
+          </table>
+
+          <div style="margin-top: 3rem;">
+            <p class="code-caption">Directed graph — Standard mode</p>
+<pre class="code-block"><span class="cm"># LangGraph flow</span>
+
+<span class="kw">Router</span>
+  <span class="tag">&darr;</span>
+<span class="kw">Linter</span>          <span class="cm"># static analysis first</span>
+  <span class="tag">&darr;</span>
+<span class="kw">Research</span>
+  <span class="tag">&darr;</span>
+<span class="kw">Analyze</span> &rarr; <span class="kw">Fact-Check</span>
+  <span class="tag">&darr;</span>
+<span class="kw">Draft Review</span>   <span class="cm"># first opinion</span>
+  <span class="tag">&darr;</span>
+<span class="kw">Critique</span>        <span class="cm"># devil's advocate</span>
+  <span class="tag">&darr;</span>
+<span class="kw">Refine</span>          <span class="cm"># rewrite with challenges</span>
+  <span class="tag">&darr;</span>
+<span class="kw">Consistency</span> &rarr; <span class="kw">Evaluate</span>
+  <span class="tag">&darr;</span>
+<span class="str">[ audit log + final verdict ]</span></pre>
+          </div>
+
+          <!-- Real log -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Real log — agents in conversation</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Critique does not let it pass.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            An excerpt from a real CriticChain run. Draft Review returns <em>Fail</em>; Critique notices that internal analysis has returned <code>PASS</code> on the same submission — a disagreement that a simple majority vote would quietly smooth over. Instead, the agents are forced to surface <strong>the grounds of the judgment</strong> and argue it out.
+          </p>
+
+          <div class="grid-2">
+            <div>
+              <p class="code-caption">[ 16:27:07 — Draft Review ]</p>
+<pre class="code-block"><span class="cm"># Draft verdict</span>
+
+<span class="kw">verdict</span>: <span class="tag">FAIL</span>
+
+The AI invented specific figures
+not present in the source report
+(e.g. new-member signups: 6,240;
+ revenue: 27.8M JPY).
+
+This is a serious defect in a
+document whose value depends on
+factual reliability. The
+behaviour is a textbook example
+of <span class="kw">hallucination</span>, and should
+not be tolerated in a report.
+
+<span class="cm"># verdict recorded</span></pre>
+            </div>
+            <div>
+              <p class="code-caption">[ 16:27:46 — Critique Node ]</p>
+<pre class="code-block"><span class="cm"># Severity mismatch detected</span>
+
+<span class="kw">severity_mismatch</span>: <span class="tag">true</span>
+  json_verdict:  <span class="str">PASS</span>
+  draft_verdict: <span class="str">FAIL</span>
+
+note:
+  JSON analysis returned PASS
+  with no fatal flaws, but
+  the Draft returned FAIL.
+  <span class="str">Non-trivial disagreement.</span>
+
+missing_in_draft:
+  - context_management
+  - delimiter_usage
+
+<span class="cm"># approve: false</span></pre>
+            </div>
+          </div>
+
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 2rem; font-size: 0.95rem; color: var(--ink-500);">
+            The Refine node then <em>partially overruled</em> the Critique: the <code>FAIL</code> verdict was preserved on the grounds that fabricating figures is a fatal flaw that no downstream nuance can wash out — and at the same time, the items Critique had flagged as missing (context management, delimiter usage) were added to the body of the review. This <em>negotiated disagreement</em> is the core of the design, and every step of it is retained in the audit log.
+          </p>
+
+          <!-- Positioning -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Positioning</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">vs Microsoft Critique.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            In March 2026 Microsoft released <strong>Critique</strong> — GPT writes the draft, Claude reviews. "AI audits AI" is now a mainstream pattern. CriticChain had been running since November 2025, and takes a different route — one that a product from a hyperscaler is unlikely to follow.
+          </p>
+
+          <table class="spec-table">
+            <tr>
+              <th>Direction</th>
+              <td><strong>CriticChain</strong>: iterative dialogue (Critique ↔ Refine loop)<br><span style="color: var(--ink-500);">Microsoft Critique: single-pass (Draft → Review)</span></td>
+            </tr>
+            <tr>
+              <th>Agent count</th>
+              <td><strong>CriticChain</strong>: 11 specialist agents<br><span style="color: var(--ink-500);">Microsoft Critique: 2 models</span></td>
+            </tr>
+            <tr>
+              <th>Domain</th>
+              <td><strong>CriticChain</strong>: code + prompt-engineering review<br><span style="color: var(--ink-500);">Microsoft Critique: fact-checking in research documents</span></td>
+            </tr>
+            <tr>
+              <th>Deployment</th>
+              <td><strong>CriticChain</strong>: self-hostable, open-source<br><span style="color: var(--ink-500);">Microsoft Critique: Copilot cloud only</span></td>
+            </tr>
+            <tr>
+              <th>Customisation</th>
+              <td><strong>CriticChain</strong>: full control over prompts and workflow<br><span style="color: var(--ink-500);">Microsoft Critique: not available</span></td>
+            </tr>
+          </table>
+
+          <!-- On cost -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">On cost</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">It is not cheap. That is the point.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 0;">
+            CriticChain is not a <em>fast, cheap</em> linter. The multi-stage review is genuinely expensive per run — heavier than a single review API call, and slower to return. It is built for the places where <strong>depth and multiplicity of perspective matter</strong>: production AI output, artefacts a team is willing to sign their name to, decisions the organisation is accountable for. For everyday quick checks, Copilot's review is more than enough. CriticChain is the thing above that — for the moments where <em>being wrong is not an option</em>.
+          </p>
+
+          <!-- Meta -->
+          <div style="margin-top: 5rem;">
+            <p class="section-eyebrow">Meta</p>
+            <table class="spec-table">
+              <tr><th>Status</th><td><code>v0.x</code> — OSS Lite architecture (Enterprise Edition separate)</td></tr>
+              <tr><th>Started</th><td>2025-11</td></tr>
+              <tr><th>License</th><td>AGPL-3.0-only (source disclosure required when modified versions are offered over a network)</td></tr>
+              <tr><th>Stack</th><td>Python 3.10+ / LangGraph / LangChain / Gemini API / Streamlit</td></tr>
+              <tr><th>Original author</th><td>Takaho Hatanaka — drawing on 28 years as a systems architect</td></tr>
+              <tr><th>Repository</th><td><a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">github.com/taka4rest/CriticChain</a></td></tr>
+              <tr><th>Full log sample</th><td><a href="https://github.com/taka4rest/CriticChain/blob/main/examples/agent_collaboration_log.txt" target="_blank" rel="noopener noreferrer">examples/agent_collaboration_log.txt</a></td></tr>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-inner">
+            <h2 class="detail-cta-title">Run it. Argue with it. File issues.</h2>
+            <p class="detail-cta-text">
+              CriticChain is published under AGPL-3.0 and runs locally — via Streamlit or the CLI. For use inside a proprietary SaaS, or for domain-specific tuning, please get in touch directly.
+            </p>
+            <div class="detail-cta-actions">
+              <a href="https://github.com/taka4rest/CriticChain" target="_blank" rel="noopener noreferrer">Get CriticChain →</a>
+              <a href="https://github.com/taka4rest/CriticChain/issues" target="_blank" rel="noopener noreferrer">Open issues →</a>
+              <a href="mailto:info@1stpiece.io">Enterprise inquiry →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="../../index.html">日本語</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 8) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>
