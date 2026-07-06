@@ -1,0 +1,12 @@
+# Local-only drafts / TODO
+# moat を含む可能性があるものは hat-private-knowledge 配下へ置くこと。
+# このリポジトリは GitHub Pages で自動公開されるため、ここには commit しない。
+notes/drafts/
+TODO.md
+
+# Claude Code local config
+.claude/
+.mcp.json
+
+# macOS
+.DS_Store

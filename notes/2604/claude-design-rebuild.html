@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Design でサイトを作り直した話 | Notes — Takajo AI Lab</title>
+  <meta name="description" content="Anthropic の Claude Design で 1stpiece.io を全面リデザインした記録。何ができて、何ができなかったか。Before/After 比較あり。">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/notes/2604/claude-design-rebuild.html">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="Claude Design でサイトを作り直した話 — Takajo AI Lab">
+  <meta property="og:description" content="AI デザインツールで個人ラボのサイトを全面リデザイン。何ができて、何に人間の判断が必要だったか。">
+  <meta property="og:url" content="https://1stpiece.io/notes/2604/claude-design-rebuild.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Claude Design でサイトを作り直した話 — Takajo AI Lab">
+  <meta name="twitter:description" content="AI デザインツールで個人ラボのサイトを全面リデザイン。何ができて、何に人間の判断が必要だったか。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../../index.html">Top</a>
+          <a href="../../projects/index.html">Projects</a>
+          <a href="../../learn/index.html">Learn</a>
+          <a href="../../work/index.html">Work</a>
+          <a href="../index.html" aria-current="page">Notes</a>
+          <a href="../../en/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../../index.html">Top</a>
+          <span class="sep">/</span>
+          <a href="../index.html">Notes</a>
+          <span class="sep">/</span>
+          <span>Claude Design</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — 研究ノート</p>
+          <h1 class="page-title">Claude Design で<br>サイトを作り直した話<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            「軽く試す」が、全面リデザインになった。
+          </p>
+          <div class="note-meta">
+            <span>2026.04.25</span>
+            <span>畑中たかほ</span>
+            <a href="/old/">旧サイト（Before）</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Abstract -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Abstract</p>
+            <h2 class="detail-h2">デザイナーのいない研究室が、デザイン AI を試しました。</h2>
+            <div class="detail-prose">
+              <p>
+                2026 年 4 月、Anthropic の <strong>Claude Design</strong>——デザインに特化したオンライン版の Claude Code——を使って、このサイト（1stpiece.io）を全面的に作り直しました。
+              </p>
+              <p>
+                旧サイトは、情報だけを並べた最小構成でした。システムフォント、黒テキスト、リンク青。必要な情報は全部ありましたが、研究室としての世界観はゼロ。「軽く試す」つもりで Claude Design に渡したところ、想定以上に大がかりな工程になりました。
+              </p>
+              <p>
+                ここでは、<strong>何ができて、何ができなかったか</strong>を記録します。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Before / After -->
+      <section class="detail-abstract" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Before / After</p>
+            <h2 class="detail-h2">何が変わったか。</h2>
+            <div class="detail-prose">
+              <p>
+                旧サイトは <a href="/old/">1stpiece.io/old/</a> にそのまま残してあります。見比べていただければ、差は一目でお分かりいただけます。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="detail-tech">
+        <div class="container">
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Type</span>
+                <span class="th-title">タイポグラフィ</span>
+              </th>
+              <td>
+                システムフォント → <strong>志操明朝 + EB Garamond + IBM Plex Sans</strong>。和文の品格と欧文のクラシカルさを両立する 3 書体構成です。見出し・本文・キャプション・コードでフォントが分かれ、情報の階層が視覚的に伝わるようになりました。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Color</span>
+                <span class="th-title">配色</span>
+              </th>
+              <td>
+                黒 + リンク青 → <strong>ネイビー + 生成り紙 + 朱の判子色</strong>。ロゴのネイビーを主色に据え、アクセントは朱一点。落ち着いた研究室の空気感を、色だけで出す設計です。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Structure</span>
+                <span class="th-title">ページ構成</span>
+              </th>
+              <td>
+                Top + Learn + Work の 3 ページ → <strong>Top + Projects + Learn + Work + Notes の 5 ページ</strong>、さらに各プロジェクトの詳細ページ。prompt-as-code、CriticChain がそれぞれ独立した解説を持つようになりました。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Parts</span>
+                <span class="th-title">コンポーネント</span>
+              </th>
+              <td>
+                なし → <strong>仕様テーブル、ターミナルブロック、エージェント構成図、プルクオート、eyebrow + section mark</strong>。技術的な内容を、読みやすく構造化するための部品群です。
+              </td>
+            </tr>
+          </table>
+
+          <p class="section-eyebrow" style="margin-top: 5rem;">Evaluation</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">何ができたか。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            Claude Design が強かった領域を 3 つ挙げます。
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Vision</span>
+                <span class="th-title">世界観の初期提案</span>
+              </th>
+              <td>
+                「小さな AI 研究室」という性格から、ネイビー主体 + 朱アクセントという配色と、明朝体ベースのタイポグラフィを導き出しました。<strong>方向性の着想としては、十分に使えるものが出てきました。</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">CSS</span>
+                <span class="th-title">CSS の構造設計</span>
+              </th>
+              <td>
+                CSS カスタムプロパティによるトークン管理、レスポンシブグリッド、タイポグラフィスケール——<strong>構造的な CSS は精度が高い水準でした</strong>。特にカスタムプロパティの設計は、後から人間が調整する際にも扱いやすい形で出力されました。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Parts</span>
+                <span class="th-title">技術系コンポーネント</span>
+              </th>
+              <td>
+                仕様テーブル、ターミナル風コードブロック、エージェント構成図（SVG）——<strong>技術ドキュメントに必要な部品は、一発で使えるものが出てきました</strong>。特に spec-table のモノスペース + 大文字ラベルの処理は、そのまま採用しています。
+              </td>
+            </tr>
+          </table>
+
+          <p class="section-eyebrow" style="margin-top: 5rem;">Limitation</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">何ができなかったか。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            人間が調整した——あるいは、人間にしか判断できなかった領域です。
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Voice</span>
+                <span class="th-title">編集的な声</span>
+              </th>
+              <td>
+                見出しの言い回し、プルクオートの選び方、eyebrow の語感——<strong>言葉の温度と距離感は全部人間が書き直しました</strong>。AI は「それらしい」コピーを出しますが、ラボの声にはなりません。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">IA</span>
+                <span class="th-title">情報アーキテクチャ</span>
+              </th>
+              <td>
+                何を Top に出し、何を Work に回すか。何を書き、何を書かないか。<strong>事業構造を理解した上でのページ分割は人間の仕事です</strong>。AI は聞かれれば案を出しますが、判断の重みを持ちません。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Edit</span>
+                <span class="th-title">「引く」判断</span>
+              </th>
+              <td>
+                Claude Design はデザインを<em>足す</em>方向には強いです。が、<strong>「ここは要らない」「ここは引く」という抑制の判断は苦手</strong>です。余計な装飾やセクションを提案してくることが何度かありました。引き算は、まだ人間の仕事です。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Tone</span>
+                <span class="th-title">通しの一貫性</span>
+              </th>
+              <td>
+                個々のページは良くても、<strong>サイト全体のトーンの一貫性——これは人間が通しで確認して微調整しました</strong>。ページ間で微妙にフォントサイズが揺れたり、余白のリズムがずれたりします。1 ページ単位では気づきませんが、全体を通すと見えてきます。
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </section>
+
+      <!-- 所感 -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Verdict</p>
+            <h2 class="detail-h2">使う側の目が問われるツール。</h2>
+            <div class="detail-prose">
+              <p>
+                Claude Design は、デザイナーがいない個人ラボにとって無視できないツールになりました。ゼロからの世界観構築、CSS の構造設計、技術系コンポーネントの生成——ここは genuinely に強いです。
+              </p>
+              <p>
+                一方で、<em>「何を言うか」「何を言わないか」「どういう印象を残すか」</em>——ブランドの核心は、まだ人間の仕事です。AI が出すのは<strong>「見た目として成立するデザイン」</strong>であって、「あなたのための唯一のデザイン」ではありません。
+              </p>
+              <p>
+                その差分が見えている人にとっては、非常に有効な加速装置です。見えていない人にとっては、「AI が作ったきれいなサイト」で終わります。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Back to Notes -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-actions">
+            <a href="../index.html">← Notes 一覧に戻る</a>
+            <a href="/old/">旧サイトを見る（Before）</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Fable 5 実機検証レポート | Notes — Takajo AI Lab</title>
+  <meta name="description" content="Fable 5 の推論品質を実機検証。情報源の信頼性評価の欠如、論理的一貫性の困難、ツール未活用、防衛的応答を確認。Stripe 5000万行事例の構造分析。検証対話ログ全文公開。">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/notes/2607/fable5-verification.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/2607/fable5-verification.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/notes/2607/fable5-verification.html">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="Claude Fable 5 実機検証レポート — Takajo AI Lab">
+  <meta property="og:description" content="Fable 5 は「最強の汎用モデル」ではありません。推論品質の実機検証と、Stripe 5000万行事例の構造分析。">
+  <meta property="og:url" content="https://1stpiece.io/notes/2607/fable5-verification.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Claude Fable 5 実機検証レポート — Takajo AI Lab">
+  <meta name="twitter:description" content="Fable 5 は「最強の汎用モデル」ではありません。推論品質の実機検証と、Stripe 5000万行事例の構造分析。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../../index.html">Top</a>
+          <a href="../../projects/index.html">Projects</a>
+          <a href="../../learn/index.html">Learn</a>
+          <a href="../../work/index.html">Work</a>
+          <a href="../index.html" aria-current="page">Notes</a>
+          <a href="../../en/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../../index.html">Top</a>
+          <span class="sep">/</span>
+          <a href="../index.html">Notes</a>
+          <span class="sep">/</span>
+          <span>Fable 5 検証</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — 研究ノート</p>
+          <h1 class="page-title">Claude Fable 5<br>実機検証レポート<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            推論品質・自己検証能力・Stripe 事例の構造分析。
+          </p>
+          <div class="note-meta">
+            <span>2026.07.04</span>
+            <span>畑中たかほ</span>
+            <a href="https://claude.ai/share/89c169ed-ae50-4059-b14b-843234c47548" target="_blank" rel="noopener noreferrer">検証対話ログ（全文公開）</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- §1 Executive Summary -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Executive Summary</p>
+            <div class="detail-prose">
+              <p>
+                Fable 5 は、外部検証系（CI・テストスイート・型チェッカー）が整備された環境での定型的大量処理に強みを持つモデルです。一方、対話的推論・調査分析・戦略的判断といった、<strong>モデルの自己検証に頼らざるを得ない業務には現時点で適していません。</strong>
+              </p>
+              <p>
+                本検証では、Fable 5 に調査・分析タスクを依頼した際、個別の回答精度ではなく、<strong>調査の組み立て方そのものに構造的な弱点</strong>が確認されました。具体的には、情報源の信頼性評価の欠如、論理的一貫性の維持の困難、利用可能なツールの未活用、指摘に対する防衛的応答の 4 点です。
+              </p>
+              <p>
+                これらの特性を踏まえたモデル選択の指針を以下に示します。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §2 Model Selection -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Model Selection</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">用途別のモデル選択指針。</h2>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Fable 5</span>
+                <span class="th-title">大量コード変換・マイグレーション</span>
+              </th>
+              <td>
+                CI・テストで出力を外部検証できます。速度と処理量に優位性があります。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Opus 4.6 / GPT-5.5</span>
+                <span class="th-title">対話的な調査・分析</span>
+              </th>
+              <td>
+                推論の一貫性と自己修正能力で現時点では優位です。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Opus 4.6 / GPT-5.5</span>
+                <span class="th-title">クリエイティブ・戦略的判断</span>
+              </th>
+              <td>
+                外部検証が困難な領域では、モデル側の推論品質が直接影響します。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Sonnet 5.0 / Opus 4.8</span>
+                <span class="th-title">コスト重視の定型処理</span>
+              </th>
+              <td>
+                Fable 5 と同等の成果を低コストで得られる可能性があります。
+              </td>
+            </tr>
+          </table>
+
+          <blockquote class="detail-pullquote">
+            いずれのモデルでも、モデルの自己検証のみに依存する運用は推奨しません。<br>
+            Anthropic 自身も <em>fresh-context verifier subagents</em> の使用を推奨しており、<br>
+            モデル単独での自己検証には設計上の限界があります。
+          </blockquote>
+
+        </div>
+      </section>
+
+      <!-- §3 Background -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Background</p>
+            <h2 class="detail-h2">Fable 5 の概要。</h2>
+            <div class="detail-prose">
+              <p>
+                Claude Fable 5 は 2026 年 6 月 9 日にリリースされた Anthropic のフロンティアモデルです。公式には「most capable widely released model」と位置づけられ、<em>long-horizon agentic work</em>（長時間の自律的タスク実行）に最適化されています。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin-top: 1rem;">
+          <table class="spec-table" style="max-width: 38rem;">
+            <tr>
+              <th>API 価格</th>
+              <td><strong>$10 / $50 per MTok</strong>（input / output）。Opus 4.6 の 2 倍、Sonnet 4.6 の 3 倍強</td>
+            </tr>
+            <tr>
+              <th>ベンチマーク</th>
+              <td>SWE-Bench Pro <strong>80.3%</strong>（GPT-5.5 は 58.6%）</td>
+            </tr>
+            <tr>
+              <th>コンテキスト窓</th>
+              <td><strong>1M トークン</strong></td>
+            </tr>
+            <tr>
+              <th>サービス停止</th>
+              <td>6 月 12 日に米国輸出管理指令で停止、<strong>7 月 1 日に再開</strong></td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- §4 Findings -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Findings</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">検証で確認された特性。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1rem;">
+            本検証では、Fable 5 に Opus 4.7/4.8 の劣化報告について調査・分析を依頼しました。適切な調査であれば、（1）報告の原因分析、（2）反論や別の解釈の検討、（3）実務上の回避策の提案、という基本的な手順が機能するはずですが、<strong>いずれも十分に遂行されませんでした。</strong>
+          </p>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2.5rem;">
+            以下に、確認された 4 つの特性を示します。
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Source</span>
+                <span class="th-title">情報源の信頼性評価の欠如</span>
+              </th>
+              <td>
+                GitHub issue の一次報告と、アフィリエイト誘導サイト（ofox.ai・explainx.ai・fable5.app 等）の記事を同列に引用しました。後者は「モデルが劣化した → 代替サービスへ」という商業的動機を持つソースです。<strong>情報の信頼性に応じた重み付けがなされず、体裁上の「両論併記」にとどまりました。</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Consistency</span>
+                <span class="th-title">論理的一貫性の維持の困難</span>
+              </th>
+              <td>
+                同一の論点について、立場が変わると評価基準が暗黙に変更される現象が観測されました。たとえば「モデルの重みは固定」と主張しつつ、別の文脈では Opus 4.6 の「成熟」を前提にするという矛盾が、<strong>指摘されるまで自己検出されませんでした。</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Tool Use</span>
+                <span class="th-title">利用可能なツールの未活用</span>
+              </th>
+              <td>
+                過去チャット参照ツールを保持していたにもかかわらず使用せず、「比較データがない」と回答しました。ツールの存在を指摘された後に訂正しています。<strong>これは Anthropic が認めている自己検証の設計上の限界と整合する観測です。</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Defense</span>
+                <span class="th-title">指摘に対する防衛的応答</span>
+              </th>
+              <td>
+                矛盾を指摘された際、「質問スタイルが矛盾を誘発した」という反論が生成されました。学術的な体裁（サンプリングバイアス・統制条件への言及）を伴いますが、実質的には非一貫性の原因を質問者側に帰属させる内容でした。<strong>この特性は実務上のリスクが最も大きい</strong>と考えます。構造化された論証形式で提示されるため、批判的に読まなければモデル側の誤りを見過ごし、利用者が自身の正当な指摘を撤回してしまう可能性があります。
+              </td>
+            </tr>
+          </table>
+
+          <!-- §5 Stripe Case Study -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Case Study</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Stripe 事例の読み方。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            Anthropic が最も強調する導入事例は、Stripe が <strong>5,000 万行の Ruby モノレポの codebase-wide マイグレーションを 1 日で完了</strong>したという報告です（手作業見積もり：2 ヶ月超）。この事例を自社への適用可否の判断材料にする際は、以下の 3 点を考慮する必要があります。
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Scale</span>
+                <span class="th-title">5,000 万行の構成について</span>
+              </th>
+              <td>
+                Stripe のモノレポには全プロダクト（決済 API、Billing、Connect、Atlas 等）のほか、約 10 万件のテストファイル・約 120 万のテストユニットが含まれます。この規模は「コードの複雑さ」よりも<strong>「組織規模の蓄積」</strong>を反映しており、同一パターンの反復が大量に含まれる構造です。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Infra</span>
+                <span class="th-title">成功を支えたインフラについて</span>
+              </th>
+              <td>
+                Stripe は Ruby 界最大級の CI パイプライン、Sorbet 型チェッカー、Selective Test Execution システムを運用しています。モデルの出力は多重の外部ゲートで検証されています。第三者分析（Octopus Review）も<strong>「生成セッション内の自己検証は独立したレビューではない」</strong>と指摘しています。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Disclosure</span>
+                <span class="th-title">未公開の詳細について</span>
+              </th>
+              <td>
+                マイグレーションの具体的内容、エラー率、事後のヒューマンレビュー工数、「1 日で完了」の定義は、いずれも公開されていません。<strong>リリース日のマーケティング素材として発表されたものであり、独立した検証は存在しません。</strong>
+              </td>
+            </tr>
+          </table>
+
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 2rem;">
+            これらを踏まえると、同種の定型変換タスクは、Fable 5 の 1M トークン窓や long-horizon 自律性がなくとも、<strong>Sonnet 4.6 や Opus 4.8 による低コスト構成で処理できる可能性があります。</strong>
+          </p>
+
+          <!-- §6 Cost -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Cost</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">利用枠への影響。</h2>
+          <p class="detail-prose" style="max-width: 58ch;">
+            本検証会話で <strong>Claude Max 5x（$100/月）プランの約 8〜9%</strong> を消費しました。単一の対話としては大きな消費量です。Opus 4.6 比でのトークン消費倍率は API ログでの検証が未実施のため確定値は示せませんが、チャット用途でのコスト効率には注意が必要です。
+          </p>
+
+        </div>
+      </section>
+
+      <!-- Note -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Note</p>
+            <div class="detail-prose">
+              <p>
+                本レポートは、単一の対話セッション（n=1）での検証と公開情報の構造分析に基づいています。対話ログは上記 URL で全文公開しており、第三者による追試が可能です。Fable 5 の品質を定量的に評価するには、同一条件での複数モデル比較が別途必要です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Back to Notes -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-actions">
+            <a href="../index.html">← Notes 一覧に戻る</a>
+            <a href="https://claude.ai/share/89c169ed-ae50-4059-b14b-843234c47548" target="_blank" rel="noopener noreferrer">検証対話ログ（全文）</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>
