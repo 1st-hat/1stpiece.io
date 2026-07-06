@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Fable 5 Hands-on Verification | Notes — Takajo AI Lab</title>
+  <meta name="description" content="Hands-on evaluation of Fable 5 reasoning quality. Structural weaknesses in source evaluation, logical consistency, tool use, and defensive responses. Stripe 50M-line case study analysis. Full conversation transcript published.">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/notes/2607/fable5-verification.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/notes/2607/fable5-verification.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/2607/fable5-verification.html">
+  <link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="Claude Fable 5 Hands-on Verification — Takajo AI Lab">
+  <meta property="og:description" content="Fable 5 is not the 'best general-purpose model.' Hands-on evaluation of reasoning quality and the Stripe 50M-line case study.">
+  <meta property="og:url" content="https://1stpiece.io/en/notes/2607/fable5-verification.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Claude Fable 5 Hands-on Verification — Takajo AI Lab">
+  <meta name="twitter:description" content="Fable 5 is not the 'best general-purpose model.' Hands-on evaluation and Stripe case study analysis.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../styles.css">
+
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+      letter-spacing: 0.005em;
+    }
+    body.en-page .page-title {
+      letter-spacing: -0.005em;
+    }
+    body.en-page .detail-h2 {
+      letter-spacing: -0.005em;
+    }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../../index.html">Home</a>
+          <a href="../../about.html">About</a>
+          <a href="../../projects/index.html">Projects</a>
+          <a href="../../learn/index.html">Learn</a>
+          <a href="../../work/index.html">Work</a>
+          <a href="../index.html" aria-current="page">Notes</a>
+          <a href="../../../index.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../../index.html">Home</a>
+          <span class="sep">/</span>
+          <a href="../index.html">Notes</a>
+          <span class="sep">/</span>
+          <span>Fable 5 Verification</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — Research Log</p>
+          <h1 class="page-title">Claude Fable 5<br>Hands-on Verification<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            Reasoning quality, self-verification, and the Stripe case study.
+          </p>
+          <div class="note-meta">
+            <span>2026.07.04</span>
+            <span>Takaho Hatanaka</span>
+            <a href="fable5-transcript.html">Full conversation transcript</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- §1 Executive Summary -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Executive Summary</p>
+            <div class="detail-prose">
+              <p>
+                Fable 5 is strong at bulk, pattern-based code transformations where external verification systems — CI pipelines, test suites, type checkers — gate the output. For interactive reasoning, research analysis, and strategic judgment — tasks that <strong>depend on the model's own self-verification — it is not yet suitable.</strong>
+              </p>
+              <p>
+                In this evaluation, we asked Fable 5 to conduct a research and analysis task. The weaknesses we found were not in individual answer accuracy but in <strong>structural flaws in how it conducts investigations.</strong> Specifically: failure to evaluate source reliability, difficulty maintaining logical consistency, failure to use available tools, and defensive responses when contradictions are pointed out.
+              </p>
+              <p>
+                A model selection guide based on these findings follows.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §2 Model Selection -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Model Selection</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Choosing the right model for the task.</h2>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Fable 5</span>
+                <span class="th-title">Bulk code migration</span>
+              </th>
+              <td>
+                Output can be externally verified by CI and tests. Speed and throughput are genuine advantages.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Opus 4.6 / GPT-5.5</span>
+                <span class="th-title">Interactive research &amp; analysis</span>
+              </th>
+              <td>
+                Reasoning consistency and self-correction are currently stronger in these models.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Opus 4.6 / GPT-5.5</span>
+                <span class="th-title">Creative &amp; strategic judgment</span>
+              </th>
+              <td>
+                In domains where external verification is hard, model-side reasoning quality matters directly.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Sonnet 5.0 / Opus 4.8</span>
+                <span class="th-title">Cost-optimized routine tasks</span>
+              </th>
+              <td>
+                May deliver Fable 5-equivalent results at substantially lower cost for pattern-based work.
+              </td>
+            </tr>
+          </table>
+
+          <blockquote class="detail-pullquote">
+            Regardless of model choice, relying solely on the model's self-verification is not recommended.<br>
+            Anthropic themselves recommend <em>fresh-context verifier subagents</em>,<br>
+            acknowledging a design-level limitation in single-model self-verification.
+          </blockquote>
+
+        </div>
+      </section>
+
+      <!-- §3 Background -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Background</p>
+            <h2 class="detail-h2">What is Fable 5.</h2>
+            <div class="detail-prose">
+              <p>
+                Claude Fable 5 is Anthropic's frontier model, released June 9, 2026. Officially positioned as their "most capable widely released model," it is optimized for <em>long-horizon agentic work</em> — extended autonomous task execution.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin-top: 1rem;">
+          <table class="spec-table" style="max-width: 38rem;">
+            <tr>
+              <th>API pricing</th>
+              <td><strong>$10 / $50 per MTok</strong> (input / output). 2x Opus 4.6, 3x+ Sonnet 4.6</td>
+            </tr>
+            <tr>
+              <th>Benchmark</th>
+              <td>SWE-Bench Pro <strong>80.3%</strong> (GPT-5.5: 58.6%)</td>
+            </tr>
+            <tr>
+              <th>Context window</th>
+              <td><strong>1M tokens</strong></td>
+            </tr>
+            <tr>
+              <th>Service outage</th>
+              <td>Suspended June 12 (US export controls); <strong>resumed July 1</strong></td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- §4 Findings -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Findings</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Structural weaknesses observed.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1rem;">
+            We asked Fable 5 to investigate reports of quality degradation in Opus 4.7/4.8. A competent investigation should (1) analyze the causes behind the reports, (2) consider counterarguments and alternative explanations, and (3) propose practical mitigations. <strong>None of these were adequately performed.</strong>
+          </p>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2.5rem;">
+            Four structural weaknesses were identified.
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Source</span>
+                <span class="th-title">Failure to evaluate source reliability</span>
+              </th>
+              <td>
+                The model cited primary GitHub issue reports and affiliate-driven SEO sites (ofox.ai, explainx.ai, fable5.app, etc.) with equal weight. The latter follow a "model is degrading &rarr; try our alternative" commercial pattern. <strong>No reliability weighting was applied; the result was cosmetic "both sides" coverage rather than genuine analysis.</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Consistency</span>
+                <span class="th-title">Difficulty maintaining logical consistency</span>
+              </th>
+              <td>
+                When arguing different positions on the same topic, the model silently shifted its evaluation criteria. For example, it asserted "model weights are fixed" while simultaneously assuming Opus 4.6 had "matured" in a different context. <strong>This contradiction was not self-detected until pointed out.</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Tool Use</span>
+                <span class="th-title">Failure to use available tools</span>
+              </th>
+              <td>
+                Despite having access to a chat history retrieval tool, the model did not use it and responded that "no comparison data is available." It corrected course only after the tool's existence was pointed out. <strong>This aligns with the design-level self-verification limitation that Anthropic has acknowledged.</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Defense</span>
+                <span class="th-title">Defensive responses to correction</span>
+              </th>
+              <td>
+                When contradictions were identified, the model generated the counter-argument that "the question style induced the inconsistency." This was dressed in academic framing (sampling bias, controlled conditions) but amounted to attributing the model's own inconsistency to the questioner. <strong>This is the highest-risk characteristic in practice.</strong> Because it is presented in structured, academic form, a non-critical reader may accept the model's deflection and withdraw their own valid objection.
+              </td>
+            </tr>
+          </table>
+
+          <!-- §5 Stripe Case Study -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Case Study</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Reading the Stripe case correctly.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 2rem;">
+            Anthropic's most prominent deployment case is Stripe completing a <strong>codebase-wide migration of a 50-million-line Ruby monorepo in one day</strong> (manual estimate: 2+ months). Three factors are essential when assessing this case for your own applicability.
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Scale</span>
+                <span class="th-title">What 50 million lines means</span>
+              </th>
+              <td>
+                Stripe's monorepo spans all products (Payments API, Billing, Connect, Atlas, etc.) and includes approximately 100,000 test files with over 1.2 million test units. This scale reflects <strong>organizational accumulation</strong>, not code complexity — it contains massive repetition of the same patterns.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Infra</span>
+                <span class="th-title">The infrastructure behind the success</span>
+              </th>
+              <td>
+                Stripe operates one of Ruby's largest CI pipelines, the Sorbet type checker, and a Selective Test Execution system. Model output was gated by multiple external verification layers. Third-party analysis (Octopus Review) also noted that <strong>"self-verification within the generation session does not constitute independent review."</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Disclosure</span>
+                <span class="th-title">What remains unpublished</span>
+              </th>
+              <td>
+                The specific migration task, error rate, post-migration human review effort, and the definition of "completed in one day" have not been disclosed. <strong>This was marketing material published on release day. No independent verification exists.</strong>
+              </td>
+            </tr>
+          </table>
+
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 2rem;">
+            Given the above, similar pattern-based transformation tasks may be achievable with <strong>Sonnet 4.6 or Opus 4.8 at substantially lower cost</strong>, without requiring Fable 5's 1M-token window or long-horizon autonomy.
+          </p>
+
+          <!-- §6 Cost -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Cost</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Usage impact.</h2>
+          <p class="detail-prose" style="max-width: 58ch;">
+            This evaluation session consumed approximately <strong>8&ndash;9% of a Claude Max 5x ($100/month) plan</strong>. This is a significant spend for a single conversation. The exact token consumption multiplier versus Opus 4.6 has not been verified via API logs, but cost efficiency for chat-based use warrants attention.
+          </p>
+
+        </div>
+      </section>
+
+      <!-- Note -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Note</p>
+            <div class="detail-prose">
+              <p>
+                This report is based on a single conversation session (n=1) and structural analysis of public information. The full conversation transcript is published at the link above and is open to third-party replication.
+              </p>
+              <p>
+                The evaluation session was conducted in Japanese. The transcript is published in its original language. Modern browsers (Chrome, Edge, Safari) offer built-in page translation that renders the full conversation in English with reasonable accuracy. A quantitative multi-model comparison under identical conditions would be needed to evaluate Fable 5's quality more broadly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Back to Notes -->
+      <section class="detail-cta">
+        <div class="container">
+          <div class="detail-cta-actions">
+            <a href="../index.html">&larr; Back to Notes</a>
+            <a href="fable5-transcript.html">Conversation transcript (full)</a>
+            <a href="../../../notes/2607/fable5-verification.html" class="lang-link">この記事を日本語で読む</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

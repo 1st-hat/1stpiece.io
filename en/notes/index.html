@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes — Research Log | Takajo AI Lab</title>
+  <meta name="description" content="Research notes from Takajo AI Lab. Hands-on model evaluations, prompt engineering findings, and field observations from over 1,000 prompt reviews.">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/notes/">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/notes/">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="Notes — Research Log | Takajo AI Lab">
+  <meta property="og:description" content="Hands-on model evaluations and field observations from the prompt review frontline.">
+  <meta property="og:url" content="https://1stpiece.io/en/notes/">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Notes — Takajo AI Lab">
+  <meta name="twitter:description" content="Hands-on model evaluations and field observations from the prompt review frontline.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+      letter-spacing: 0.005em;
+    }
+    body.en-page .page-title {
+      letter-spacing: -0.005em;
+    }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="../about.html">About</a>
+          <a href="../projects/index.html">Projects</a>
+          <a href="../learn/index.html">Learn</a>
+          <a href="../work/index.html">Work</a>
+          <a href="index.html" aria-current="page">Notes</a>
+          <a href="../../index.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a>
+          <span class="sep">/</span>
+          <span>Notes</span>
+        </nav>
+      </div>
+
+      <!-- Page header -->
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — Research Log</p>
+          <h1 class="page-title">What we found in the field<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            Hands-on model evaluations, prompt engineering observations, and the questions that come up when you actually run the output. Short pieces, written close to the work.
+          </p>
+        </div>
+      </section>
+
+      <!-- Article listing -->
+      <section class="notes-feed">
+        <div class="container">
+
+          <article class="note-card">
+            <p class="note-card-date">2026.07.04</p>
+            <h2 class="note-card-title"><a href="2607/fable5-verification.html">Claude Fable 5 Hands-on Verification</a></h2>
+            <p class="note-card-sub">Marketing vs. Reality — Reasoning, Self-verification, and the Stripe Case</p>
+            <p class="note-card-desc">
+              Fable 5 is not the "best general-purpose model." Failure to evaluate source reliability, difficulty maintaining logical consistency, unused tools, defensive responses — structural weaknesses in how it conducts investigations, not just individual answers. Stripe 50M-line case study analysis. Full conversation transcript published.
+            </p>
+            <a href="2607/fable5-verification.html" class="note-card-link">Read</a>
+          </article>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>
