@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script src="/assets/ga.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自分のOSSを複数のAIにレビューさせたら何が起きたか | Notes — Takajo AI Lab</title>
+  <meta name="description" content="プロンプト構文標準 prompt-as-code を Claude Opus 5 と GPT-5.6 Sol に独立レビューさせ、突き合わせた結果。過大表現の発見、帰属の誤り、技術クレームの検証プロセスを公開します。">
+  <meta name="keywords" content="コンテキストエンジニアリング, プロンプトエンジニアリング, Claude Opus 5, GPT-5.6, クロスモデル検証, prompt-as-code, AI レビュー, LLM">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/notes/2608/cross-model-validation.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/2608/cross-model-validation.html">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="自分のOSSを複数のAIにレビューさせたら何が起きたか — Takajo AI Lab">
+  <meta property="og:description" content="prompt-as-code を Claude Opus 5 と GPT-5.6 Sol に独立レビューさせ、突き合わせた。過大表現の発見、帰属の誤り、検証プロセスの記録。">
+  <meta property="og:url" content="https://1stpiece.io/notes/2608/cross-model-validation.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="自分のOSSを複数のAIにレビューさせたら何が起きたか — Takajo AI Lab">
+  <meta name="twitter:description" content="prompt-as-code を Claude Opus 5 と GPT-5.6 Sol に独立レビューさせ、突き合わせた。過大表現の発見、帰属の誤り、検証プロセスの記録。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../../index.html">Top</a>
+          <a href="../../projects/index.html">Projects</a>
+          <a href="../../learn/index.html">Learn</a>
+          <a href="../../work/index.html">Work</a>
+          <a href="../index.html" aria-current="page">Notes</a>
+          <a href="../../en/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../../index.html">Top</a>
+          <span class="sep">/</span>
+          <a href="../index.html">Notes</a>
+          <span class="sep">/</span>
+          <span>クロスモデル検証</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — 研究ノート</p>
+          <h1 class="page-title">自分のOSSを<br>複数のAIにレビューさせたら<br>何が起きたか<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            Claude Opus 5 と GPT-5.6 Sol に、同じドキュメントを独立にレビューさせ、<br>
+            結果を突き合わせた。一致した指摘は信頼し、食い違いは精査した。
+          </p>
+          <div class="note-meta">
+            <span>2026.08.08</span>
+            <span>畑中たかほ</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- §1 What We Did -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">What We Did</p>
+            <h2 class="detail-h2">何をしたか。</h2>
+            <div class="detail-prose">
+              <p>
+                <a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">prompt-as-code</a> は、LLMプロンプトをコードとして扱うための構文標準（RFC形式）です。2025年12月に公開し、v0.3.0 まで育ててきました。
+              </p>
+              <p>
+                2026年8月、コンテキストエンジニアリングへのポジショニング更新に合わせて v0.4.0 へのメジャーアップデートを行うことにしました。しかし、1,100行のドキュメントを一人で精査するのは現実的ではありません。
+              </p>
+              <p>
+                そこで、<strong>異なるAIモデルに同じドキュメントを独立にレビューさせ、結果を突き合わせる</strong>というアプローチを取りました。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §2 Method -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Method</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">検証の設計。</h2>
+          <div class="detail-prose">
+            <p>
+              検証は2段階で行いました。
+            </p>
+          </div>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Phase 1</span>
+                <span class="th-title">パターン有効性の検証</span>
+              </th>
+              <td>
+                SCoT（構造化思考連鎖）、Few-shot、CoVe（検証連鎖）の3パターンについて、同一のテストプロンプトを Opus 5 と GPT-5.6 Sol の両方に実行させ、パターンが2026年のモデルでも有効かを確認しました。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Phase 2</span>
+                <span class="th-title">ドキュメント全体の監査</span>
+              </th>
+              <td>
+                STANDARDS.md の全文を両モデルに読ませ、「事実誤り」「不足トピック」「不要な記述」「技術的に誤った主張」を独立に指摘させました。互いの出力は見せていません。
+              </td>
+            </tr>
+          </table>
+
+          <div class="detail-prose">
+            <p>
+              重要なのは、<strong>2つのモデルが互いの出力を知らない</strong>ことです。独立したレビュアーの意見が一致すれば信頼度は高く、食い違えば精査が必要——人間のコードレビューと同じ原理です。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §3 Phase 1 Results -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Phase 1 Results</p>
+            <h2 class="detail-h2">パターンは、まだ効くのか。</h2>
+            <div class="detail-prose">
+              <p>
+                結論から言えば、3パターンとも両モデルで有効性が確認されました。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">SCoT</span>
+                <span class="th-title">XML タグで思考と結論を分離</span>
+              </th>
+              <td>
+                両モデルとも <code>&lt;thinking&gt;</code> / <code>&lt;answer&gt;</code> タグに準拠。指示がなければ「Markdown ヘッダーを使う」「自由形式にする」と回答——つまり、明示的な指示がなければモデルはこの構造をデフォルトにしません。パターンに意味があります。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Few-shot</span>
+                <span class="th-title">例示による出力フォーマット制御</span>
+              </th>
+              <td>
+                両モデルとも例示されたフォーマットに正確に準拠。「例がなければ同じ形式にはしない」と明言。2026年のモデルでも、出力形式の制御には例示が有効です。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">CoVe</span>
+                <span class="th-title">自己検証ループ</span>
+              </th>
+              <td>
+                両モデルとも C1〜C4 のループ構造に従い、<strong>自分のドラフトの約40%の事実主張を自己修正</strong>しました。さらに面白いことに、修正箇所が両モデルで異なっていました。
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                CoVeの結果は特に示唆的です。同じ質問に対して、Opus 5 は「Micronaut 4 のリリース日」と「Blazor United の命名」を修正し、GPT-5.6 Sol は「React のライブラリ/フレームワーク分類」と「GitHubランキング手法の曖昧さ」を修正しました。<strong>同じパターンが、異なるモデルの異なる盲点を補正している</strong>——これはパターン自体の汎用性を示す良い証拠です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §4 Phase 2 Results -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Phase 2 Results</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">何が見つかったか。</h2>
+          <div class="detail-prose">
+            <p>
+              ドキュメント全体の監査では、両モデルが一致した指摘と、片方だけが見つけた指摘がありました。
+            </p>
+          </div>
+
+          <h3 style="font-size: 1.25rem; margin-top: 2rem; font-weight: 600;">両モデルが一致した指摘（信頼度：高）</h3>
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">CO-STAR「ゴールドスタンダード」</span>
+              </th>
+              <td>
+                「業界標準」という記述は過大表現。実際は「広く採用されているフレームワーク」が正確。なお帰属については、Opus 5 が「GovTech開発ではなくSheila Teoが発表」と指摘しましたが、ファクトチェックの結果、GovTechのチームが開発しSheila Teoがコンペで活用・解説して広めたのが正確でした——AIのレビュー結果自体もファクトチェックが必要という教訓です。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">CoVe / CoD の表現</span>
+              </th>
+              <td>
+                「標準になりつつある」「リファレンススタンダード」は、いずれも研究テクニックに対する過大表現。「推奨手法」「有効な手法」に修正。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">extended thinking の混同</span>
+              </th>
+              <td>
+                プロンプト内の <code>&lt;thinking&gt;</code> タグ（出力構造化のテクニック）と、ClaudeやOpenAI o-seriesのAPIレベルのextended thinking（モデル機能）が区別されていない。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">セキュリティの不足</span>
+              </th>
+              <td>
+                直接的なプロンプトインジェクションのみカバーし、RAGやツール出力経由の間接インジェクションに言及がない。
+              </td>
+            </tr>
+          </table>
+
+          <h3 style="font-size: 1.25rem; margin-top: 2rem; font-weight: 600;">片方だけが見つけた指摘（精査が必要）</h3>
+          <div class="detail-prose">
+            <p>
+              Opus 5 は構造的な問題を多く指摘しました（目次の不備、セクション配置、モデルリストの不整合）。一方 GPT-5.6 Sol は技術的な正確性に踏み込み、triple-backtick のMarkdownネスト問題、RAGコード例のバグ、SemVer 0.y.z の説明不正確などを指摘しました。
+            </p>
+            <p>
+              興味深いのは、GPT-5.6 Sol が「"State everything explicitly" は agentic models の時代に過度ではないか」と指摘したことです。エージェントが自律的に動くなら、プロンプトは簡潔な目標と制約だけを示す方が良いという主張——これはドキュメントの根底にある哲学への問いかけであり、単純に「正しい/間違い」とは言えません。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §5 Scope Decisions -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Human Judgment</p>
+            <h2 class="detail-h2">人間が判断したこと。</h2>
+            <div class="detail-prose">
+              <p>
+                AIのレビュー結果を全て鵜呑みにしたわけではありません。両モデルとも「このドキュメントに足りないトピック」を大量に挙げましたが、その多くはドキュメントのスコープ外でした。
+              </p>
+              <p>
+                prompt-as-code は「プロンプトとして書くテキストの構文仕様」です。Markdownで書ける範囲が境界線です。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">AIが「足りない」と指摘</span>
+              </th>
+              <th>
+                <span class="th-title">人間の判断</span>
+              </th>
+            </tr>
+            <tr>
+              <td>Structured Output / JSON mode</td>
+              <td>APIパラメータ。構文仕様のスコープ外。</td>
+            </tr>
+            <tr>
+              <td>Tool definitions / Function calling</td>
+              <td>API機能。スコープ外。</td>
+            </tr>
+            <tr>
+              <td>マルチモーダルプロンプティング</td>
+              <td>テキスト構文仕様の範囲外。</td>
+            </tr>
+            <tr>
+              <td>Prompt caching</td>
+              <td>インフラ層。スコープ外。</td>
+            </tr>
+            <tr>
+              <td>Persistent context files</td>
+              <td>別トピック。</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                AIは「あれもこれも足りない」と網を広く投げます。しかし、ドキュメントのスコープを決めるのは人間の仕事です。スコープ判断の結果、<strong>足りなかったのはトピックではなく、「このドキュメントが何を扱い、何を扱わないか」のスコープ宣言だった</strong>ことがわかりました。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §6 What Changed -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Result</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">最終的に何を変えたか。</h2>
+          <div class="detail-prose">
+            <p>
+              検証結果を受けて、v0.4.0 では以下を修正しました。
+            </p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li>事実誤り 5 件の修正（CO-STAR帰属、過大表現3件、翻訳テンプレートのバージョン）</li>
+              <li>技術的正確性の向上 6 件（extended thinkingの区別、間接インジェクション、コード例のバグ修正等）</li>
+              <li>[Step N] 記法の根拠書き換え（「モデルがパースに失敗する」→「タスク分割・HITL・出力参照のための構造化」）</li>
+              <li>構造改善（目次の完成、陳腐化した「NEW」マーカーの除去）</li>
+              <li>README.md と CONTRIBUTING.md の同期更新</li>
+            </ul>
+            <p>
+              全修正は <a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">GitHub リポジトリ</a>で確認できます。検証結果の生データも <code>test-results-v040-*.md</code> として同梱しています。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §7 Takeaway -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Takeaway</p>
+            <h2 class="detail-h2">この方法が教えてくれること。</h2>
+            <div class="detail-prose">
+              <p>
+                このアプローチから得られた知見は3つあります。
+              </p>
+              <p>
+                第一に、<strong>独立したモデルの一致は、単一モデルの確信より信頼できます</strong>。CO-STARの帰属誤りは、Opus 5 だけなら「そうかもしれないし、そうでないかもしれない」で終わっていたかもしれません。2つのモデルが独立に同じ指摘をしたから、修正に踏み切れました。
+              </p>
+              <p>
+                第二に、<strong>モデルごとに視点が違います</strong>。Opus 5 は構造的・俯瞰的なレビューが得意で、GPT-5.6 Sol はコード例のバグや技術定義の正確性に強かった。どちらかだけでは見落としが出ます。
+              </p>
+              <p>
+                第三に、<strong>スコープ判断は人間にしかできません</strong>。AIは網を広く投げるのが得意ですが、「何を入れないか」を決めるのは、ドキュメントの目的と読者を知っている人間の仕事です。
+              </p>
+              <p>
+                これは<a href="context-engineering.html">前回の記事</a>で書いた「デザインタイムのコンテキストエンジニアリング」の実践例でもあります。AIに何をレビューさせ、その結果をどう判断するか——それ自体がコンテキストの設計です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>
