@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/assets/ga.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Happened When We Had Multiple AIs Review Our OSS | Notes — Takajo AI Lab</title>
+  <meta name="description" content="We had Claude Opus 5 and GPT-5.6 Sol independently review the same prompt engineering standard. What they agreed on, where they diverged, and why scope decisions still require a human.">
+  <meta name="keywords" content="context engineering, prompt engineering, Claude Opus 5, GPT-5.6, cross-model validation, prompt-as-code, AI review, LLM">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/notes/2608/cross-model-validation.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/notes/2608/cross-model-validation.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/2608/cross-model-validation.html">
+  <link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="What Happened When We Had Multiple AIs Review Our OSS — Takajo AI Lab">
+  <meta property="og:description" content="Claude Opus 5 and GPT-5.6 Sol independently reviewed prompt-as-code. Overclaims, attribution errors, and the limits of AI review.">
+  <meta property="og:url" content="https://1stpiece.io/en/notes/2608/cross-model-validation.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What Happened When We Had Multiple AIs Review Our OSS — Takajo AI Lab">
+  <meta name="twitter:description" content="Claude Opus 5 and GPT-5.6 Sol independently reviewed prompt-as-code. Overclaims, attribution errors, and the limits of AI review.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../styles.css">
+
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+      letter-spacing: 0.005em;
+    }
+    body.en-page .page-title {
+      letter-spacing: -0.005em;
+    }
+    body.en-page .detail-h2 {
+      letter-spacing: -0.005em;
+    }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../../index.html">Home</a>
+          <a href="../../about.html">About</a>
+          <a href="../../projects/index.html">Projects</a>
+          <a href="../../learn/index.html">Learn</a>
+          <a href="../../work/index.html">Work</a>
+          <a href="../index.html" aria-current="page">Notes</a>
+          <a href="../../../notes/2608/cross-model-validation.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../../index.html">Home</a>
+          <span class="sep">/</span>
+          <a href="../index.html">Notes</a>
+          <span class="sep">/</span>
+          <span>Cross-Model Validation</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — Research Log</p>
+          <h1 class="page-title">What Happened When We Had<br>Multiple AIs Review Our OSS<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            We had Claude Opus 5 and GPT-5.6 Sol independently review the same document,<br>
+            then compared results. Where they agreed, we trusted. Where they diverged, we investigated.
+          </p>
+          <div class="note-meta">
+            <span>2026.08.08</span>
+            <span>Takaho Hatanaka</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- §1 What We Did -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">What We Did</p>
+            <h2 class="detail-h2">The setup.</h2>
+            <div class="detail-prose">
+              <p>
+                <a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">prompt-as-code</a> is an RFC-style syntax standard for treating LLM prompts as code. Published in December 2025, we had iterated it to v0.3.0.
+              </p>
+              <p>
+                In August 2026, alongside a positioning update toward context engineering, we decided to ship a major update to v0.4.0. But auditing an 1,100-line document solo is not realistic.
+              </p>
+              <p>
+                So we took a different approach: <strong>have different AI models independently review the same document, then cross-reference the results</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §2 Method -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Method</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Verification design.</h2>
+          <div class="detail-prose">
+            <p>
+              We ran the validation in two phases.
+            </p>
+          </div>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Phase 1</span>
+                <span class="th-title">Pattern effectiveness</span>
+              </th>
+              <td>
+                We ran the same test prompts for SCoT (Structured Chain of Thought), Few-shot, and CoVe (Chain of Verification) on both Opus 5 and GPT-5.6 Sol to confirm whether these patterns still work on 2026-era models.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Phase 2</span>
+                <span class="th-title">Full document audit</span>
+              </th>
+              <td>
+                We fed the entire STANDARDS.md to both models and asked each to independently flag factual errors, missing topics, unnecessary content, and technically incorrect claims. Neither model saw the other's output.
+              </td>
+            </tr>
+          </table>
+
+          <div class="detail-prose">
+            <p>
+              The key: <strong>the two models were blind to each other's output</strong>. When independent reviewers agree, confidence is high; when they diverge, further investigation is needed — the same principle as human code review.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §3 Phase 1 Results -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Phase 1 Results</p>
+            <h2 class="detail-h2">Do the patterns still work?</h2>
+            <div class="detail-prose">
+              <p>
+                Short answer: all three patterns were confirmed effective on both models.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">SCoT</span>
+                <span class="th-title">XML tags separating reasoning from conclusions</span>
+              </th>
+              <td>
+                Both models conformed to <code>&lt;thinking&gt;</code> / <code>&lt;answer&gt;</code> tags. Without the instruction, both said they would default to Markdown headings or freeform text — meaning they do not adopt this structure by default. The pattern has value.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Few-shot</span>
+                <span class="th-title">Output format control via examples</span>
+              </th>
+              <td>
+                Both models accurately followed the demonstrated format and explicitly stated they would not use the same format without examples. Even on 2026 models, examples remain effective for output format control.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">CoVe</span>
+                <span class="th-title">Self-verification loop</span>
+              </th>
+              <td>
+                Both models followed the C1–C4 loop structure and <strong>self-corrected roughly 40% of factual claims in their own drafts</strong>. Interestingly, the corrected items differed between models.
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                The CoVe results are particularly telling. On the same question, Opus 5 corrected "Micronaut 4 release date" and "Blazor United naming," while GPT-5.6 Sol corrected "React library/framework classification" and "ambiguity in GitHub ranking methodology." <strong>The same pattern caught different blind spots on different models</strong> — strong evidence for the pattern's generality.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §4 Phase 2 Results -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Phase 2 Results</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">What we found.</h2>
+          <div class="detail-prose">
+            <p>
+              The full-document audit produced findings the models agreed on and findings unique to each.
+            </p>
+          </div>
+
+          <h3 style="font-size: 1.25rem; margin-top: 2rem; font-weight: 600;">Both models agreed (high confidence)</h3>
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">CO-STAR "gold standard"</span>
+              </th>
+              <td>
+                Calling it an "industry standard" was an overclaim. "A widely adopted framework" is more accurate. On attribution, Opus 5 claimed "Sheila Teo introduced CO-STAR, not GovTech." Fact-checking revealed that GovTech Singapore's team developed it and Sheila Teo popularized it through their GPT-4 Prompt Engineering Competition — a lesson that AI review results themselves need fact-checking.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">CoVe / CoD language</span>
+              </th>
+              <td>
+                "Becoming standard" and "reference standard" were overclaims for research techniques. Changed to "a recommended technique" and "an effective method."
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">Extended thinking conflation</span>
+              </th>
+              <td>
+                The in-prompt <code>&lt;thinking&gt;</code> tag (an output structuring technique) and API-level extended thinking from Claude or OpenAI o-series (a model feature) were not distinguished.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">Security gaps</span>
+              </th>
+              <td>
+                Only direct prompt injection was covered; no mention of indirect injection via RAG or tool outputs.
+              </td>
+            </tr>
+          </table>
+
+          <h3 style="font-size: 1.25rem; margin-top: 2rem; font-weight: 600;">Only one model found it (needs investigation)</h3>
+          <div class="detail-prose">
+            <p>
+              Opus 5 focused on structural issues (incomplete table of contents, section ordering, model list inconsistencies). GPT-5.6 Sol dug into technical accuracy — triple-backtick Markdown nesting, a RAG code example bug, imprecise SemVer 0.y.z documentation.
+            </p>
+            <p>
+              What stood out: GPT-5.6 Sol questioned whether "State everything explicitly" is excessive in an era of agentic models. If agents act autonomously, perhaps prompts should only specify goals and constraints — a challenge to the document's underlying philosophy, not a simple right-or-wrong call.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §5 Scope Decisions -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Human Judgment</p>
+            <h2 class="detail-h2">What humans decided.</h2>
+            <div class="detail-prose">
+              <p>
+                We did not accept every AI finding. Both models listed many "missing topics," but most were outside the document's scope.
+              </p>
+              <p>
+                prompt-as-code is "a syntax specification for text written as prompts." What you can express in Markdown is the boundary.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">AI said "this is missing"</span>
+              </th>
+              <th>
+                <span class="th-title">Human judgment</span>
+              </th>
+            </tr>
+            <tr>
+              <td>Structured Output / JSON mode</td>
+              <td>API parameter. Out of scope.</td>
+            </tr>
+            <tr>
+              <td>Tool definitions / Function calling</td>
+              <td>API feature. Out of scope.</td>
+            </tr>
+            <tr>
+              <td>Multimodal prompting</td>
+              <td>Beyond a text syntax spec. Out of scope.</td>
+            </tr>
+            <tr>
+              <td>Prompt caching</td>
+              <td>Infrastructure layer. Out of scope.</td>
+            </tr>
+            <tr>
+              <td>Persistent context files</td>
+              <td>Separate topic.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                AI casts a wide net: "you're missing this, and this, and this." But scoping the document is a human job. What we discovered was that <strong>what was actually missing was not topics, but a scope declaration — "what this document covers and what it does not."</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §6 What Changed -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Result</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">What we changed.</h2>
+          <div class="detail-prose">
+            <p>
+              Based on the validation, v0.4.0 includes these changes:
+            </p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li>5 factual error corrections (CO-STAR attribution, 3 overclaims, translation template version)</li>
+              <li>6 technical accuracy improvements (extended thinking distinction, indirect injection, code example bug fixes, etc.)</li>
+              <li>[Step N] notation rationale rewrite ("models fail to parse numbered lists" replaced with "task decomposition, HITL, and output cross-referencing")</li>
+              <li>Structural improvements (completed table of contents, removed stale "NEW" markers)</li>
+              <li>README.md and CONTRIBUTING.md synchronized</li>
+            </ul>
+            <p>
+              All changes are visible in the <a href="https://github.com/taka4rest/prompt-as-code" target="_blank" rel="noopener noreferrer">GitHub repository</a>. Raw validation data is included as <code>test-results-v040-*.md</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §7 Takeaway -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Takeaway</p>
+            <h2 class="detail-h2">What this approach teaches.</h2>
+            <div class="detail-prose">
+              <p>
+                Three lessons from this approach.
+              </p>
+              <p>
+                First, <strong>independent model agreement is more trustworthy than a single model's confidence</strong>. If only Opus 5 had flagged the CO-STAR attribution, it might have ended with "maybe, maybe not." Two models independently raising the same issue gave us the confidence to act.
+              </p>
+              <p>
+                Second, <strong>models have different perspectives</strong>. Opus 5 excelled at structural, bird's-eye review. GPT-5.6 Sol was stronger on code-level bugs and technical definition precision. Using only one would leave blind spots.
+              </p>
+              <p>
+                Third, <strong>scope decisions can only be made by humans</strong>. AI is good at casting a wide net, but deciding "what to leave out" is the job of someone who understands the document's purpose and audience.
+              </p>
+              <p>
+                This is also a practical example of the "design-time context engineering" discussed in the <a href="context-engineering.html">previous article</a>. What to have AI review, and how to judge the results — that itself is context design.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

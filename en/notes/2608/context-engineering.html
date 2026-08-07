@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/assets/ga.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What the Context Engineering Discussion Is Missing | Notes — Takajo AI Lab</title>
+  <meta name="description" content="The industry has shifted from prompt engineering to context engineering. But the discussion focuses on runtime optimization — how to manage the context window. The missing layer: how to author the context worth managing in the first place.">
+  <meta name="keywords" content="context engineering, prompt engineering, AI agents, Claude Code, CLAUDE.md, document-first, AI development, LLM">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/en/notes/2608/context-engineering.html">
+  <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/notes/2608/context-engineering.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/2608/context-engineering.html">
+  <link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:title" content="What the Context Engineering Discussion Is Missing — Takajo AI Lab">
+  <meta property="og:description" content="The industry discusses context management at runtime. But how do you create the context worth managing? That process is still unsystematized.">
+  <meta property="og:url" content="https://1stpiece.io/en/notes/2608/context-engineering.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What the Context Engineering Discussion Is Missing — Takajo AI Lab">
+  <meta name="twitter:description" content="The industry discusses context management at runtime. But how do you create the context worth managing? That process is still unsystematized.">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../styles.css">
+
+  <style>
+    body.en-page {
+      --font-serif-jp: "EB Garamond", "Shippori Mincho", Georgia, serif;
+      --font-sans-jp:  "IBM Plex Sans", "IBM Plex Sans JP", sans-serif;
+      line-height: 1.7;
+      letter-spacing: 0.005em;
+    }
+    body.en-page .page-title {
+      letter-spacing: -0.005em;
+    }
+    body.en-page .detail-h2 {
+      letter-spacing: -0.005em;
+    }
+  </style>
+</head>
+<body class="en-page">
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="site-brand" aria-label="Takajo AI Lab — home">
+          <img src="../../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="../../index.html">Home</a>
+          <a href="../../about.html">About</a>
+          <a href="../../projects/index.html">Projects</a>
+          <a href="../../learn/index.html">Learn</a>
+          <a href="../../work/index.html">Work</a>
+          <a href="../index.html" aria-current="page">Notes</a>
+          <a href="../../../notes/2608/context-engineering.html" class="lang-link">JP</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../../index.html">Home</a>
+          <span class="sep">/</span>
+          <a href="../index.html">Notes</a>
+          <span class="sep">/</span>
+          <span>Context Engineering</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — Research Log</p>
+          <h1 class="page-title">What the Context Engineering<br>Discussion Is Missing<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            The industry is discussing how to <em>manage</em> context.<br>
+            But how to <em>create</em> the context worth managing is still unsystematized.
+          </p>
+          <div class="note-meta">
+            <span>2026.08.07</span>
+            <span>Takaho Hatanaka</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- §1 What Happened -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">What Happened</p>
+            <h2 class="detail-h2">The terminology shifted.</h2>
+            <div class="detail-prose">
+              <p>
+                In June 2025, Andrej Karpathy (former Tesla AI lead, OpenAI co-founder) said:
+              </p>
+              <blockquote class="detail-pullquote" style="margin: 1.5rem 0;">
+                When people hear "prompt," they think of a short instruction passed to an LLM. But what really matters in production-grade LLM applications is <strong>the art and science of filling the context window with exactly the right information for the next step</strong>.
+              </blockquote>
+              <p>
+                This triggered an industry-wide shift from "prompt engineering" to "<strong>context engineering</strong>." In September 2025, Anthropic (the team behind Claude) systematized the concept in their official engineering blog. By July 2025, Gartner predicted that "by 2028, 80% of AI application building tools will incorporate context engineering capabilities."
+              </p>
+              <p>
+                In the Japanese-language ecosystem, "prompt engineering is outdated" became a standard headline in the second half of 2025, with explainer articles proliferating across Qiita, Zenn, note, and Forbes JAPAN. As of mid-2026, the terminology shift is essentially complete.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §2 What the Discussion Covers -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Runtime Focus</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">What the industry is discussing.</h2>
+          <div class="detail-prose">
+            <p>
+              Nearly all context engineering discussion focuses on <strong>runtime</strong> — what to pack into the context window at the moment AI runs.
+            </p>
+          </div>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">System Prompt</span>
+                <span class="th-title">System prompt design</span>
+              </th>
+              <td>
+                Role definitions, output format specifications, constraint declarations.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">RAG</span>
+                <span class="th-title">External knowledge retrieval</span>
+              </th>
+              <td>
+                Which documents to pull, which chunks to inject.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Tool Definition</span>
+                <span class="th-title">Tool definition design</span>
+              </th>
+              <td>
+                When and which tools to expose to the AI.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Token Budget</span>
+                <span class="th-title">Token budget management</span>
+              </th>
+              <td>
+                Strategies for summarizing, compressing, and truncating stale context.
+              </td>
+            </tr>
+          </table>
+
+          <div class="detail-prose">
+            <p>
+              These are all important techniques, no argument there. But there is a hidden assumption: <strong>that high-quality context already exists, ready to be managed</strong>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §3 What's Missing -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">The Missing Layer</p>
+            <h2 class="detail-h2">What is not being discussed.</h2>
+            <div class="detail-prose">
+              <p>
+                Context does not fall from the sky. Someone has to create it.
+              </p>
+              <p>
+                Consider working with an AI agent like Claude Code or Codex. Tell it "build me an English learning app" and it will generate some code. But there is no guarantee that what it builds is what you actually want. The AI does not know the requirements inside your head.
+              </p>
+              <p>
+                What you need here is not runtime context management. It is <strong>the act of authoring the context itself</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §4 Design-Time Context Engineering -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Design-Time Context</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">What it means to "create" context.</h2>
+          <div class="detail-prose">
+            <p>
+              One method we teach in our corporate training is <strong>document-first development</strong>. Before writing a single line of code, you write design documents as files.
+            </p>
+          </div>
+
+          <blockquote class="detail-pullquote">
+            Design documents are "context injection for AI." By writing your<br>
+            intent in a format AI can read, implementation accuracy improves dramatically.<br>
+            <span style="font-size: 0.85rem; color: var(--ink-500); display: block; margin-top: 0.5rem;">
+              — From the Learn Premium curriculum
+            </span>
+          </blockquote>
+
+          <div class="detail-prose" style="margin-top: 2rem;">
+            <p>
+              In practice, before writing code you create design documents in a <code>docs/</code> folder:
+            </p>
+          </div>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">concept.md</span>
+                <span class="th-title">What and why</span>
+              </th>
+              <td>
+                The core of the product. Articulating the design's <em>Why</em> — e.g., "a closed learning loop."
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">architecture.md</span>
+                <span class="th-title">How to build it</span>
+              </th>
+              <td>
+                Layer structure, dependency rules, integration policies with external services.
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">data-schema.md</span>
+                <span class="th-title">Data shapes</span>
+              </th>
+              <td>
+                Key type definitions and concrete sample data (JSON examples).
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">CLAUDE.md</span>
+                <span class="th-title">Project rules</span>
+              </th>
+              <td>
+                Constraints and conventions the AI agent always references. Persistent context.
+              </td>
+            </tr>
+          </table>
+
+          <div class="detail-prose" style="margin-top: 2rem;">
+            <p>
+              These files persist even when conversations grow long and older context gets compressed. The AI can always re-read them. <strong>Context window contents are volatile, but filesystem context is persistent</strong> — this distinction matters.
+            </p>
+            <p>
+              Furthermore, these documents are not written alone. They grow through back-and-forth with AI.
+            </p>
+          </div>
+
+          <blockquote class="detail-pullquote">
+            Design documents are not "written by AI" but "written with AI."<br>
+            You convey what you want to build and why.<br>
+            AI structures it — this collaboration produces good documents.<br>
+            <span style="font-size: 0.85rem; color: var(--ink-500); display: block; margin-top: 0.5rem;">
+              — From the Learn Premium curriculum
+            </span>
+          </blockquote>
+
+          <div class="detail-prose" style="margin-top: 2rem;">
+            <p>
+              Research, spar with AI, revise the document. Each iteration raises the quality of context. Before deciding what to "pack" into the context window at runtime, there is a process of "refining" context worth packing.
+            </p>
+            <p>
+              In our corporate consulting, we take this further: <strong>treating document authoring as the primary phase of development</strong>. Coding is the step that compiles precisely written design documents into machine code. As AI agents improve, this compilation gets more accurate. The only differentiator is the quality of the source design documents.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §5 Two Layers -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Two Layers</p>
+            <h2 class="detail-h2">Two layers of context engineering.</h2>
+            <div class="detail-prose">
+              <p>
+                Context engineering has two layers.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin-top: 1rem;">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Runtime</span>
+                <span class="th-title">Context management</span>
+              </th>
+              <td>
+                At the moment AI runs, what goes into the context window and what stays out. System prompts, RAG, tool definitions, token budget optimization. <strong>The industry discussion is concentrated here.</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Design-Time</span>
+                <span class="th-title">Context creation</span>
+              </th>
+              <td>
+                Before collaborating with AI (and during the collaboration), the process of authoring the context itself. Design documents, rule files, data schemas, explicit constraints. <strong>Systematization of this layer has barely begun.</strong>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                Runtime-layer technology is advancing rapidly. RAG accuracy is improving, tool definition design patterns are maturing, and automatic token budget management is reaching production readiness.
+              </p>
+              <p>
+                But no matter how far you push runtime optimization, <strong>if the high-quality context to inject does not exist, the optimization spins in place</strong>. If the documents RAG retrieves are poor, better search precision will not improve output. If the constraints in your system prompt are vague, polishing the phrasing will not help.
+              </p>
+              <p>
+                The design-time layer is a prerequisite for the runtime layer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §6 Prompt Engineering -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Prompt Engineering Is Not Dead</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">Prompt engineering is not dead.</h2>
+          <div class="detail-prose">
+            <p>
+              "Prompt engineering is outdated" — this headline is everywhere. It is half right and half misleading.
+            </p>
+            <p>
+              <strong>What became outdated</strong>: the hunt for "magic phrases" that boost scores. Model evolution commoditized that.
+            </p>
+            <p>
+              <strong>What did not</strong>: the design skill of what to tell AI and how. Making constraints explicit. Structuring requirements. Verifying AI's assumptions. These remain the core of prompt design and are constituent elements of context engineering.
+            </p>
+            <p>
+              Prompts did not become unnecessary — they were subsumed into the higher-order concept of context. A prompt is part of context; from the perspective of designing context as a whole, it is one element.
+            </p>
+            <p>
+              The <a href="../../projects/prompt-as-code.html"><em>prompt-as-code</em></a> syntax standard that this lab has been developing treats prompts not as throwaway text but as executable code. This direction is becoming <em>more</em> relevant in the context engineering era. As the number of prompts injected at runtime grows — system prompts, tool definitions, inter-agent instructions — the need for a discipline governing their syntax and quality grows with it.
+            </p>
+            <p>
+              In fact, prompt-as-code v0.3.0 (published December 2025) already describes key context engineering components. Section 5 (Structuring Patterns) covers context structuring patterns, Section 6 (Structured Reasoning) covers verification loop design such as Chain of Verification, and Section 7 (Prompt Chaining) covers context management and data dependency tracking across multi-step prompts. These were systematized from a prompt syntax perspective before "context engineering" became an industry term.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §7 What We Teach -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">What We Teach</p>
+            <h2 class="detail-h2">What the Lab teaches.</h2>
+            <div class="detail-prose">
+              <p>
+                In our <a href="../../learn/index.html">Learn Premium</a> program and corporate consulting, we cover both the runtime and design-time layers. The emphasis, however, is on the design-time side.
+              </p>
+              <p>
+                We teach patterns, not terminology.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin-top: 1rem;">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">Write documents before code</span>
+              </th>
+              <td>Create context before execution</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">Ask AI "did you actually check?"</span>
+              </th>
+              <td>Verify the quality of context</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">Stop AI from going off the rails</span>
+              </th>
+              <td>Guard context boundaries (scope)</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">Humans design the tests</span>
+              </th>
+              <td>Set verification criteria as context</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">Research, spar, re-research</span>
+              </th>
+              <td>Iteratively refine context</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                These are skills for "using AI," but they are also universal skills that apply to managing people, steering projects, and ensuring decision quality. Terminology changes. Patterns endure.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §8 Closing -->
+      <section class="detail-tech">
+        <div class="container">
+          <div class="detail-prose" style="max-width: 58ch;">
+            <p>
+              The phrase "context engineering" may eventually be replaced by yet another term. But the core question — <strong>who decides what the AI knows and does not know, and how</strong> — will not disappear as long as we work alongside AI.
+            </p>
+            <p>
+              The answer to that question cannot come from runtime optimization alone. Before the techniques for manipulating context window contents, there is the quieter work of carefully crafting what belongs there.
+            </p>
+            <p>
+              The Lab teaches that work.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>
