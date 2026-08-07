@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>prompt-as-code — プロンプトに言語仕様を与える | Takajo AI Lab</title>
   <meta name="description" content="プロンプトエンジニアリング標準化の試み。自然言語で書かれたコード(プロンプト)に言語仕様を与える、オープンソースの構文規約。v0.3.0 公開中、AGPL-3.0。">
-  <meta name="keywords" content="prompt-as-code, プロンプトエンジニアリング, プロンプト 標準, プロンプト 構文, LLM, プロンプト 仕様, AGPL, オープンソース">
+  <meta name="keywords" content="prompt-as-code, コンテキストエンジニアリング, プロンプトエンジニアリング, プロンプト 標準, プロンプト 構文, LLM, プロンプト 仕様, AGPL, オープンソース">
   <meta name="author" content="Takajo AI Lab">
   <link rel="canonical" href="https://1stpiece.io/projects/prompt-as-code.html">
   <link rel="alternate" hreflang="ja" href="https://1stpiece.io/projects/prompt-as-code.html">
@@ -382,6 +382,37 @@ produce <span class="kw">{final_answer}</span>.</pre>
 
           <p class="detail-prose" style="max-width: 58ch; margin-top: 1.5rem; font-size: 0.95rem; color: var(--ink-500);">
             エラーコードの命名(<code>PAC-E203</code>, <code>PAC-E107</code>, <code>PAC-W312</code>)は TypeScript / Rust コンパイラの規約に倣う。<em>プロンプトが壊れている</em>のではなく、<strong>仕様のどの条項に違反しているのか</strong>が、プロンプトを書き直す前に分かるように設計されている。
+          </p>
+
+          <!-- Context Engineering -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Context Engineering との関係</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">仕様に、すでに書かれていたこと。</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1.5rem;">
+            2025年後半、業界は「プロンプトエンジニアリング」から「<strong>コンテキストエンジニアリング</strong>」へと用語を移行した。しかし、本仕様が v0.3.0 で扱っている内容は、その移行前にすでにコンテキスト設計の核心を含んでいる。
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th><span class="th-title">§ 5 Structuring Patterns</span></th>
+              <td>Role / Context / Goal / Constraints——コンテキストの構造化パターンを8つの構成要素として定義。</td>
+            </tr>
+            <tr>
+              <th><span class="th-title">§ 6 Structured Reasoning</span></th>
+              <td>Chain of Verification (CoVe) 等の検証ループ設計。AIの出力を検証し、修正させる反復構造。</td>
+            </tr>
+            <tr>
+              <th><span class="th-title">§ 7 Prompt Chaining</span></th>
+              <td>多段プロンプトにおける文脈管理とデータ依存の追跡。コンテキストの受け渡しと劣化防止。</td>
+            </tr>
+            <tr>
+              <th><span class="th-title">§ 1.3 Reproducibility</span></th>
+              <td>外部コンテキスト依存の排除。コンテキストを明示的に管理する原則。</td>
+            </tr>
+          </table>
+
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 1.5rem;">
+            コンテキストエンジニアリングが注目されるほど、コンテキストの構文と品質を規律する仕組みの重要性は増す。prompt-as-code は、その規律を提供する。<br>
+            <span style="font-size: 0.9rem; color: var(--ink-500);">詳しくは → <a href="../notes/2608/context-engineering.html">Notes: コンテキストエンジニアリングの議論に欠けているもの</a></span>
           </p>
 
           <div style="margin-top: 4rem;">

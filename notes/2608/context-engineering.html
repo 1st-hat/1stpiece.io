@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script src="/assets/ga.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>コンテキストエンジニアリングの議論に欠けているもの | Notes — Takajo AI Lab</title>
+  <meta name="description" content="プロンプトエンジニアリングからコンテキストエンジニアリングへ。業界の議論はランタイムの最適化に集中していますが、本当に重要なのはコンテキストを「作る」プロセスです。1,000件以上のプロンプトレビューと法人研修の現場から。">
+  <meta name="keywords" content="コンテキストエンジニアリング, プロンプトエンジニアリング, AI エージェント, Claude Code, CLAUDE.md, ドキュメントファースト, AI 開発, LLM">
+  <meta name="author" content="Takajo AI Lab">
+  <link rel="canonical" href="https://1stpiece.io/notes/2608/context-engineering.html">
+  <link rel="alternate" hreflang="ja" href="https://1stpiece.io/notes/2608/context-engineering.html">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Takajo AI Lab">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:title" content="コンテキストエンジニアリングの議論に欠けているもの — Takajo AI Lab">
+  <meta property="og:description" content="業界の議論はランタイムの最適化に集中している。しかし、管理すべき良質なコンテキストをどう作るかという問いは、まだ体系化されていない。">
+  <meta property="og:url" content="https://1stpiece.io/notes/2608/context-engineering.html">
+  <meta property="og:image" content="https://1stpiece.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="コンテキストエンジニアリングの議論に欠けているもの — Takajo AI Lab">
+  <meta name="twitter:description" content="業界の議論はランタイムの最適化に集中している。しかし、管理すべき良質なコンテキストをどう作るかという問いは、まだ体系化されていない。">
+  <meta name="twitter:image" content="https://1stpiece.io/assets/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="site-brand" aria-label="Takajo AI Lab ホーム">
+          <img src="../../assets/takajo-logo-horizontal.png" alt="Takajo AI Lab">
+        </a>
+        <nav class="site-nav" aria-label="主要ナビゲーション">
+          <a href="../../index.html">Top</a>
+          <a href="../../projects/index.html">Projects</a>
+          <a href="../../learn/index.html">Learn</a>
+          <a href="../../work/index.html">Work</a>
+          <a href="../index.html" aria-current="page">Notes</a>
+          <a href="../../en/index.html" class="lang-link">EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="パンくず">
+          <a href="../../index.html">Top</a>
+          <span class="sep">/</span>
+          <a href="../index.html">Notes</a>
+          <span class="sep">/</span>
+          <span>コンテキストエンジニアリング</span>
+        </nav>
+      </div>
+
+      <section class="page-header">
+        <div class="container">
+          <p class="page-eyebrow">Notes — 研究ノート</p>
+          <h1 class="page-title">コンテキストエンジニアリングの<br>議論に欠けているもの<span class="accent-dot">.</span></h1>
+          <p class="page-intro">
+            業界はコンテキストの「管理」を議論している。<br>
+            しかし、管理すべきコンテキストを「作る」方法は、まだ体系化されていない。
+          </p>
+          <div class="note-meta">
+            <span>2026.08.07</span>
+            <span>畑中たかほ</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- §1 What Happened -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">What Happened</p>
+            <h2 class="detail-h2">用語が変わった。</h2>
+            <div class="detail-prose">
+              <p>
+                2025年6月、Andrej Karpathy（元Tesla AI責任者、OpenAI共同創業者）がこう述べました。
+              </p>
+              <blockquote class="detail-pullquote" style="margin: 1.5rem 0;">
+                人々はプロンプトと聞くと、LLMに渡す短い指示文を連想する。しかし、産業レベルのLLMアプリケーションで本当に重要なのは、<strong>コンテキストウィンドウに、次のステップに必要な情報だけを正確に詰める技術と科学</strong>だ。
+              </blockquote>
+              <p>
+                この発言を起点に、「プロンプトエンジニアリング」から「<strong>コンテキストエンジニアリング</strong>」への用語の転換が業界全体で進みました。同年9月にAnthropic（Claude開発元）が公式エンジニアリングブログで体系化し、7月にはGartnerが「2028年までにAIアプリ構築ツールの80%にコンテキストエンジニアリング機能が組み込まれる」と予測を出しています。
+              </p>
+              <p>
+                日本語圏でも2025年後半から「プロンプトエンジニアリングはもう古い」という見出しが定番化し、Qiita・Zenn・note・Forbes JAPANで解説記事が量産されています。2026年半ばの現在、用語の移行はほぼ完了したと言ってよいでしょう。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §2 What the Discussion Covers -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Runtime Focus</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">業界が議論していること。</h2>
+          <div class="detail-prose">
+            <p>
+              コンテキストエンジニアリングの議論は、ほぼ全てが<strong>ランタイム</strong>——AIが動くその瞬間に、コンテキストウィンドウに何を詰めるか——の話をしています。
+            </p>
+          </div>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">System Prompt</span>
+                <span class="th-title">システムプロンプトの設計</span>
+              </th>
+              <td>
+                役割定義、出力形式の指定、制約条件の記述。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">RAG</span>
+                <span class="th-title">外部知識の検索と注入</span>
+              </th>
+              <td>
+                どの文書を引っ張り、どのチャンクを渡すか。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Tool Definition</span>
+                <span class="th-title">ツール定義の設計</span>
+              </th>
+              <td>
+                いつ、どのツールをAIに開示するか。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Token Budget</span>
+                <span class="th-title">トークン予算の管理</span>
+              </th>
+              <td>
+                古い文脈の要約・圧縮・切り捨ての戦略。
+              </td>
+            </tr>
+          </table>
+
+          <div class="detail-prose">
+            <p>
+              これらは全て重要な技術であり、異論はありません。しかし、ここに一つの前提が隠れています。<strong>管理すべき良質なコンテキストが、すでに存在していること</strong>です。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §3 What's Missing -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">The Missing Layer</p>
+            <h2 class="detail-h2">議論されていないこと。</h2>
+            <div class="detail-prose">
+              <p>
+                コンテキストは天から降ってきません。誰かが作る必要があります。
+              </p>
+              <p>
+                AIエージェント（Claude CodeやCodex）と協働する場面を考えてみましょう。「英語学習アプリを作って」と一言伝えれば、何かしらのコードは生成されます。しかし、自分が本当に欲しいものが作られる保証はありません。AIは、あなたの頭の中にある要件を知らないからです。
+              </p>
+              <p>
+                このとき必要なのは、ランタイムのコンテキスト管理ではありません。<strong>コンテキストそのものを著作する行為</strong>です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §4 Design-Time Context Engineering -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Design-Time Context</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">コンテキストを「作る」とはどういうことか。</h2>
+          <div class="detail-prose">
+            <p>
+              当ラボの法人研修で教えている手法の一つに、<strong>ドキュメントファースト</strong>があります。コードを1行も書く前に、設計書をファイルとして書き下す手法です。
+            </p>
+          </div>
+
+          <blockquote class="detail-pullquote">
+            設計書は「AIへのコンテキスト注入」です。AIが読める形で、<br>
+            あなたの意図を書き下すことで、実装の精度が劇的に上がります。<br>
+            <span style="font-size: 0.85rem; color: var(--ink-500); display: block; margin-top: 0.5rem;">
+              — Learn Premium テキストより
+            </span>
+          </blockquote>
+
+          <div class="detail-prose" style="margin-top: 2rem;">
+            <p>
+              実際の開発では、コードを書く前に <code>docs/</code> フォルダに以下のような設計書を作成します。
+            </p>
+          </div>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">concept.md</span>
+                <span class="th-title">何を、なぜ作るか</span>
+              </th>
+              <td>
+                プロダクトの核心。「閉じた学習ループ」のように、設計の<em>Why</em>を言語化する。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">architecture.md</span>
+                <span class="th-title">どう作るか</span>
+              </th>
+              <td>
+                レイヤー構造、依存関係のルール、外部サービスとの接続方針。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">data-schema.md</span>
+                <span class="th-title">データの形</span>
+              </th>
+              <td>
+                主要な型の定義と、具体的なサンプルデータ（JSON例）。
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">CLAUDE.md</span>
+                <span class="th-title">プロジェクトルール</span>
+              </th>
+              <td>
+                AIエージェントが常に参照する制約と規約。永続コンテキスト。
+              </td>
+            </tr>
+          </table>
+
+          <div class="detail-prose" style="margin-top: 2rem;">
+            <p>
+              これらのファイルは、会話が長くなって古い文脈が圧縮されても、ファイルとして残り続けます。AIはいつでも読み直せます。<strong>コンテキストウィンドウの中身は揮発するが、ファイルシステムのコンテキストは永続する</strong>——この区別が重要です。
+            </p>
+            <p>
+              さらに、これらの設計書は一人で書くものではありません。AIとの壁打ちの中で育てていきます。
+            </p>
+          </div>
+
+          <blockquote class="detail-pullquote">
+            設計書は「AIが書く」のではなく「AIと一緒に書く」。<br>
+            あなたが「何を」「なぜ」作りたいのかを伝え、<br>
+            AIがそれを構造化する——この協働が、良い設計書を生む。<br>
+            <span style="font-size: 0.85rem; color: var(--ink-500); display: block; margin-top: 0.5rem;">
+              — Learn Premium テキストより
+            </span>
+          </blockquote>
+
+          <div class="detail-prose" style="margin-top: 2rem;">
+            <p>
+              調査して、壁打ちして、設計書を修正する。このループを回すたびに、コンテキストの質が上がります。ランタイムにコンテキストウィンドウに何を「詰めるか」の前に、そこに詰める価値のあるコンテキストを「練り上げる」プロセスがあります。
+            </p>
+            <p>
+              当ラボの法人コンサルティングでは、これをさらに進めて、<strong>設計書の執筆を開発の主工程として扱っています</strong>。コーディングは、精密に書かれた設計書を機械語に変換する——いわばコンパイルする——工程です。AIエージェントの性能が上がるほど、このコンパイルの精度は上がります。差がつくのは、コンパイル元の設計書の質だけです。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §5 Two Layers -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">Two Layers</p>
+            <h2 class="detail-h2">2つの層。</h2>
+            <div class="detail-prose">
+              <p>
+                コンテキストエンジニアリングには、2つの層があります。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin-top: 1rem;">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Runtime</span>
+                <span class="th-title">コンテキストの管理</span>
+              </th>
+              <td>
+                AIが動く瞬間に、コンテキストウィンドウに何を入れ、何を外すか。システムプロンプト、RAG、ツール定義、トークン予算の最適化。<strong>業界の議論はここに集中している。</strong>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="spec-tag-accent">Design-Time</span>
+                <span class="th-title">コンテキストの創造</span>
+              </th>
+              <td>
+                AIと協働する前に（そして協働しながら）、管理すべきコンテキストそのものを著作するプロセス。設計書、ルールファイル、データスキーマ、制約の明示。<strong>この層の体系化はまだ進んでいない。</strong>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                ランタイム層の技術は進歩が速く、RAGの精度は上がり、ツール定義の設計パターンは整理され、トークン予算の自動管理も実用段階に入っています。
+              </p>
+              <p>
+                しかし、どれだけランタイムの最適化を極めても、<strong>注入すべき良質なコンテキストが存在しなければ、最適化は空回りします</strong>。RAGで引っ張るドキュメントの質が低ければ、検索精度を上げても出力は改善しません。システムプロンプトに書く制約が曖昧なら、書き方を洗練しても意味がありません。
+              </p>
+              <p>
+                デザインタイム層は、ランタイム層の前提条件です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §6 Prompt Engineering -->
+      <section class="detail-tech">
+        <div class="container">
+          <p class="section-eyebrow">Prompt Engineering Is Not Dead</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">プロンプトエンジニアリングは<br>死んでいない。</h2>
+          <div class="detail-prose">
+            <p>
+              「プロンプトエンジニアリングはもう古い」——この見出しが量産されています。半分は正しく、半分はミスリードです。
+            </p>
+            <p>
+              <strong>古くなったもの</strong>: 特定のフレーズを入れるとスコアが上がる、という「魔法の呪文」探し。モデルの進化でコモディティ化しました。
+            </p>
+            <p>
+              <strong>古くなっていないもの</strong>: AIに何を、どう伝えるかという設計力。制約を明示する。要件を構造化する。AIの前提を検証する。これらは今もプロンプト設計の核であり、コンテキストエンジニアリングの構成要素です。
+            </p>
+            <p>
+              プロンプトは不要になったのではなく、コンテキストという上位概念に包摂されました。プロンプトはコンテキストの一部であり、コンテキスト全体を設計する視点から見れば、一要素にすぎません。
+            </p>
+            <p>
+              当ラボが策定してきた <a href="../../projects/prompt-as-code.html"><em>prompt-as-code</em></a>（プロンプト構文標準）は、プロンプトを「書き捨てのテキスト」ではなく「実行可能なコード」として扱う試みです。この方向性は、コンテキストエンジニアリングの文脈でむしろ重要性を増しています。ランタイムに注入されるプロンプト——システムプロンプト、ツール定義、エージェント間の指示——が増えるほど、その構文と品質を規律する仕組みが必要になるからです。
+            </p>
+            <p>
+              実際、prompt-as-code v0.3.0（2025年12月公開）の仕様には、コンテキストエンジニアリングの主要な構成要素がすでに記述されています。§5（Structuring Patterns）はコンテキストの構造化パターンを、§6（Structured Reasoning）は Chain of Verification 等の検証ループ設計を、§7（Prompt Chaining）は多段プロンプトにおける文脈管理とデータ依存の追跡を扱っています。これらは「コンテキストエンジニアリング」という用語が業界に広まる前に、プロンプトの構文標準という視点から体系化されたものです。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- §7 What We Teach -->
+      <section class="detail-abstract">
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <p class="detail-section-mark">What We Teach</p>
+            <h2 class="detail-h2">Lab が教えていること。</h2>
+            <div class="detail-prose">
+              <p>
+                当ラボの <a href="../../learn/index.html">Learn Premium</a> および法人コンサルティングでは、ランタイム層とデザインタイム層の両方を扱っています。ただし、軸足はデザインタイム側にあります。
+              </p>
+              <p>
+                教えているのは、用語ではなく型です。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin-top: 1rem;">
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th>
+                <span class="th-title">コードの前にドキュメントを書く</span>
+              </th>
+              <td>実行の前にコンテキストを作る</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">AIに「本当に調べたのか？」と問う</span>
+              </th>
+              <td>コンテキストの品質を検証する</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">AIの暴走を止める</span>
+              </th>
+              <td>コンテキストの境界（スコープ）を守る</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">テスト設計を人間が行う</span>
+              </th>
+              <td>検証基準というコンテキストを自分で設定する</td>
+            </tr>
+            <tr>
+              <th>
+                <span class="th-title">調査 → 壁打ち → 再調査を繰り返す</span>
+              </th>
+              <td>コンテキストを反復的に練り上げる</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="container">
+          <div class="detail-abstract-inner">
+            <div class="detail-prose">
+              <p>
+                これらは「AIの使い方」であると同時に、部下のマネジメント、プロジェクトの方向性制御、意思決定の品質管理に通じる普遍的なスキルです。用語が変わっても、型は残ります。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §8 Closing -->
+      <section class="detail-tech">
+        <div class="container">
+          <div class="detail-prose" style="max-width: 58ch;">
+            <p>
+              コンテキストエンジニアリングという言葉自体は、いずれまた別の言葉に置き換わるかもしれません。しかし、その核にある問い——<strong>AIに何を知らせ、何を知らせないかを、誰がどうやって決めるのか</strong>——は、AIと協働する限り消えません。
+            </p>
+            <p>
+              その問いに対する答えは、ランタイムの最適化だけでは得られません。コンテキストウィンドウの中身を操作する技術の手前に、そこに入れるべきものを丁寧に作る仕事があります。
+            </p>
+            <p>
+              Lab は、その仕事を教えています。
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-meta">
+            <span class="footer-jp">鷹匠 AI 研究室</span>
+            Takajo AI Lab — 1stpiece.io
+          </div>
+          <div class="footer-links">
+            <a href="mailto:info@1stpiece.io">Contact</a>
+            <a href="https://www.linkedin.com/in/takaho-hatanaka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/taka4rest" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-copyright">© 2026 1stpiece.io</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const header = document.querySelector('.site-header');
+    const updateHeaderScroll = () => {
+      if (window.scrollY > 56) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    updateHeaderScroll();
+    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  </script>
+</body>
+</html>

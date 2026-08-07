@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>prompt-as-code — A language specification for prompts | Takajo AI Lab</title>
   <meta name="description" content="Prompt Engineering Standards. A language specification for prose written to be executed. v0.3.0 now public. AGPL-3.0.">
-  <meta name="keywords" content="prompt-as-code, prompt engineering, prompt specification, LLM, prompt syntax, open source">
+  <meta name="keywords" content="prompt-as-code, context engineering, prompt engineering, prompt specification, LLM, prompt syntax, open source">
   <meta name="author" content="Takajo AI Lab">
   <link rel="canonical" href="https://1stpiece.io/en/projects/prompt-as-code.html">
   <link rel="alternate" hreflang="en" href="https://1stpiece.io/en/projects/prompt-as-code.html">
@@ -257,6 +257,36 @@ Based on <span class="kw">{verification_results}</span>,
 produce <span class="kw">{final_answer}</span>.</pre>
             </div>
           </div>
+
+          <!-- Context Engineering -->
+          <p class="section-eyebrow" style="margin-top: 5rem;">Relation to Context Engineering</p>
+          <h2 class="detail-h2" style="font-size: 2rem;">What the spec already covered.</h2>
+          <p class="detail-prose" style="max-width: 58ch; margin-bottom: 1.5rem;">
+            In late 2025, the industry shifted its vocabulary from "prompt engineering" to "<strong>context engineering</strong>." But the patterns this specification formalised in v0.3.0 already addressed the core of context design — before the term took hold.
+          </p>
+
+          <table class="spec-table spec-table-wide">
+            <tr>
+              <th><span class="th-title">§ 5 Structuring Patterns</span></th>
+              <td>Role / Context / Goal / Constraints — eight structural components that define how context is organised.</td>
+            </tr>
+            <tr>
+              <th><span class="th-title">§ 6 Structured Reasoning</span></th>
+              <td>Chain of Verification (CoVe) and other loop designs. Iterative structures that verify and revise AI output.</td>
+            </tr>
+            <tr>
+              <th><span class="th-title">§ 7 Prompt Chaining</span></th>
+              <td>Context management across multi-step prompts. Tracking data dependencies and preventing context degradation.</td>
+            </tr>
+            <tr>
+              <th><span class="th-title">§ 1.3 Reproducibility</span></th>
+              <td>Eliminating implicit context dependencies. Managing context explicitly by principle.</td>
+            </tr>
+          </table>
+
+          <p class="detail-prose" style="max-width: 58ch; margin-top: 1.5rem;">
+            The more context engineering matters, the more the syntax and quality of that context needs discipline. prompt-as-code provides that discipline.
+          </p>
 
           <div style="margin-top: 4rem;">
             <p class="section-eyebrow">Meta</p>
